@@ -1,8 +1,19 @@
+=========================
+
+Inplace Edit Form is a Django application that allows you to edit inline any data from a database
+
+It is distributed under the terms of the GNU Lesser General Public
+License <http://www.gnu.org/licenses/lgpl.html>
+
+=========================
+
 == Depencies ==
 
 <script src="/media/js/jquery-1.2.6.min.js"></script>
 
-== In your base.html ==
+== How to install ==
+
+=== In your base.html ===
 
 {% inplace_media %} 
 
@@ -17,7 +28,7 @@ Where you want utilize
 {% load inplace_edit %}
 
 
-== In your settings.py ==
+ === In your settings.py  ===
 
 INSTALLED_APPS = (
     'django.contrib.auth',
@@ -32,11 +43,11 @@ INSTALLED_APPS = (
 
 )
 
-== In your urls.py ==
+ === In your urls.py  ===
 (r'^inplaceeditform/', include('inplaceeditform.urls')),
 
 
-== How to ==
+ === How to use ===
 
 {% inplace_edit OBJECT FIELD|FILTER1|FILTER2...|FILTERN [FORM] %}
 
