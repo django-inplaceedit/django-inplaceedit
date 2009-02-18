@@ -44,7 +44,8 @@ def save_ajax(request):
             if form_obj.is_valid():
                 current_language = request.session.get('django_language',
                                                        settings.LANGUAGE_CODE)
-                obj = form_obj.save(current_language)
+                obj = form_obj.save(commit=False)
+                obj.save()
                 value = getattr(obj, field)
                 value = special_procesing(form_obj[field], value)
                 value = apply_filters(value, filters)
@@ -54,7 +55,7 @@ def save_ajax(request):
                 python_dict['errors'] = True
                 json_dict = json_encode(dict(python_dict))
 
-        except: # very scary!!!!
+        except: # very scary!!!! But neccesary
             json_dict = simplejson.dumps({'errors':True})
 
         return HttpResponse(json_dict,mimetype='application/json')
