@@ -1,0 +1,82 @@
+button.apply {
+  background: transparent none no-repeat scroll 0pt 50%;
+  border: medium none;
+  cursor: pointer;
+  height: 22px;
+  margin: 0pt 0.2em;
+  width: 22px;
+  background-image:url(/media/inplaceeditform/img/apply.gif);
+
+}
+
+button.cancel {
+  background: transparent none no-repeat scroll 0pt 50%;
+  border: medium none;
+  cursor: pointer;
+  height: 22px;
+  margin: 0pt 0.2em;
+  width: 22px;
+  background-image: url(/media/inplaceeditform/img/cancel.gif);
+
+}
+
+button.cancel span,
+button.apply span {
+  visibility: hidden;
+}
+
+.chunk_over {
+  cursor: pointer; 
+  background: #FFFFBB;
+}
+
+.errors  {
+    list-style: none;
+    list-style-image: none !important;
+    padding: 0;
+    margin: 0;
+    margin-bottom: 5px;
+}
+
+.errors li {
+    border: 1px solid #f57901;
+    margin: 0;
+    padding: 5px 5px 5px 5px;
+    background-color: #fbe8d5;
+    vertical-align: middle;
+}
+
+.errors img {
+    text-decoration: none;
+    border: none;
+    vertical-align: bottom;
+}
+
+.save  {
+    list-style: none;
+    list-style-image: none !important;
+    padding: 0;
+    margin: 0;
+    margin-bottom: 5px;
+}
+
+.save li {
+    border: 1px solid #118811;
+    margin: 0;
+    padding: 5px 5px 5px 5px;
+    background-color: #BAFFB2;
+    color: #118811;
+    vertical-align: middle;
+}
+
+.save img {
+    text-decoration: none;
+    border: none;
+    vertical-align: bottom;
+}
+
+.missing-translation {
+    display: block;
+    color: red;
+    text-align: center;
+}
