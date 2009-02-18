@@ -30,14 +30,13 @@ def inplace_edit(context, obj, expression, form='', expression2=None):
     field, filters = tokens[0], tokens[1:]
     field_obj = form_obj[field]
 
-    request = context['request']
     current_language = get_language()
     value = getattr(obj, field, '-----')
     value = special_procesing(field_obj, value)
 
     value = apply_filters(value, filters)
 
-    empty_value = value.strip() == u''
+    empty_value = (isinstance(value, str) and value.strip() == u'' or not value)
 
     if expression2:
         tokens = expression2.split('|')

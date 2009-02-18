@@ -10,7 +10,7 @@
     </script>
     <div id="view_{{ form_obj.prefix }}-{{field.name}}_save"  style="display:none" > <ul class="save"> <li class="save"> {% trans "Changed successfully" %}</li></ul> </div>
     <span id="view_{{ form_obj.prefix }}-{{field.name}}" class="inplace_view_editable_field">
-      <span id="view_{{ form_obj.prefix }}-{{field.name}}_id" >{% if empty_value %}{% trans "Double click here to edit" %}{% endif %}{{ value2|default:value }}</span>
+      <span id="view_{{ form_obj.prefix }}-{{field.name}}_id" >{% if empty_value %}{% trans "Double click here to edit" %}{% else %}{{ value2|default:value }}{% endif %}</span>
     </span>
     <div id="tools_{{ form_obj.prefix }}-{{field.name}}" style="display: none; ">
       <span id="tools_{{ form_obj.prefix }}-{{field.name}}_error"> </span>
