@@ -12,7 +12,7 @@ from django.utils import simplejson
 from django.contrib.contenttypes.models import ContentType
 
 from commons import (get_form_class, change_foreing_key, apply_filters,
-                     special_procesing, transdb_procesing)
+                     special_procesing)
 
 @login_required
 def save_ajax(request):
@@ -47,8 +47,6 @@ def save_ajax(request):
                 obj = form_obj.save(current_language)
                 value = getattr(obj, field)
                 value = special_procesing(form_obj[field], value)
-                value = transdb_procesing(form_obj[field], value, obj,
-                                          current_language)
                 value = apply_filters(value, filters)
                 json_dict = json_encode({'errors':False, 'value': value})
             else:

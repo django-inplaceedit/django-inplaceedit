@@ -8,8 +8,7 @@ from django.utils.translation import get_language
 from django.contrib.contenttypes.models import ContentType
 
 from inplaceeditform.commons import (get_form_class, apply_filters,
-                                     special_procesing, transdb_procesing,
-                                     has_translation)
+                                     special_procesing)
 
 register = Library()
 
@@ -35,16 +34,10 @@ def inplace_edit(context, obj, expression, form='', expression2=None):
     current_language = get_language()
     value = getattr(obj, field, '-----')
     value = special_procesing(field_obj, value)
-    value = transdb_procesing(field_obj, value, obj, current_language)
 
     value = apply_filters(value, filters)
 
     empty_value = value.strip() == u''
-
-    if not has_translation(field_obj, obj, current_language):
-        old_value = form_obj.initial[field_obj.name]
-        missing_msg = u'<h3 class="missing-translation">%s</h3>' % ugettext_lazy('Translation missing')
-        form_obj.initial[field_obj.name] = missing_msg + old_value
 
     if expression2:
         tokens = expression2.split('|')

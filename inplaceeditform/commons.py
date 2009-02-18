@@ -4,13 +4,6 @@ from django.forms.models import modelform_factory, ModelMultipleChoiceField
 from django.forms.fields import MultipleChoiceField
 from django.contrib.contenttypes.models import ContentType
 
-has_transdb = False
-try:
-    from transdb.fields import TransFormField
-    has_transdb = True
-except ImportError:
-    pass
-
 def change_foreing_key(obj):
     obj_dict = obj.__dict__
     obj_dict_result = obj_dict.copy()
@@ -50,25 +43,5 @@ def special_procesing(field_obj, value):
     if field_obj.form._meta.model._meta.get_field(field_obj.name) and field_obj.form._meta.model._meta.get_field(field_obj.name).choices:
         choices_dict = dict(field_obj.form._meta.model._meta.get_field(field_obj.name).choices)
         value = choices_dict[value]
-
-    return value
-
-
-def has_translation(field_obj, obj, current_language):
-    if has_transdb and isinstance(field_obj.field, TransFormField):
-        transdb_value = getattr(obj, field_obj.name)
-        
-        value = transdb_value.raw_data.get(current_language, None)
-        
-        return not (value in (None, '', u''))
-
-    return True
-
-def transdb_procesing(field_obj, value, obj, current_language):
-    if has_transdb and isinstance(field_obj.field, TransFormField):
-        transdb_value = getattr(obj, field_obj.name)
-
-        if has_translation(field_obj, obj, current_language):        
-            value = transdb_value.raw_data[current_language]
 
     return value
