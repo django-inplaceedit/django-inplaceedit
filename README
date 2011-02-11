@@ -158,6 +158,11 @@ Python API
  * treatment_height: Special treatment to widget's height.
  * treatment_width: Special treatment to widget's width.
 
+::
+
+    If you want to use own options in your adaptor, you can do it. These options will be in self.config in the adaptor.
+    {% inplace_edit "obj.field_name" my_opt1="value1", my_opt2="value2" %}
+
 JavaScript API
 --------------
 
