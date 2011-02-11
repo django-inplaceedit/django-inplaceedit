@@ -1,0 +1,7 @@
+<span class="config" style="display:none">
+    {% for key, value in config.items %}
+        {% if value %}
+            <span class="{{ key }}" style="display:none">{{ value }}</span>
+        {% endif %}
+    {% endfor %}
+</span>

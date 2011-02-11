@@ -1,0 +1,24 @@
+{% load i18n %}
+
+{% block form %}
+    <form class="inplaceeditform {{ class_inplace }}">
+        {{ field }}
+        <span class="field_id" style="display:none">{{ field.auto_id }}</span>
+        {% block actions %}
+            {% block apply %}
+                <button class="apply" title="{% trans "Apply change" %}" type="button">
+                    <span>
+                    {% trans "Save" %}
+                    </span>
+                </button>
+            {% endblock %}
+            {% block cancel %}
+                <button class="cancel" title="{% trans "Cancel change" %}" type="button">
+                    <span>
+                    {% trans "Cancel" %}
+                    </span>
+                </button>
+            {% endblock %}
+        {% endblock %}
+    </form>
+{% endblock %}

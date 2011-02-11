@@ -1,0 +1,10 @@
+{% extends  "inplaceeditform/render_field.html" %}
+{% load i18n %}
+
+{% block apply %}
+    <button class="apply_datetime apply" title="{% trans "Apply change" %}" type="button">
+        <span>
+        {% trans "Save" %}
+        </span>
+    </button>
+{% endblock %}

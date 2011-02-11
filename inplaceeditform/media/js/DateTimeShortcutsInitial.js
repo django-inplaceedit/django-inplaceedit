@@ -1,0 +1,1 @@
+DateTimeShortcuts.init();

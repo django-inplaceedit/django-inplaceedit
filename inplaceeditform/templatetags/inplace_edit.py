@@ -2,62 +2,64 @@
 
 from django.template import Library, Variable
 from django.conf import settings
-from django.utils import simplejson
-from django.utils.translation import ugettext_lazy
-from django.utils.translation import get_language
-from django.contrib.contenttypes.models import ContentType
 
-from inplaceeditform.commons import (get_form_class, apply_filters,
-                                     special_procesing)
+from inplaceeditform.commons import get_adaptor_class
+from inplaceeditform.tag_utils import RenderWithArgsAndKwargsNode, parse_args_kwargs
 
 register = Library()
 
-def inplace_media(context):
+
+def inplace_js(context, activate_inplaceedit=True):
     return context.update({
-            'user': context['request'].user,
+            'MEDIA_URL': context.get('MEDIA_URL', settings.MEDIA_URL),
+            'ADMIN_MEDIA_PREFIX': settings.ADMIN_MEDIA_PREFIX,
+            'activate_inplaceedit': activate_inplaceedit,
+    })
+register.inclusion_tag("inplaceeditform/inplace_js.html", takes_context=True)(inplace_js)
+
+
+def inplace_css(context):
+    return context.update({
             'MEDIA_URL': context.get('MEDIA_URL', settings.MEDIA_URL),
             'ADMIN_MEDIA_PREFIX': settings.ADMIN_MEDIA_PREFIX,
     })
-register.inclusion_tag("inplace_media.html", takes_context=True)(inplace_media)
+register.inclusion_tag("inplaceeditform/inplace_css.html", takes_context=True)(inplace_css)
 
 
-def inplace_edit(context, obj, expression, form='', expression2=None):
-    content_type_id = ContentType.objects.get_for_model(obj.__class__).id
-    form_class = get_form_class(form, content_type_id)
-    prefix = '%s_%s'%(content_type_id, obj.id)
-    form_obj = form_class(instance=obj, prefix=prefix)
-    tokens = expression.split('|')
-    field, filters = tokens[0], tokens[1:]
-    field_obj = form_obj[field]
+def inplace_media(context):
+    return context.update({
+            'MEDIA_URL': context.get('MEDIA_URL', settings.MEDIA_URL),
+            'ADMIN_MEDIA_PREFIX': settings.ADMIN_MEDIA_PREFIX,
+    })
+register.inclusion_tag("inplaceeditform/inplace_media.html", takes_context=True)(inplace_media)
 
-    current_language = get_language()
-    value = getattr(obj, field, '-----')
-    value = special_procesing(field_obj, value)
 
-    value = apply_filters(value, filters)
+class InplaceEditNode(RenderWithArgsAndKwargsNode):
 
-    empty_value = (isinstance(value, str) and value.strip() == u'' or not value)
+    def prepare_context(self, args, kwargs, context):
+        expression_to_show = args[0]
+        tokens_to_show = expression_to_show.split('|')
+        obj_field_name, filters_to_show = tokens_to_show[0], '|'.join(tokens_to_show[1:])
+        obj_field_name_split = obj_field_name.split(".")
+        obj_context = '.'.join(obj_field_name_split[:-1])
+        field_name = obj_field_name_split[-1]
+        obj = Variable(obj_context).resolve(context)
+        adaptor = kwargs.get('adaptor', None)
+        class_adaptor = get_adaptor_class(adaptor, obj, field_name)
+        request = context.get('request')
 
-    if expression2:
-        tokens = expression2.split('|')
-        field2, filters2 = tokens[0], tokens[1:]
-        value2 = Variable(field2).resolve(context)
-        value2 = apply_filters(value2, filters2)
-    else:
-        value2 = None
+        config = class_adaptor.get_config(**kwargs)
+        adaptor_field = class_adaptor(request, obj, field_name,
+                                               filters_to_show,
+                                               config)
 
-    return {
-            'obj': obj,
-            'field': field_obj,
-            'content_type_id': content_type_id,
-            'form': form,
-            'form_obj': form_obj,
-            'value':  value,
-            'value2':  value2,
-            'empty_value': empty_value,
-            'filters': simplejson.dumps(filters),
-            'MEDIA_URL': context.get('MEDIA_URL',''),
-            'user': context.get('user',None),
-    }
-register.inclusion_tag("inplace_edit.html", takes_context=True)(inplace_edit)
+        context = {
+            'adaptor_field': adaptor_field,
+        }
+        return context
 
+
+@register.tag
+def inplace_edit(parser, token):
+    args, kwargs = parse_args_kwargs(parser, token)
+    return InplaceEditNode(args, kwargs, 'inplaceeditform/inplace_edit.html')
