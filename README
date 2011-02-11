@@ -1,0 +1,194 @@
+===================
+Inplace Edit Form
+===================
+
+Information
+===========
+
+Inplace Edit Form is a Django application that allows you to inline edition of some data from the database
+
+It is distributed under the terms of the GNU Lesser General Public
+License <http://www.gnu.org/licenses/lgpl.html>
+
+Requeriments
+============
+
+ * `jQuery <http://jquery.com/>`_
+
+Installation
+============
+
+Install in your base.html
+----------------------------------------------
+
+.. code-block:: html
+
+    {% load inplace_edit %}
+    {% inplace_media %} 
+
+In your settings.py
+-------------------
+
+.. code-block:: python
+
+    INSTALLED_APPS = (
+        'django.contrib.auth',
+        'django.contrib.contenttypes',
+        'django.contrib.sessions',
+        'django.contrib.sites',
+        'django.contrib.admin',
+
+        #.....................#
+
+        'inplaceeditform',
+    )
+
+
+In your urls.py
+------------------
+
+.. code-block:: python
+
+    (r'^inplaceeditform/', include('inplaceeditform.urls')),
+
+
+Basic usage
+===========
+
+.. code-block:: html
+
+  {% inplace_edit  "OBJ.FIELD_NAME" %}
+  {% inplace_edit  "OBJ.FIELD_NAME|FILTER1|FILTER2|...|FILTERN" %}
+
+Examples
+-------------------
+
+.. code-block:: html
+
+ {% load inplace_edit %}
+    <html>
+    <head>
+    ...
+    <script src="{{ MEDIA_URL }}js/jquery.min.js" type="text/javascript"></script> 
+    {% inplace_media %} 
+    </head>
+    <body>
+        ...
+        <div id="content">
+            ...
+            {% inplace_edit "content.name" %}
+            ...
+            <div class="description">
+                {% inplace_edit "content.date_initial|date:'d m Y'" %}
+                {% inplace_edit "content.description|safe" %}
+            </div>
+            <div class="body">
+                {% inplace_edit "content.body|safe|truncatewords_html:15" %}
+            </div>
+        </div>
+        ...
+    </body>
+    </html>
+
+Advanced usage
+==============
+
+Inplaceedit has some optionals parameters that the templatetag can receive to change its behavior:
+ * auto_height: Adapt the height's widget to the tag container.
+ * auto_width: Adapt the width's widget to the tag container.
+ * class_inplace: Add a class to edit inline form.
+ * tag_name_cover: The value is covered for a span. But it's possible to change it.
+ * filters_to_show: The server filters the value before to save. List separate for "|"
+ * loads: If you use some filter that need a load, you set this option. List separate for ":" 
+ 
+Examples
+-------------------
+
+.. code-block:: html
+
+    {% inplace_edit "content.description|safe" auto_height=1, auto_width=1 %}
+    {% inplace_edit "content.title" class_inplace="titleFormEditInline" %}
+    {% inplace_edit "content.description|safe" filters_to_show="safe|truncatewords_html:30", tag_name_cover="div" %}
+    {% inplace_edit "content.description|my_filter" loads="my_template_tag" %}
+ 
+
+Adaptor API
+============
+
+You can create a adaptor to work with inplace edit form, the behavior is fully customizable. To default inplaceedit has 8 adaptors. These use the api, overwriting some methods for them.
+
+First step
+----------
+
+In your settings:
+
+.. code-block:: python
+
+    ADAPTOR_INPLACEEDIT = {'myadaptor': 'app_name.fields.MyAdaptor'}
+
+In app_name.fields.MyAdaptor:
+
+.. code-block:: python
+
+    class MyAdaptor(BaseAdaptorField):
+
+        @property
+        def name(self):
+            return 'myadaptor'
+
+Python API
+----------
+
+ * classes: Classes of tag cover. By default "inplaceedit" and "myadaptorinplaceedit"
+ * get_config: Preprocessed of the configuration. By default, it does nothing.
+ * get_form_class: It returns the form class.
+ * get_form: It returns a instace of form class.
+ * get_field: It returns a field of instance of form class.
+ * render_value: It returns the render of the value. If you write {% inplace_edit "obj.name|filter1" %} it returns something like this {{ obj.name|filter1 }}.
+ * render_value_edit: It returns the render value if you can edit. It returns by default the same of "render_value", but if the value is None call to empty_value
+ * empty_value: It returns an empty value for this adaptor. By default, 'Dobleclick to edit'.
+ * render_field: It returns the render of form, with a field.
+ * render_media_field: It returns the media (scripts and css) of the field.
+ * render_config: It returns the render of config.
+ * can_edit: It returns a boolean that indicate if this user can edit inline this content or not.
+ * get_value_editor: It returns a clean value to be saved in DB.
+ * save: Save the value in DB.
+ * treatment_height: Special treatment to widget's height.
+ * treatment_width: Special treatment to widget's width.
+
+JavaScript API
+--------------
+
+Exist a hook, if the value is componing for various widgets, you can set the function get_value, to these DOM elements. Something like this:
+
+.. code-block:: html
+
+    <script type="text/javascript">
+        (function($){
+            $(document).ready(function () {
+                function get_value(form, field_id) {
+                    return ""Something""
+                }
+                $(".apply_myadaptor").data("get_value", get_value);
+        });
+        })(jQuery);
+    </script>
+ 
+For example the adaptor datetime use this.
+
+Overwriting a default adaptor
+-----------------------------
+
+To overwrite a adaptor set in your settings add something like this:
+ 
+.. code-block:: python
+
+ ADAPTOR_INPLACEEDIT = {'text': 'app_name.fields.MyAdaptorText'}
+
+For this case you overwrite the AdaptorText with MyAdaptorText.
+
+
+Transmeta
+============
+
+This egg is compatible with  `Transmeta <http://pypi.python.org/pypi/django-transmeta>`_  But it is not a requirement
