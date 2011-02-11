@@ -23,7 +23,7 @@ Installation
 Install in your base.html
 -------------------------
 
-.. code-block:: html
+::
 
     {% load inplace_edit %}
     {% inplace_media %} 
@@ -31,7 +31,7 @@ Install in your base.html
 In your settings.py
 -------------------
 
-.. code-block:: python
+::
 
     INSTALLED_APPS = (
         'django.contrib.auth',
@@ -49,7 +49,7 @@ In your settings.py
 In your urls.py
 ---------------
 
-.. code-block:: python
+::
 
     (r'^inplaceeditform/', include('inplaceeditform.urls')),
 
@@ -57,7 +57,7 @@ In your urls.py
 Basic usage
 ===========
 
-.. code-block:: html
+::
 
   {% inplace_edit  "OBJ.FIELD_NAME" %}
   {% inplace_edit  "OBJ.FIELD_NAME|FILTER1|FILTER2|...|FILTERN" %}
@@ -65,7 +65,7 @@ Basic usage
 Examples
 --------
 
-.. code-block:: html
+::
 
  {% load inplace_edit %}
     <html>
@@ -106,7 +106,7 @@ Inplaceedit has some optionals parameters that the templatetag can receive to ch
 Examples
 --------
 
-.. code-block:: html
+::
 
     {% inplace_edit "content.description|safe" auto_height=1, auto_width=1 %}
     {% inplace_edit "content.title" class_inplace="titleFormEditInline" %}
@@ -124,13 +124,13 @@ First step
 
 In your settings:
 
-.. code-block:: python
+::
 
     ADAPTOR_INPLACEEDIT = {'myadaptor': 'app_name.fields.MyAdaptor'}
 
 In app_name.fields.MyAdaptor:
 
-.. code-block:: python
+::
 
     class MyAdaptor(BaseAdaptorField):
 
@@ -163,7 +163,7 @@ JavaScript API
 
 Exist a hook, if the value is componing for various widgets, you can set the function get_value, to these DOM elements. Something like this:
 
-.. code-block:: html
+::
 
     <script type="text/javascript">
         (function($){
@@ -183,7 +183,7 @@ Overwriting a default adaptor
 
 To overwrite a adaptor set in your settings add something like this:
  
-.. code-block:: python
+::
 
  ADAPTOR_INPLACEEDIT = {'text': 'app_name.fields.MyAdaptorText'}
 
