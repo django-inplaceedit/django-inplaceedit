@@ -21,7 +21,7 @@ Installation
 ============
 
 Install in your base.html
-----------------------------------------------
+-------------------------
 
 .. code-block:: html
 
@@ -47,7 +47,7 @@ In your settings.py
 
 
 In your urls.py
-------------------
+---------------
 
 .. code-block:: python
 
@@ -63,7 +63,7 @@ Basic usage
   {% inplace_edit  "OBJ.FIELD_NAME|FILTER1|FILTER2|...|FILTERN" %}
 
 Examples
--------------------
+--------
 
 .. code-block:: html
 
@@ -104,7 +104,7 @@ Inplaceedit has some optionals parameters that the templatetag can receive to ch
  * loads: If you use some filter that need a load, you set this option. List separate for ":" 
  
 Examples
--------------------
+--------
 
 .. code-block:: html
 
@@ -191,6 +191,6 @@ For this case you overwrite the AdaptorText with MyAdaptorText.
 
 
 Transmeta
-============
+=========
 
 This egg is compatible with  `Transmeta <http://pypi.python.org/pypi/django-transmeta>`_  But it is not a requirement
