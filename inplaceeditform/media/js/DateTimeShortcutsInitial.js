@@ -8,7 +8,7 @@ function DateTimeShortcutsInitial() {
         calendar_load = CalendarNamespace;
     }
     catch(err) {
-        setTimeout(DateTimeShortcutsInitial, 3000);
+        setTimeout(DateTimeShortcutsInitial, 500);
     }
     if (datetime_load != null && calendar_load != null && gettext_load !=null){
         DateTimeShortcuts.init();
