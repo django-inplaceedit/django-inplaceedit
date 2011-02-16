@@ -48,6 +48,16 @@
                     else {
                         _this.hide();
                         _this.addClass("inplaceHide");
+
+                        var tags = $(response.field_render);
+                        $.map(tags, function(tag){
+                            if (tag.tagName == "SCRIPT" || tag.tagName == "LINK") {
+                                loadjscssfile(tag);
+                            }
+                        });
+                        $(response.field_render).insertAfter(_this);
+
+
                         var head = $("head")[0];
                         try {
                             var medias = $(response.field_media_render);
@@ -56,13 +66,6 @@
                             });
                         }catch(err){
                         }
-                        var tags = $(response.field_render);
-                        $.map(tags, function(tag){
-                            if (tag.tagName == "SCRIPT" || tag.tagName == "LINK") {
-                                loadjscssfile(tag);
-                            }
-                        });
-                        $(response.field_render).insertAfter(_this);
                         if(_this.next().parents("a").length > 0){
                             _this.next().click(function(){return false;});
                         }
