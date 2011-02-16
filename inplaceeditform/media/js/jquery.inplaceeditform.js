@@ -47,6 +47,7 @@
                     }
                     else {
                         _this.hide();
+                        _this.addClass("inplaceHide");
                         var head = $("head")[0];
                         try {
                             var medias = $(response.field_media_render);
@@ -73,6 +74,7 @@
 
             function inplaceCancel() {
                 $(this).parent().prev().fadeIn();
+                $(this).parent().prev().removeClass("inplaceHide");
                 $(this).parent().remove();
                 return false;
             }
@@ -123,6 +125,7 @@
                             });
                         }, 2000);
                         inplace_span.show();
+                        inplace_span.removeClass("inplaceHide");
                         _this.parent().remove();
                     }
                 }});

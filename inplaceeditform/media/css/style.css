@@ -85,3 +85,7 @@ span.textareainplaceedit {
     display: block;
 }
 
+.inplaceHide {
+    display: none;
+}
+
