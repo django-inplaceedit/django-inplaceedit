@@ -55,8 +55,10 @@ class BaseAdaptorField(object):
         return modelform_factory(self.model)
 
     def get_form(self):
-        return self.get_form_class()(instance=self.obj,
-                                     initial=self.initial)
+        form_class = self.get_form_class()
+        return form_class(instance=self.obj,
+                          initial=self.initial,
+                          prefix=id(form_class))
 
     def get_field(self):
         field = self.get_form()[self.field_name]
