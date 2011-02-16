@@ -156,11 +156,10 @@
                 if (media.tagName=="SCRIPT"){ //if filename is a external JavaScript file
                     var fileref = document.createElement('script');
                     fileref.setAttribute("type","text/javascript");
-                    fileref.setAttribute("id", media.id);
                     if(media.src != null && media.src != "" ){
-                        fileref.setAttribute("src", media.src.replace("http://localhost:8000", ""));
+                        fileref.setAttribute("src", media.src);
                     } else {
-                        fileref.innerHTML = media.innerHTML;
+                        appendChild(fileref, media.innerHTML);
                     }
                 }
                 else if (media.tagName=="LINK" && media.type == "text/css"){ //if filename is an external CSS file
@@ -169,10 +168,18 @@
                     fileref.setAttribute("type", "text/css");
                     fileref.setAttribute("href", media.href);
                 }
+
                 if (typeof fileref!="undefined") {
-                    document.getElementsByTagName("head")[0].appendChild(fileref)
+                    document.getElementsByTagName("head")[0].appendChild(fileref);
                 }
             }
+            function appendChild(node, text) {
+                if (null == node.canHaveChildren || node.canHaveChildren) {
+                    node.appendChild(document.createTextNode(text));
+                } else {
+                    node.text = text;
+                }
+            } 
     });
     return {
         enable: function () {
