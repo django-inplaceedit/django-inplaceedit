@@ -69,6 +69,8 @@ class BaseAdaptorField(object):
     def render_value(self, field_name=None):
         field_name = field_name or self.field_name_render
         value = getattr(self.obj, field_name)
+        if callable(value):
+            value = value()
         return apply_filters(value, self.filters_to_show, self.loads)
 
     def render_value_edit(self):
@@ -243,8 +245,7 @@ class AdaptorChoicesField(BaseAdaptorField):
 
     def render_value(self, field_name=None):
         field_name = field_name or self.field_name
-        value = getattr(self.obj, field_name)
-        return apply_filters(value, self.filters_to_show).title()
+        return super(AdaptorChoicesField, self).render_value('get_%s_display' % field_name)
 
 
 class AdaptorForeingKeyField(BaseAdaptorField):
