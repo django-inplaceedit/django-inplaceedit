@@ -48,15 +48,8 @@
                     else {
                         _this.hide();
                         _this.addClass("inplaceHide");
-
                         var tags = $(response.field_render);
-                        $.map(tags, function(tag){
-                            if (tag.tagName == "SCRIPT" || tag.tagName == "LINK") {
-                                loadjscssfile(tag);
-                            }
-                        });
                         $(response.field_render).insertAfter(_this);
-
 
                         var head = $("head")[0];
                         try {
