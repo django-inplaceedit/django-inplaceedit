@@ -71,6 +71,10 @@
             function inplaceCancel() {
                 $(this).parent().prev().fadeIn();
                 $(this).parent().prev().removeClass("inplaceHide");
+                var cancelFinish = $(this).data("cancelFinish");
+                if (cancelFinish){
+                    cancelFinish();
+                }
                 $(this).parent().remove();
                 return false;
             }
@@ -82,9 +86,9 @@
                 var inplaceedit_conf = form.prev().find("span.config");
                 var data = getDataToRequest(inplaceedit_conf);
                 var field_id = form.find("span.field_id").html();
-                var get_value = $(this).data("get_value"); // A hook
-                if (get_value != null) {
-                   var value = get_value(form, field_id);
+                var getValue = $(this).data("getValue"); // A hook
+                if (getValue != null) {
+                   var value = getValue(form, field_id);
                 }
                 else {
                     var value = form.find("#"+field_id).val();
@@ -122,6 +126,10 @@
                         }, 2000);
                         inplace_span.show();
                         inplace_span.removeClass("inplaceHide");
+                        var applyFinish = $(_this).data("applyFinish");
+                        if (applyFinish){
+                            applyFinish();
+                        }
                         _this.parent().remove();
                     }
                 }});

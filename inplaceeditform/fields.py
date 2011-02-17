@@ -32,7 +32,7 @@ class BaseAdaptorField(object):
         filters_to_edit = self.config.get('filters_to_edit', None)
         self.filters_to_edit = filters_to_edit and filters_to_edit.split('|') or []
 
-        self.class_inplace = self.config.get('class_inplace', None)
+        self.class_inplace = self.config.get('class_inplace', '')
         self.tag_name_cover = self.config.get('tag_name_cover', 'span')
         loads = self.config.get('loads', None)
         self.loads = loads and loads.split(':') or []
@@ -182,11 +182,8 @@ class AdaptorTextAreaField(BaseAdaptorField):
 
 class BaseDateField(BaseAdaptorField):
 
-    def render_media_field(self):
-        return render_to_string("inplaceeditform/adaptor_date/render_media_field.html",
-                                {'field': self.get_field(),
-                                 'MEDIA_URL': settings.MEDIA_URL,
-                                 'ADMIN_MEDIA_PREFIX': settings.ADMIN_MEDIA_PREFIX})
+    def render_media_field(self, template_name="inplaceeditform/adaptor_date/render_media_field.html"):
+        return super(BaseDateField, self).render_media_field(template_name)
 
 
 class AdaptorDateField(BaseDateField):
@@ -194,6 +191,9 @@ class AdaptorDateField(BaseDateField):
     @property
     def name(self):
         return 'date'
+
+    def render_field(self, template_name="inplaceeditform/adaptor_date/render_field.html"):
+        return super(AdaptorDateField, self).render_field(template_name)
 
     def get_field(self):
         field = super(AdaptorDateField, self).get_field()
@@ -216,10 +216,8 @@ class AdaptorDateTimeField(BaseDateField):
     def render_field(self, template_name="inplaceeditform/adaptor_datetime/render_field.html"):
         return super(AdaptorDateTimeField, self).render_field(template_name)
 
-    def render_media_field(self):
-        return render_to_string("inplaceeditform/adaptor_datetime/render_media_field.html",
-                                {'field': self.get_field(),
-                                 'ADMIN_MEDIA_PREFIX': settings.ADMIN_MEDIA_PREFIX})
+    def render_media_field(self, template_name="inplaceeditform/adaptor_datetime/render_media_field.html"):
+        return super(AdaptorDateTimeField, self).render_media_field(template_name)
 
     def get_field(self):
         field = super(AdaptorDateTimeField, self).get_field()

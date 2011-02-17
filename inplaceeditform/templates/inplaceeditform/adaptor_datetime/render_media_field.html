@@ -5,10 +5,10 @@
     <script type="text/javascript">
         (function($){
             $(document).ready(function () {
-                function get_value(form, field_id) {
+                function getValueDateTime(form, field_id) {
                     return form.find("#"+field_id+"_0").val() + " " + form.find("#"+field_id+"_1").val();
                 }
-                $(".apply_datetime").data("get_value", get_value);
+                $(".applyDatetime").data("getValue", getValueDateTime);
         });
         })(jQuery);
     </script>

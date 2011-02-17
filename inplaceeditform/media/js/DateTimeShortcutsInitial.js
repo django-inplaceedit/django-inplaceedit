@@ -1,17 +1,22 @@
 function DateTimeShortcutsInitial() {
-    var datetime_load = null;
-    var calendar_load = null;
-    var gettext_load = null;
+    var datetime_load = false;
+    var calendar_load = false;
+    var gettext_load = false;
     try{
-        datetime_load = DateTimeShortcuts;
-        gettext_load = gettext;
-        calendar_load = CalendarNamespace;
+        if(DateTimeShortcuts != null)
+            datetime_load = true;
+        if(gettext != null)
+            gettext_load = true;
+        if(CalendarNamespace)
+            calendar_load = true;
     }
     catch(err) {
-        setTimeout(DateTimeShortcutsInitial, 500);
     }
-    if (datetime_load != null && calendar_load != null && gettext_load !=null){
+    if (datetime_load && calendar_load && gettext_load){
         DateTimeShortcuts.init();
+    }
+    else {
+        setTimeout(DateTimeShortcutsInitial, 500);
     }
 }
 DateTimeShortcutsInitial();

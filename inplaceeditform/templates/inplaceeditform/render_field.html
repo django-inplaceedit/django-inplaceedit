@@ -6,14 +6,14 @@
         <span class="field_id" style="display:none">{{ field.auto_id }}</span>
         {% block actions %}
             {% block apply %}
-                <button class="apply" title="{% trans "Apply change" %}" type="button">
+                <button class="apply {% block classapply %}{% endblock %}" title="{% trans "Apply change" %}" type="button">
                     <span>
                     {% trans "Save" %}
                     </span>
                 </button>
             {% endblock %}
             {% block cancel %}
-                <button class="cancel" title="{% trans "Cancel change" %}" type="button">
+                <button class="cancel {% block classcancel %}{% endblock %}" title="{% trans "Cancel change" %}" type="button">
                     <span>
                     {% trans "Cancel" %}
                     </span>
