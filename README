@@ -46,13 +46,62 @@ In your settings.py
     )
 
 
+And uncomment the request context processor:
+
+::
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    ...
+    'django.core.context_processors.request',                                                                                                                                   
+    ...
+)
+
+And comment the next middleware. (It's a temporary solution)
+
+MIDDLEWARE_CLASSES = (
+    ...
+    #'django.middleware.csrf.CsrfViewMiddleware',
+    ...
+)
+
 In your urls.py
 ---------------
 
 ::
 
+urlpatterns = patterns('',
+
+    ...
+
     (r'^inplaceeditform/', include('inplaceeditform.urls')),
 
+    ...
+)
+
+If you use the date adaptor or datetime adaptor also:
+
+::
+
+js_info_dict = {
+    'packages': ('django.conf',),
+}
+
+urlpatterns = patterns('',
+
+    ...
+    (r'^inplaceeditform/', include('inplaceeditform.urls')),
+    (r'^jsi18n$', 'django.views.i18n.javascript_catalog', js_info_dict),
+)
+
+
+Media files
+-----------
+
+Link the media files in your project media directory
+
+::
+    cd {{ MEDIA_ROOT }}
+    ln -s {{ INPLACE_EDIT_FORM_PATH }}media/ inplaceeditform
 
 Basic usage
 ===========
@@ -166,22 +215,51 @@ Python API
 JavaScript API
 --------------
 
-Exist a hook, if the value is componing for various widgets, you can set the function get_value, to these DOM elements. Something like this:
+Exist there hooks, 
+
+ * getValue: if the value is componing for various widgets, you can set the function getValue, to these DOM elements. Something like this:
 
 ::
-
     <script type="text/javascript">
         (function($){
             $(document).ready(function () {
-                function get_value(form, field_id) {
+                function myGetValue(form, field_id) {
                     return ""Something""
                 }
-                $(".apply_myadaptor").data("get_value", get_value);
+                $(".applyMyAdaptor").data("getValue", myGetValue);
         });
         })(jQuery);
     </script>
- 
-For example the adaptor datetime use this.
+
+ * applyFinish: if you need/want to do some action after the value be saved. Something like this:
+
+::
+    <script type="text/javascript">
+        (function($){
+            $(document).ready(function () {
+                function myApplyFinish() {
+                    return ""Something""
+                }
+                $(".applyMyAdaptor").data("applyFinish", myApplyFinish);
+        });
+        })(jQuery);
+    </script>
+
+ * cancelFinish: if you need/want to do some action after the cancel the edit. Something like this:
+
+::
+    <script type="text/javascript">
+        (function($){
+            $(document).ready(function () {
+                function myCancelFinish() {
+                    return ""Something""
+                }
+                $(".applyMyAdaptor").data("cancelFinish", myCancelFinish);
+        });
+        })(jQuery);
+    </script>
+
+For example the adaptor datetime use these hooks.
 
 Overwriting a default adaptor
 -----------------------------
