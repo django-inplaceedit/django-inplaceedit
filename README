@@ -223,48 +223,48 @@ Exist there hooks,
 
  * getValue: if the value is componing for various widgets, you can set the function getValue, to these DOM elements. Something like this:
 
-::
+    ::
 
-    <script type="text/javascript">
-        (function($){
-            $(document).ready(function () {
-                function myGetValue(form, field_id) {
-                    return ""Something""
-                }
-                $(".applyMyAdaptor").data("getValue", myGetValue);
-        });
-        })(jQuery);
-    </script>
+        <script type="text/javascript">
+            (function($){
+                $(document).ready(function () {
+                    function myGetValue(form, field_id) {
+                        return ""Something""
+                    }
+                    $(".applyMyAdaptor").data("getValue", myGetValue);
+            });
+            })(jQuery);
+        </script>
 
  * applyFinish: if you need/want to do some action after the value be saved. Something like this:
 
-::
+    ::
 
-    <script type="text/javascript">
-        (function($){
-            $(document).ready(function () {
-                function myApplyFinish() {
-                    return ""Something""
-                }
-                $(".applyMyAdaptor").data("applyFinish", myApplyFinish);
-        });
-        })(jQuery);
-    </script>
+        <script type="text/javascript">
+            (function($){
+                $(document).ready(function () {
+                    function myApplyFinish() {
+                        return ""Something""
+                    }
+                    $(".applyMyAdaptor").data("applyFinish", myApplyFinish);
+            });
+            })(jQuery);
+        </script>
 
  * cancelFinish: if you need/want to do some action after the cancel the edit. Something like this:
 
-::
+    ::
 
-    <script type="text/javascript">
-        (function($){
-            $(document).ready(function () {
-                function myCancelFinish() {
-                    return ""Something""
-                }
-                $(".applyMyAdaptor").data("cancelFinish", myCancelFinish);
-        });
-        })(jQuery);
-    </script>
+        <script type="text/javascript">
+            (function($){
+                $(document).ready(function () {
+                    function myCancelFinish() {
+                        return ""Something""
+                    }
+                    $(".applyMyAdaptor").data("cancelFinish", myCancelFinish);
+            });
+            })(jQuery);
+        </script>
 
 For example the adaptor datetime use these hooks.
 
