@@ -51,9 +51,9 @@ And uncomment the request context processor:
 ::
 
 TEMPLATE_CONTEXT_PROCESSORS = (
-    ...
+    #...#
     'django.core.context_processors.request',                                                                                                                                   
-    ...
+    #...#
 )
 
 And comment the next middleware. (It's a temporary solution)
