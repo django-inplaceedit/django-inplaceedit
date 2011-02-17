@@ -121,8 +121,8 @@ class BaseAdaptorField(object):
     def _adding_size(self, field):
         attrs = field.field.widget.attrs
         widget_options = self.config and self.config.get('widget_options', {})
-        auto_height = widget_options.get('auto_height', False)
-        auto_width = widget_options.get('auto_width', False)
+        auto_height = self.config.get('auto_height', False)
+        auto_width = self.config.get('auto_width', False)
         if not 'style' in attrs:
             style = ''
             for key, value in widget_options.items():

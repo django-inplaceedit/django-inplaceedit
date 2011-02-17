@@ -89,3 +89,6 @@ span.textareainplaceedit {
     display: none;
 }
 
+form.inplaceeditform {
+    display: inline;
+}
