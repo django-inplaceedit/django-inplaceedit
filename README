@@ -224,6 +224,7 @@ Exist there hooks,
  * getValue: if the value is componing for various widgets, you can set the function getValue, to these DOM elements. Something like this:
 
 ::
+
     <script type="text/javascript">
         (function($){
             $(document).ready(function () {
@@ -238,6 +239,7 @@ Exist there hooks,
  * applyFinish: if you need/want to do some action after the value be saved. Something like this:
 
 ::
+
     <script type="text/javascript">
         (function($){
             $(document).ready(function () {
@@ -252,6 +254,7 @@ Exist there hooks,
  * cancelFinish: if you need/want to do some action after the cancel the edit. Something like this:
 
 ::
+
     <script type="text/javascript">
         (function($){
             $(document).ready(function () {
