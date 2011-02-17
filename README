@@ -50,48 +50,51 @@ And uncomment the request context processor:
 
 ::
 
-TEMPLATE_CONTEXT_PROCESSORS = (
-    #...#
-    'django.core.context_processors.request',                                                                                                                                   
-    #...#
-)
+    TEMPLATE_CONTEXT_PROCESSORS = (
+        #...#
+        'django.core.context_processors.request',
+        #...#
+    )
 
 And comment the next middleware. (It's a temporary solution)
 
-MIDDLEWARE_CLASSES = (
-    ...
-    #'django.middleware.csrf.CsrfViewMiddleware',
-    ...
-)
+::
+
+    MIDDLEWARE_CLASSES = (
+        #...#
+        #'django.middleware.csrf.CsrfViewMiddleware',
+        #...#
+    )
 
 In your urls.py
 ---------------
 
 ::
 
-urlpatterns = patterns('',
+    urlpatterns = patterns('',
 
-    ...
+        #...#
 
-    (r'^inplaceeditform/', include('inplaceeditform.urls')),
+        (r'^inplaceeditform/', include('inplaceeditform.urls')),
 
-    ...
-)
+        #...#
+    )
 
 If you use the date adaptor or datetime adaptor also:
 
 ::
 
-js_info_dict = {
-    'packages': ('django.conf',),
-}
+    js_info_dict = {
+        'packages': ('django.conf',),
+    }
 
-urlpatterns = patterns('',
+    urlpatterns = patterns('',
 
-    ...
-    (r'^inplaceeditform/', include('inplaceeditform.urls')),
-    (r'^jsi18n$', 'django.views.i18n.javascript_catalog', js_info_dict),
-)
+        #...#
+
+        (r'^inplaceeditform/', include('inplaceeditform.urls')),
+        (r'^jsi18n$', 'django.views.i18n.javascript_catalog', js_info_dict),
+    )
 
 
 Media files
@@ -100,6 +103,7 @@ Media files
 Link the media files in your project media directory
 
 ::
+
     cd {{ MEDIA_ROOT }}
     ln -s {{ INPLACE_EDIT_FORM_PATH }}media/ inplaceeditform
 
