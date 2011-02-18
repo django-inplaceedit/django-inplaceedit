@@ -1,0 +1,41 @@
+{% load i18n %}<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="{{ LANGUAGE_CODE }}" lang="{{ LANGUAGE_CODE }}">
+<head>
+  {% load inplace_edit %}
+  {% inplace_media %}
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <title>Manage Multimedia Resources</title>
+</head>
+<body>
+  <h1>Manage Multimedia Resources</h1>
+  <h2>Types of Resources</h2>
+  <div>
+    {% for i in types %}
+    <div><p>{{ i }}</p>
+      <ul>
+	<li>{% trans "Name: " %}{% inplace_edit "i.name" %}</li>
+      </ul>
+    </div>
+    {% endfor %}
+  </div>
+  <h2>Resources</h2>
+  <div>
+    {% for r in resources_a %}
+    <div><p>{{ r }}</p>
+      <ul>
+	<li>{% trans "Name: " %}{% inplace_edit "r.name" %}</li>
+	<li>{% trans "Description: " %}{% inplace_edit "r.description" %}</li>
+	<li>{% trans "Date of creation: " %}{% inplace_edit "r.created" %}</li>
+	<li>{% trans "Status: " %}{% inplace_edit "r.status" %}</li>
+	<li>{% trans "Type of resource: " %}{% inplace_edit "r.resource_type" %}</li>
+	<li>{% trans "Owner: " %}{% inplace_edit "r.owner" %}</li>
+	<li>{% trans "Amount: " %}{% inplace_edit "r.amount" %}</li>
+	<li>{% trans "Can be borrow?: " %}{% inplace_edit "r.can_borrow" %}</li>
+	<li>{% trans "Will be available from: " %}{% inplace_edit "r.available_from" %}</li>
+      </ul>
+    </div>
+    {% endfor %}
+  </div>
+</body>
+</html>

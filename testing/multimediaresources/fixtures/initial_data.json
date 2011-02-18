@@ -1,0 +1,139 @@
+[
+    {
+        "pk": 1, 
+        "model": "multimediaresources.typeresource", 
+        "fields": {
+            "name": "Book"
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "multimediaresources.typeresource", 
+        "fields": {
+            "name": "Board game"
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "multimediaresources.resource", 
+        "fields": {
+            "status": "available", 
+            "available_from": "2011-02-17 17:58:01", 
+            "can_borrow": true, 
+            "description": "Book of Python", 
+            "created": "2006-02-17", 
+            "amount": 1, 
+            "owner": [
+                2
+            ], 
+            "resource_type": 1, 
+            "name": "Dive into Python"
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "multimediaresources.resource", 
+        "fields": {
+            "status": "borrow", 
+            "available_from": "2011-02-19 17:58:42", 
+            "can_borrow": false, 
+            "description": "Carts game", 
+            "created": "2007-02-17", 
+            "amount": 1, 
+            "owner": [
+                3
+            ], 
+            "resource_type": 3, 
+            "name": "Ciudadela"
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "multimediaresources.resource", 
+        "fields": {
+            "status": "borrow", 
+            "available_from": "2012-02-17 17:59:42", 
+            "can_borrow": false, 
+            "description": "Board rol game", 
+            "created": "2009-02-17", 
+            "amount": 1, 
+            "owner": [
+                4
+            ], 
+            "resource_type": 3, 
+            "name": "Talisman"
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "auth.user", 
+        "fields": {
+            "username": "Yaco", 
+            "first_name": "", 
+            "last_name": "", 
+            "is_active": true, 
+            "is_superuser": false, 
+            "is_staff": false, 
+            "last_login": "2011-02-17 10:56:03", 
+            "groups": [], 
+            "user_permissions": [], 
+            "password": "sha1$bfc82$7ea6186ed7f333376f922e14c4eabeb553b17df1", 
+            "email": "", 
+            "date_joined": "2011-02-17 10:56:03"
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "auth.user", 
+        "fields": {
+            "username": "adominguez", 
+            "first_name": "", 
+            "last_name": "", 
+            "is_active": true, 
+            "is_superuser": false, 
+            "is_staff": false, 
+            "last_login": "2011-02-17 10:56:19", 
+            "groups": [], 
+            "user_permissions": [], 
+            "password": "sha1$3f32c$c9e3c522f7b58b604a29b6442bfe3896d038be75", 
+            "email": "", 
+            "date_joined": "2011-02-17 10:56:19"
+        }
+    }, 
+    {
+        "pk": 4, 
+        "model": "auth.user", 
+        "fields": {
+            "username": "lgs", 
+            "first_name": "", 
+            "last_name": "", 
+            "is_active": true, 
+            "is_superuser": false, 
+            "is_staff": false, 
+            "last_login": "2011-02-17 10:56:34", 
+            "groups": [], 
+            "user_permissions": [], 
+            "password": "sha1$d3a03$e691b0bb2c4b8a604c323c7bb0f4f370bf822fc5", 
+            "email": "", 
+            "date_joined": "2011-02-17 10:56:34"
+        }
+    }, 
+    {
+        "pk": 5, 
+        "model": "auth.user", 
+        "fields": {
+            "username": "precio", 
+            "first_name": "", 
+            "last_name": "", 
+            "is_active": true, 
+            "is_superuser": false, 
+            "is_staff": false, 
+            "last_login": "2011-02-17 10:56:43", 
+            "groups": [], 
+            "user_permissions": [], 
+            "password": "sha1$c86c8$226e3e88da4241ebd09259e2400a4bd028594f44", 
+            "email": "", 
+            "date_joined": "2011-02-17 10:56:43"
+        }
+    }
+]
