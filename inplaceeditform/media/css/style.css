@@ -9,6 +9,10 @@ button.apply {
 
 }
 
+button.apply:hover {
+    background: url("/media/inplaceeditform/img/apply.gif") no-repeat scroll 0 -50% transparent;
+}
+
 button.cancel {
   background: transparent none no-repeat scroll 0pt 50%;
   border: medium none;
@@ -18,6 +22,10 @@ button.cancel {
   width: 22px;
   background-image: url(/media/inplaceeditform/img/cancel.gif);
 
+}
+
+button.cancel:hover {
+    background: url("/media/inplaceeditform/img/cancel.gif") no-repeat scroll 0 -50% transparent;
 }
 
 button.cancel span,
