@@ -1,0 +1,15 @@
+{% extends  "inplaceeditform/render_media_field.html" %}
+
+{% block media %}
+    {{ block.super }}
+    <script type="text/javascript">
+        (function($){
+            $(document).ready(function () {
+                function getValueBoolean(form, field_id) {
+                    return form.find("#"+field_id).attr("checked");
+                }
+                $(".applyBoolean").data("getValue", getValueBoolean);
+        });
+        })(jQuery);
+    </script>
+{% endblock %}

@@ -58,6 +58,8 @@ def get_adaptor_class(adaptor=None, obj=None, field_name=None):
                 adaptor = 'choices'
         elif isinstance(field, models.TextField):
             adaptor = 'textarea'
+        elif isinstance(field, models.BooleanField):
+            adaptor = 'boolean'
         elif isinstance(field, models.DateTimeField):
             adaptor = 'datetime'
         elif isinstance(field, models.DateField):

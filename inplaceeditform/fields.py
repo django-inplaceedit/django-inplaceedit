@@ -180,6 +180,23 @@ class AdaptorTextAreaField(BaseAdaptorField):
         return "textareainplaceedit %s" % super(AdaptorTextAreaField, self).classes
 
 
+class AdaptorBooleanField(BaseAdaptorField):
+
+    @property
+    def name(self):
+        return 'boolean'
+
+    def render_value(self, field_name=None, template_name="inplaceeditform/adaptor_boolean/render_value.html"):
+        value = super(AdaptorBooleanField, self).render_value(field_name)
+        return render_to_string(template_name, {'value': value})
+
+    def render_field(self, template_name="inplaceeditform/adaptor_boolean/render_field.html"):
+        return super(AdaptorBooleanField, self).render_field(template_name)
+
+    def render_media_field(self, template_name="inplaceeditform/adaptor_boolean/render_media_field.html"):
+        return super(AdaptorBooleanField, self).render_media_field(template_name)
+
+
 class BaseDateField(BaseAdaptorField):
 
     def render_media_field(self, template_name="inplaceeditform/adaptor_date/render_media_field.html"):
