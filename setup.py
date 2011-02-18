@@ -14,7 +14,7 @@
 # along with this software.  If not, see <http://www.gnu.org/licenses/>.
 
 import os
-from setuptools import setup, find_packages
+from setuptools import setup
 
 
 def read(*rnames):
@@ -22,7 +22,7 @@ def read(*rnames):
 
 setup(
     name="django-inplaceedit",
-    version="0.55",
+    version="0.6",
     author="Yaco Sistemas S.L.",
     author_email="pmartin@yaco.es",
     description="Django application that allows you to inline edition of some data from the database",
@@ -35,7 +35,7 @@ setup(
     license="LGPL 3",
     keywords="django inplace inline edit inline form",
     url='https://tracpub.yaco.es/djangoapps/wiki/InplaceEditForm',
-    packages=find_packages('.'),
+    packages=('inplaceeditform', 'inplaceeditform.templatetags'),
     include_package_data=True,
     zip_safe=False,
 )
