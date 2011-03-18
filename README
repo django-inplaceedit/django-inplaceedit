@@ -296,3 +296,12 @@ Transmeta
 =========
 
 This egg is compatible with  `Transmeta <http://pypi.python.org/pypi/django-transmeta>`_  But it is not a requirement
+
+Development
+===========
+
+You can get the last bleeding edge version of inplaceedit by doing a checkout
+of its subversion repository::
+
+  svn co http://svnpub.yaco.es/djangoapps/inplaceeditform/trunk/
+
