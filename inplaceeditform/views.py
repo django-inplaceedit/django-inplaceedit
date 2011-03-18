@@ -34,8 +34,13 @@ def save_ajax(request):
             return HttpResponse(simplejson.dumps({'errors': False,
                                             'value': adaptor.render_value()}),
                                 mimetype='application/json')
-        return HttpResponse(simplejson.dumps({'errors': form.errors}), mimetype='application/json')
-    except ValidationError, error:
+        messages = []  # The error is for another field that you are editing
+        for field_name_error, errors_field in form.errors.items():
+            for error in errors_field:
+                messages.append("%s: %s" % (field_name_error, error))
+        message_i18n = ','.join(messages)
+        return HttpResponse(simplejson.dumps({'errors': message_i18n}), mimetype='application/json')
+    except ValidationError, error:  # The error is for a field that you are editing
         message_i18n = ', '.join([u"%s" % m for m in error.messages])
         return HttpResponse(simplejson.dumps({'errors': message_i18n}), mimetype='application/json')
 
