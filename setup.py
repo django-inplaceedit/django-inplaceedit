@@ -22,11 +22,11 @@ def read(*rnames):
 
 setup(
     name="django-inplaceedit",
-    version="0.62",
+    version="0.63",
     author="Yaco Sistemas S.L.",
     author_email="pmartin@yaco.es",
     description="Django application that allows you to inline edition of some data from the database",
-    long_description=(read('README')),
+    long_description=(read('README') + '\n\n' + read('CHANGES')),
     classifiers=[
         'Development Status :: 4 - Beta',
         'Framework :: Django',

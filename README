@@ -199,6 +199,7 @@ In app_name.fields.MyAdaptor:
 Python API
 ----------
 
+ * loads_to_post: It returns the value of the request (normally request.POST)
  * classes: Classes of tag cover. By default "inplaceedit" and "myadaptorinplaceedit"
  * get_config: Preprocessed of the configuration. By default, it does nothing.
  * get_form_class: It returns the form class.
