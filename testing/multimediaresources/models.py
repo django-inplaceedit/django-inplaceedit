@@ -38,6 +38,8 @@ class Resource(models.Model):
     amount = models.IntegerField(verbose_name=_(u'Amount'), null=True, blank=True)
     can_borrow = models.BooleanField(verbose_name=_(u'Can borrow?'))
     available_from = models.DateTimeField(verbose_name=_(u"Will be available from"))
+    image = models.ImageField(verbose_name=_(u"Associated Image"), null=True, blank=True, upload_to="images")
+    file = models.FileField(verbose_name=_(u"File Text"), null=True, blank=True, upload_to="files")
 
     def __unicode__(self):
         return self.name

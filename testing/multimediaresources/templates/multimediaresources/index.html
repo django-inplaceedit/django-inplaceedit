@@ -3,7 +3,7 @@
 {% load i18n inplace_edit %}
 
 {% block content %}
-<h1>Manage Multimedia Resources</h1>
+<h1 id="title">Manage Multimedia Resources</h1>
 <h2>Types of Resources</h2>
 <div>
   {% for type in types %}
@@ -31,7 +31,8 @@
       <li>{% trans "Amount: " %}{% inplace_edit "resource.amount" %}</li>
       <li>{% trans "Can be borrow?: " %}{% inplace_edit "resource.can_borrow" %}</li>
       <li>{% trans "Can be borrow? (class): " %}{% inplace_edit "resource.can_borrow" class_inplace="testingImplaceEditForm"%}</li>
-      <li>{% trans "Will be available from: " %}{% inplace_edit "resource.available_from" %}</li>
+      <li>{% trans "Associated Image: " %}{% inplace_edit "resource.image" %}</li>
+      <li>{% trans "File Text: " %}{% inplace_edit "resource.file" %}</li>
     </ul>
   </div>
   {% endfor %}

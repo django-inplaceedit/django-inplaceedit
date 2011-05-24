@@ -27,7 +27,9 @@
                 2
             ], 
             "resource_type": 1, 
-            "name": "Dive into Python"
+            "name": "Dive into Python",
+            "file": "",
+            "image": ""
         }
     }, 
     {
@@ -44,7 +46,9 @@
                 3
             ], 
             "resource_type": 3, 
-            "name": "Ciudadela"
+            "name": "Ciudadela",
+            "file": "",
+            "image": ""
         }
     }, 
     {
@@ -61,7 +65,9 @@
                 4
             ], 
             "resource_type": 3, 
-            "name": "Talisman"
+            "name": "Talisman",
+            "file": "",
+            "image": ""
         }
     }, 
     {
