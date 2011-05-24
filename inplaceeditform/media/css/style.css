@@ -108,3 +108,7 @@ span.textareainplaceedit {
 form.inplaceeditform {
     display: inline;
 }
+
+form.inplaceeditform input[type=file] {
+    margin-right: 100px;
+}

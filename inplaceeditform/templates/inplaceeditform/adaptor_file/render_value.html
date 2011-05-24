@@ -1,1 +1,2 @@
-<img src="{{ value.url }}" />
+{% load inplace_edit %}
+<a href="{{ value.url }}" />{% if innerHtml %}{% eval %}{{ innerHtml }}{% endeval %}{% else %}{{ value.url }}{% endif %}</a>

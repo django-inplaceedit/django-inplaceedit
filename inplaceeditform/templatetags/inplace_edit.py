@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+from django import template
 from django.template import Library, Variable
 from django.conf import settings
 
@@ -63,3 +63,16 @@ class InplaceEditNode(RenderWithArgsAndKwargsNode):
 def inplace_edit(parser, token):
     args, kwargs = parse_args_kwargs(parser, token)
     return InplaceEditNode(args, kwargs, 'inplaceeditform/inplace_edit.html')
+
+
+@register.tag(name='eval')
+def do_eval(parser, token):
+    "Usage: {% eval %}1 + 1{% endeval %}"
+
+    nodelist = parser.parse(('endeval',))
+
+    class EvalNode(template.Node):
+        def render(self, context):
+            return template.Template(nodelist.render(context)).render(template.Context(context))
+    parser.delete_first_token()
+    return EvalNode()

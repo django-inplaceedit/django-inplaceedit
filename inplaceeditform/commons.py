@@ -68,10 +68,10 @@ def get_adaptor_class(adaptor=None, obj=None, field_name=None):
             adaptor = 'fk'
         elif isinstance(field, ManyToManyField):
             adaptor = 'm2mcomma'
-        elif isinstance(field, models.FileField):
-            adaptor = 'file'
         elif isinstance(field, models.ImageField):
             adaptor = 'image'
+        elif isinstance(field, models.FileField):
+            adaptor = 'file'
     from inplaceeditform.fields import BaseAdaptorField
     path_adaptor = adaptor and ((getattr(settings, 'ADAPTOR_INPLACEEDIT', None) and
                                  settings.ADAPTOR_INPLACEEDIT.get(adaptor, None)) or

@@ -80,6 +80,48 @@
                 return false;
             }
 
+            function inplaceApplySuccess(response){
+                if (typeof response == "string") {
+                    response = eval("( " + response + " )")
+                }
+                var _this = this.context;
+                var form = this.form;
+                var inplaceedit_conf = this.inplaceedit_conf;
+                if (response == null) {
+                    alert("The server is down");
+                }
+                else if (response.errors) {
+                    form.animate({opacity: 1});
+                    form.prepend("<ul class='errors'><li>" + response.errors + "</li></ul>");
+                }
+                else {
+                    _this.parent().fadeOut();
+                    _this.fadeIn();
+                    form.removeClass("inplaceeditformsaving");
+                    var inplace_span = inplaceedit_conf.parents(".inplaceedit");
+                    var config = inplace_span.find("span.config").html();
+                    inplace_span.html(response.value + "<span class='config' style='display:none;'>" + config + "</span>");
+                    var success_message = $("<ul class='success'><li>" + opts.successText + "</li></ul>")
+                    inplace_span.prepend(success_message);
+                    setTimeout(function(){
+                        success_message.fadeOut(function(){
+                            $(this).remove();
+                        });
+                    }, 2000);
+                    inplace_span.show();
+                    inplace_span.removeClass("inplaceHide");
+                    var applyFinish = $(_this).data("applyFinish");
+                    if (applyFinish){
+                        applyFinish();
+                    }
+                    _this.parent().remove();
+                }
+            }
+
+            function bind(func, _this) {
+                return function() {return func.apply(_this, arguments)}
+            }
+
             function inplaceApply() {
                 var form = $(this).parents("form.inplaceeditform");
                 form.animate({opacity: 0.1});
@@ -95,89 +137,45 @@
                     var value = form.find("#"+field_id).val();
                 }
                 data += "&value=" + encodeURIComponent($.toJSON(value));
-                var _this = $(this);
-
                 $.ajax({
-                data: data,
-                url:  opts.saveURL,
-                type: "POST",
-                async: true,
-                dataType: 'json',
-                success: function(response){
-                    if (response == null) {
-                        alert("The server is down");
-                    }
-                    else if (response.errors) {
-                        form.animate({opacity: 1});
-                        form.prepend("<ul class='errors'><li>" + response.errors + "</li></ul>");
-                    }
-                    else {
-                        _this.parent().fadeOut();
-                        _this.fadeIn();
-                        form.removeClass("inplaceeditformsaving");
-                        var inplace_span = inplaceedit_conf.parents(".inplaceedit");
-                        var config = inplace_span.find("span.config").html();
-                        inplace_span.html(response.value + "<span class='config' style='display:none;'>" + config + "</span>");
-                        var success_message = $("<ul class='success'><li>" + opts.successText + "</li></ul>")
-                        inplace_span.prepend(success_message);
-                        setTimeout(function(){
-                            success_message.fadeOut(function(){
-                                $(this).remove();
-                            });
-                        }, 2000);
-                        inplace_span.show();
-                        inplace_span.removeClass("inplaceHide");
-                        var applyFinish = $(_this).data("applyFinish");
-                        if (applyFinish){
-                            applyFinish();
-                        }
-                        _this.parent().remove();
-                    }
-                }});
+                    data: data,
+                    url:  opts.saveURL,
+                    type: "POST",
+                    async: true,
+                    dataType: 'json',
+                    success: bind(inplaceApplySuccess, {"context": $(this),
+                                                        "form": form,
+                                                        "inplaceedit_conf": inplaceedit_conf})});
                 return false;
             }
 
             function inplaceApplyUpload() {
-                    var form = $(this).parents("form.inplaceeditform");
-                    form.animate({opacity: 0.1});
-                    form.find("ul.errors").fadeOut(function(){$(this).remove();});
-                    var inplaceedit_conf = form.prev().find("span.config");
-                    var data = getDataToRequestUpload(inplaceedit_conf);
-                    var field_id = form.find("span.field_id").html();
-                    var getValue = $(this).data("getValue"); // A hook
-                    if (getValue != null) {
-                        var value = getValue(form, field_id);
-                    }
-                    else {
-                        var value = form.find("#"+field_id).val();
-                    }
-                    data["value"] = encodeURIComponent($.toJSON(value));
-                    var _this = $(this);
+                var form = $(this).parents("form.inplaceeditform");
+                form.animate({opacity: 0.1});
+                form.find("ul.errors").fadeOut(function(){$(this).remove();});
+                var inplaceedit_conf = form.prev().find("span.config");
+                var data = getDataToRequestUpload(inplaceedit_conf);
+                var field_id = form.find("span.field_id").html();
+                var getValue = $(this).data("getValue"); // A hook
+                if (getValue != null) {
+                    var value = getValue(form, field_id);
+                }
+                else {
+                    var value = form.find("#"+field_id).val();
+                }
+                data["value"] = encodeURIComponent($.toJSON(value));
+                var _this = $(this);
 
-                    form.ajaxSubmit({
-                            url: opts.saveURL,
-                            debug: true,
-                            data: data,
-                            async: true,
-                            type: "POST",
-                            dataType: "application/json",
-                            success: function(responseText, statusText, xhr, $form) { 
-                                alert("Succes function");
-                                return false;
-                            }, 
-                            submit: function() { 
-                                alert("Submit function");
-                                return false;
-                            },
-                            complete: function(XMLHttpRequest, textStatus) {
-                                alert("Complete function"); 
-                                return false;
-                                // XMLHttpRequest.responseText will contain the URL of the uploaded image.
-                                // Put it in an image element you create, or do with it what you will.
-                                // For example, if you have an image elemtn with id "my_image", then
-                                //  $('#my_image').attr('src', XMLHttpRequest.responseText);
-                                // Will set that image tag to display the uploaded image.
-                            }});
+                form.ajaxSubmit({
+                        url: opts.saveURL,
+                        debug: true,
+                        data: data,
+                        async: true,
+                        type: "POST",
+                        dataType: "application/json",
+                        success:bind(inplaceApplySuccess, {"context": $(this),
+                                                           "form": form,
+                                                           "inplaceedit_conf": inplaceedit_conf})});
                 return false;
             }
 

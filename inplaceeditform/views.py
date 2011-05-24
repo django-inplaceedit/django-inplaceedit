@@ -9,57 +9,52 @@ from django.utils import simplejson
 from inplaceeditform.commons import (get_dict_from_obj, apply_filters,
                                      get_adaptor_class)
 
+MIMETYPE_RESPONSE = 'json'
+
 
 @login_required
 def save_ajax(request):
     if not request.method == 'POST':
-        return HttpResponse(simplejson.dumps({'errors': 'It is not a POST request'}),
-                            mimetype='application/json')
+        return _get_http_response({'errors': 'It is not a POST request'})
     adaptor = _get_adaptor(request, 'POST')
     if not adaptor:
-        return HttpResponse(simplejson.dumps({'errors': 'Params insufficient'}),
-                            mimetype='application/json')
-    value = adaptor.loads_to_post(request.POST.get('value'))
+        return _get_http_response({'errors': 'Params insufficient'})
+    value = adaptor.loads_to_post(request)
     new_data = get_dict_from_obj(adaptor.obj)
     form_class = adaptor.get_form_class()
     field_name = adaptor.field_name
 
     form = form_class(data=new_data, instance=adaptor.obj)
     try:
-        value_edit = adaptor.get_value_editor(value, request)
+        value_edit = adaptor.get_value_editor(value)
         value_edit_with_filter = apply_filters(value_edit, adaptor.filters_to_edit)
         new_data[field_name] = value_edit_with_filter
         if form.is_valid():
             adaptor.save(value_edit_with_filter)
-            return HttpResponse(simplejson.dumps({'errors': False,
-                                                  'value': adaptor.render_value()}),
-                                mimetype='application/json')
+            return _get_http_response({'errors': False,
+                                       'value': adaptor.render_value()})
         messages = []  # The error is for another field that you are editing
         for field_name_error, errors_field in form.errors.items():
             for error in errors_field:
                 messages.append("%s: %s" % (field_name_error, unicode(error)))
         message_i18n = ','.join(messages)
-        return HttpResponse(simplejson.dumps({'errors': message_i18n}), mimetype='application/json')
+        return _get_http_response({'errors': message_i18n})
     except ValidationError, error:  # The error is for a field that you are editing
         message_i18n = ', '.join([u"%s" % m for m in error.messages])
-        return HttpResponse(simplejson.dumps({'errors': message_i18n}), mimetype='application/json')
+        return _get_http_response({'errors': message_i18n})
 
 
 @login_required
 def get_field(request):
     if not request.method == 'GET':
-        return HttpResponse(simplejson.dumps({'errors': 'It is not a GET request'}),
-                            mimetype='application/json')
+        return _get_http_response({'errors': 'It is not a GET request'})
     adaptor = _get_adaptor(request, 'GET')
     if not adaptor:
-        return HttpResponse(simplejson.dumps({'errors': 'Params insufficient'}),
-                            mimetype='application/json')
-
+        return _get_http_response({'errors': 'Params insufficient'})
     field_render = adaptor.render_field()
     field_media_render = adaptor.render_media_field()
-    return HttpResponse(simplejson.dumps({'field_render': field_render,
-                                          'field_media_render': field_media_render}),
-                                        mimetype='application/json')
+    return _get_http_response({'field_render': field_render,
+                               'field_media_render': field_media_render})
 
 
 def _get_adaptor(request, method='GET'):
@@ -110,3 +105,8 @@ def _convert_params_in_config(request_params, exclude_params=None):
                 config[str(key)] = value
     config['widget_options'] = options_widget
     return config
+
+
+def _get_http_response(context, mimetype=MIMETYPE_RESPONSE):
+    return HttpResponse(simplejson.dumps(context),
+                        mimetype=MIMETYPE_RESPONSE)
