@@ -24,7 +24,7 @@
 0.55
 =====
 
- * A new egg from `django-inplaceedit-version1 <http://pypi.python.org/pypi/django-inplaceedit-version1/0.55 >`_
+ * A new egg from django-inplaceedit-version1
  * The js should be a plugin jQuery
  * The generated html should be bit intrusive
  * API to create adaptators
