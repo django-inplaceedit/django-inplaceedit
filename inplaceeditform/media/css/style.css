@@ -1,4 +1,5 @@
-button.apply {
+button.apply,
+button.applyFile {
   background: transparent none no-repeat scroll 0pt 50%;
   border: medium none;
   cursor: pointer;
@@ -9,7 +10,8 @@ button.apply {
 
 }
 
-button.apply:hover {
+button.apply:hover,
+button.applyFile:hover {
     background: url("/media/inplaceeditform/img/apply.gif") no-repeat scroll 0 -50% transparent;
 }
 
@@ -29,13 +31,19 @@ button.cancel:hover {
 }
 
 button.cancel span,
-button.apply span {
+button.apply span,
+button.applyFile span {
   visibility: hidden;
 }
 
 .edit_over {
   cursor: pointer; 
   background: #FFFFBB;
+}
+
+.edit_over img {
+    cursor: pointer; 
+    border: 2px solid #FFFFBB;
 }
 
 .errors  {

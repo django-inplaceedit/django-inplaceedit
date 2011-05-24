@@ -30,7 +30,7 @@
                 }
                 $(this).data("inplace_enabled")
                 var data = getDataToRequest($(this).find("span.config"));
-                data += "&__widget_height=" + $(this).height() + "px" + "&__widget_width=" + $(this).width() + "px";
+                data += "&__widget_height=" + $(this).innerHeight() + "px" + "&__widget_width=" + $(this).innerWidth() + "px";
                 var _this = $(this);
                 $.ajax({
                 data: data,
@@ -64,6 +64,7 @@
                         }
                         _this.next().find(".cancel").click(inplaceCancel);
                         _this.next().find(".apply").click(inplaceApply);
+                        _this.next().find(".applyFile").click(inplaceApplyUpload);
                     }
                 }});
             });
@@ -136,6 +137,50 @@
                 return false;
             }
 
+            function inplaceApplyUpload() {
+                    var form = $(this).parents("form.inplaceeditform");
+                    form.animate({opacity: 0.1});
+                    form.find("ul.errors").fadeOut(function(){$(this).remove();});
+                    var inplaceedit_conf = form.prev().find("span.config");
+                    var data = getDataToRequestUpload(inplaceedit_conf);
+                    var field_id = form.find("span.field_id").html();
+                    var getValue = $(this).data("getValue"); // A hook
+                    if (getValue != null) {
+                        var value = getValue(form, field_id);
+                    }
+                    else {
+                        var value = form.find("#"+field_id).val();
+                    }
+                    data["value"] = encodeURIComponent($.toJSON(value));
+                    var _this = $(this);
+
+                    form.ajaxSubmit({
+                            url: opts.saveURL,
+                            debug: true,
+                            data: data,
+                            async: true,
+                            type: "POST",
+                            dataType: "application/json",
+                            success: function(responseText, statusText, xhr, $form) { 
+                                alert("Succes function");
+                                return false;
+                            }, 
+                            submit: function() { 
+                                alert("Submit function");
+                                return false;
+                            },
+                            complete: function(XMLHttpRequest, textStatus) {
+                                alert("Complete function"); 
+                                return false;
+                                // XMLHttpRequest.responseText will contain the URL of the uploaded image.
+                                // Put it in an image element you create, or do with it what you will.
+                                // For example, if you have an image elemtn with id "my_image", then
+                                //  $('#my_image').attr('src', XMLHttpRequest.responseText);
+                                // Will set that image tag to display the uploaded image.
+                            }});
+                return false;
+            }
+
             function getDataToRequest(inplaceedit_conf) {
                 var dataToRequest = "";
                 var settings = inplaceedit_conf.find("span");
@@ -149,6 +194,18 @@
                     var value = setting.html();
                     data = data + key + "=" + value;
                     dataToRequest += data;
+                });
+                return dataToRequest;
+            }
+
+            function getDataToRequestUpload(inplaceedit_conf) {
+                var dataToRequest = {};
+                var settings = inplaceedit_conf.find("span");
+                $.map(settings, function (setting, i) {
+                    var setting = $(setting);
+                    var key = setting.attr("class");
+                    var value = setting.html();
+                    dataToRequest[key] = value;
                 });
                 return dataToRequest;
             }

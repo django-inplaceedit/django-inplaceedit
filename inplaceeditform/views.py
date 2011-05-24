@@ -19,20 +19,20 @@ def save_ajax(request):
     if not adaptor:
         return HttpResponse(simplejson.dumps({'errors': 'Params insufficient'}),
                             mimetype='application/json')
-    value = simplejson.loads(request.POST.get('value'))
+    value = adaptor.loads_to_post(request.POST.get('value'))
     new_data = get_dict_from_obj(adaptor.obj)
     form_class = adaptor.get_form_class()
     field_name = adaptor.field_name
 
     form = form_class(data=new_data, instance=adaptor.obj)
     try:
-        value_edit = adaptor.get_value_editor(value)
+        value_edit = adaptor.get_value_editor(value, request)
         value_edit_with_filter = apply_filters(value_edit, adaptor.filters_to_edit)
         new_data[field_name] = value_edit_with_filter
         if form.is_valid():
             adaptor.save(value_edit_with_filter)
             return HttpResponse(simplejson.dumps({'errors': False,
-                                            'value': adaptor.render_value()}),
+                                                  'value': adaptor.render_value()}),
                                 mimetype='application/json')
         messages = []  # The error is for another field that you are editing
         for field_name_error, errors_field in form.errors.items():

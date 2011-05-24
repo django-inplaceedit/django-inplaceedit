@@ -2,6 +2,7 @@ from django.conf import settings
 from django.contrib.admin.widgets import AdminSplitDateTime, AdminDateWidget
 from django.forms.models import modelform_factory
 from django.template.loader import render_to_string
+from django.utils import simplejson
 from django.utils.importlib import import_module
 from django.utils.translation import ugettext
 
@@ -54,19 +55,19 @@ class BaseAdaptorField(object):
     def get_form_class(self):
         return modelform_factory(self.model)
 
-    def get_form(self):
+    def get_form(self, request=None):
         form_class = self.get_form_class()
         return form_class(instance=self.obj,
                           initial=self.initial,
                           prefix=id(form_class))
 
-    def get_field(self):
-        field = self.get_form()[self.field_name]
+    def get_field(self, request=None):
+        field = self.get_form(request)[self.field_name]
         field = self._adding_size(field)
         return field
 
-    def get_value_editor(self, value):
-        return self.get_field().field.clean(value)
+    def get_value_editor(self, value, request=None):
+        return self.get_field(request).field.clean(value)
 
     def render_value(self, field_name=None):
         field_name = field_name or self.field_name_render
@@ -107,6 +108,9 @@ class BaseAdaptorField(object):
                                           can_edit_adaptor_path.split('.')[-1])
             return getattr(import_module(path_module), class_adaptor).can_edit(self)
         return self.request.user.is_authenticated and self.request.user.is_superuser
+
+    def loads_to_post(self, value):
+        return simplejson.loads(value)
 
     def save(self, value):
         setattr(self.obj, self.field_name, value)
@@ -282,8 +286,8 @@ class AdaptorForeingKeyField(BaseAdaptorField):
         value = getattr(value, '__unicode__', None) and value.__unicode__() or None
         return value
 
-    def get_value_editor(self, value):
-        value = super(AdaptorForeingKeyField, self).get_value_editor(value)
+    def get_value_editor(self, value, request=None):
+        value = super(AdaptorForeingKeyField, self).get_value_editor(value, request)
         return value and value.pk
 
     def save(self, value):
@@ -303,8 +307,8 @@ class AdaptorManyToManyField(BaseAdaptorField):
     def treatment_width(self, width):
         return '100px'
 
-    def get_value_editor(self, value):
-        return [item.pk for item in super(AdaptorManyToManyField, self).get_value_editor(value)]
+    def get_value_editor(self, value, request=None):
+        return [item.pk for item in super(AdaptorManyToManyField, self).get_value_editor(value, request)]
 
     def render_value(self, field_name=None):
         return super(AdaptorManyToManyField, self).render_value(field_name).all()
@@ -319,3 +323,41 @@ class AdaptorCommaSeparatedManyToManyField(AdaptorManyToManyField):
     def render_value(self, field_name=None, template_name="inplaceeditform/adaptor_m2m/render_commaseparated_value.html"):
         queryset = super(AdaptorCommaSeparatedManyToManyField, self).render_value(field_name)
         return render_to_string(template_name, {'queryset': queryset})
+
+
+class AdaptorFileField(BaseAdaptorField):
+
+    def get_form(self, request=None):
+        form_class = self.get_form_class()
+        files = request and getattr(request, 'FILES', None) or None
+        return form_class(instance=self.obj,
+                          initial=self.initial,
+                          prefix=id(form_class),
+                          files=files)
+
+    def get_value_editor(self, value, request=None):
+        files = request.FILES.values()
+        file = files and files[0]
+        return self.get_field(request).field.clean(file)
+
+    def loads_to_post(self, value):
+        return value
+
+    def render_field(self, template_name="inplaceeditform/adaptor_file/render_field.html"):
+        return super(AdaptorFileField, self).render_field(template_name)
+
+    def render_media_field(self, template_name="inplaceeditform/adaptor_file/render_media_field.html"):
+        return super(AdaptorFileField, self).render_media_field(template_name)
+
+    def render_value(self, field_name=None, template_name='inplaceeditform/adaptor_file/render_value.html'):
+        field_name = field_name or self.field_name_render
+        value = getattr(self.obj, field_name)
+        if not value:
+            return ''
+        return render_to_string(template_name, {'value': value, 'MEDIA_URL': settings.MEDIA_URL})
+
+
+class AdaptorImageField(AdaptorFileField):
+
+    def render_value(self, field_name=None, template_name='inplaceeditform/adaptor_image/render_value.html'):
+        return super(AdaptorImageField, self).render_value(self, field_name=field_name, template_name=template_name)

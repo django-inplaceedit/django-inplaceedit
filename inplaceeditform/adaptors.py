@@ -8,4 +8,6 @@ ADAPTOR_INPLACEEDIT = {
                        'fk': 'inplaceeditform.fields.AdaptorForeingKeyField',
                        'm2m': 'inplaceeditform.fields.AdaptorManyToManyField',
                        'm2mcomma': 'inplaceeditform.fields.AdaptorCommaSeparatedManyToManyField',
+                       'file': 'inplaceeditform.fields.AdaptorFileField',
+                       'image': 'inplaceeditform.fields.AdaptorImageField',
                        }
