@@ -59,8 +59,15 @@
                             });
                         }catch(err){
                         }
-                        if(_this.next().parents("a").length > 0){
-                            _this.next().click(function(){return false;});
+                        var links_parents = _this.next().parents("a");
+                        if(links_parents.length > 0) {
+                            $.map(links_parents, function (link, i) {
+                                var link = $(link);
+                                var href = link.attr("href");
+                                link.attr("hrefinplaceedit", href);
+                                link.addClass("linkInplaceEdit");
+                                link.removeAttr("href");
+                            });
                         }
                         _this.next().find(".cancel").click(inplaceCancel);
                         _this.next().find(".apply").click(inplaceApply);
@@ -69,7 +76,18 @@
                 }});
             });
 
+            function revertlinkInplaceEdit(links_parents) {
+                $.map(links_parents, function (link, i) {
+                    var link = $(link);
+                    var href = link.attr("hrefinplaceedit");
+                    link.attr("href", href);
+                    link.removeClass("linkInplaceEdit");
+                    link.removeAttr("hrefinplaceedit");
+                });
+            }
+
             function inplaceCancel() {
+                revertlinkInplaceEdit($(this).parents("a.linkInplaceEdit"));
                 $(this).parent().prev().fadeIn();
                 $(this).parent().prev().removeClass("inplaceHide");
                 var cancelFinish = $(this).data("cancelFinish");
@@ -84,6 +102,7 @@
                 if (typeof response == "string") {
                     response = eval("( " + response + " )")
                 }
+                revertlinkInplaceEdit($(this.form).parents("a.linkInplaceEdit"));
                 var _this = this.context;
                 var form = this.form;
                 var inplaceedit_conf = this.inplaceedit_conf;
@@ -112,7 +131,7 @@
                     inplace_span.removeClass("inplaceHide");
                     var applyFinish = $(_this).data("applyFinish");
                     if (applyFinish){
-                        applyFinish();
+                        applyFinish(_this);
                     }
                     _this.parent().remove();
                 }

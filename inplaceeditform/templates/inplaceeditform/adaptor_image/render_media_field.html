@@ -1,0 +1,19 @@
+{% extends  "inplaceeditform/adaptor_file/render_media_field.html" %}
+
+{% block media %}
+    {{ block.super }}
+    <script type="text/javascript">
+        (function($){
+            $(document).ready(function () {
+                function imageFinish(_this) {
+                    var img = _this.parent().parent().find("img");
+                    var now = new Date();
+                    var src = img.attr("src") + "?date=" + now.getTime() ;
+                    img.attr("src", src);
+                    return 
+                }
+                $(".applyImage").data("applyFinish", imageFinish);
+            });
+        })(jQuery);
+    </script>
+{% endblock %}

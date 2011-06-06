@@ -355,5 +355,11 @@ class AdaptorFileField(BaseAdaptorField):
 
 class AdaptorImageField(AdaptorFileField):
 
+    def render_field(self, template_name="inplaceeditform/adaptor_image/render_field.html"):
+        return super(AdaptorFileField, self).render_field(template_name)
+
+    def render_media_field(self, template_name="inplaceeditform/adaptor_image/render_media_field.html"):
+        return super(AdaptorFileField, self).render_media_field(template_name)
+
     def render_value(self, field_name=None, template_name='inplaceeditform/adaptor_image/render_value.html'):
         return super(AdaptorImageField, self).render_value(field_name=field_name, template_name=template_name)
