@@ -98,9 +98,17 @@
                 return false;
             }
 
+            function replaceAll(txt, replace, with_this) {
+                return txt.replace(new RegExp(replace, "g"), with_this);
+            }
+
             function inplaceApplySuccess(response){
                 if (typeof response == "string") {
-                    response = eval("( " + response + " )")
+                    if ($.browser.msie) {
+                        response = replaceAll(response, "'\\\\\"", "'");
+                        response = replaceAll(response, "\"'", "'"); 
+                    }
+                    response = JSON.parse(response);
                 }
                 revertlinkInplaceEdit($(this.form).parents("a.linkInplaceEdit"));
                 var _this = this.context;
@@ -161,7 +169,7 @@
                     url:  opts.saveURL,
                     type: "POST",
                     async: true,
-                    dataType: 'json',
+                    dataType: 'text',
                     success: bind(inplaceApplySuccess, {"context": $(this),
                                                         "form": form,
                                                         "inplaceedit_conf": inplaceedit_conf})});
@@ -187,7 +195,6 @@
 
                 form.ajaxSubmit({
                         url: opts.saveURL,
-                        debug: true,
                         data: data,
                         async: true,
                         type: "POST",

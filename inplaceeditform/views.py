@@ -9,7 +9,7 @@ from django.utils import simplejson
 from inplaceeditform.commons import (get_dict_from_obj, apply_filters,
                                      get_adaptor_class)
 
-MIMETYPE_RESPONSE = 'json'
+MIMETYPE_RESPONSE = 'text'
 
 
 @login_required
