@@ -2,6 +2,7 @@ from copy import deepcopy
 from django.conf import settings
 from django.contrib.admin.widgets import AdminSplitDateTime, AdminDateWidget
 from django.forms.models import modelform_factory
+from django.forms.widgets import FileInput
 from django.template.loader import render_to_string
 from django.utils import simplejson
 from django.utils.importlib import import_module
@@ -90,6 +91,7 @@ class BaseAdaptorField(object):
         return render_to_string(template_name,
                                 {'form': self.get_form(),
                                  'field': self.get_field(),
+                                 'MEDIA_URL': settings.MEDIA_URL,
                                  'class_inplace': self.class_inplace})
 
     def render_media_field(self, template_name="inplaceeditform/render_media_field.html"):
@@ -354,6 +356,11 @@ class AdaptorFileField(BaseAdaptorField):
 
 
 class AdaptorImageField(AdaptorFileField):
+
+    def get_field(self):
+        field = super(AdaptorImageField, self).get_field()
+        field.field.widget = FileInput()
+        return field
 
     def render_field(self, template_name="inplaceeditform/adaptor_image/render_field.html"):
         return super(AdaptorFileField, self).render_field(template_name)

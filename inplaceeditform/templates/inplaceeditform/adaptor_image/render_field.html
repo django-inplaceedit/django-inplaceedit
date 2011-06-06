@@ -2,3 +2,19 @@
 
 {% block classapply %}{{ block.super }} applyImage{% endblock %}
 
+{% block actions %}
+   {{ block.super }}
+    <script src="{{ MEDIA_URL }}inplaceeditform/js/jquery.filestyle.mini.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        (function($){
+            $(document).ready(function () {
+                $("#{{ field.auto_id }}").filestyle({ 
+                    image: "{{ MEDIA_URL }}inplaceeditform/img/load.png",
+                    imageheight : 22,
+                    imagewidth : 19,
+                    width : 50
+                });
+            });
+        })(jQuery);
+   </script>
+{% endblock %}
