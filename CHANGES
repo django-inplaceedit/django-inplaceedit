@@ -1,6 +1,10 @@
+0.65
+====
+* Improved the inplace edit widget in images.
+
 0.64
 ====
-* Improved the inplace edit in images.
+* Inplace edit of imagefield and filefield works in IE (new), FF, Chrome (alpha)
 
 0.63
 ====
