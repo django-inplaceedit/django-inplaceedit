@@ -108,7 +108,11 @@
                         response = replaceAll(response, "'\\\\\"", "'");
                         response = replaceAll(response, "\"'", "'"); 
                     }
-                    response = JSON.parse(response);
+                    try {
+                        response = JSON.parse(response);
+                    } catch(errno) {
+                        response = eval("( " + response + " )");
+                    }
                 }
                 revertlinkInplaceEdit($(this.form).parents("a.linkInplaceEdit"));
                 var _this = this.context;
