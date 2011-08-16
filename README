@@ -148,7 +148,7 @@ Examples
 How to use it
 -------------
 
- Just pass the cursor above the field and double click
+ Just pass the cursor above the field and double click, authenticated with a super user
 
 Advanced usage
 ==============
@@ -173,7 +173,7 @@ Examples
  
 
 Adaptor API
-============
+===========
 
 You can create a adaptor to work with inplace edit form, the behavior is fully customizable. To default inplaceedit has 8 adaptors. These use the api, overwriting some methods for them.
 
@@ -277,13 +277,59 @@ For example the adaptor datetime use these hooks.
 Overwriting a default adaptor
 -----------------------------
 
-To overwrite a adaptor set in your settings add something like this:
+To overwrite a adaptor add in your settings something like this:
  
 ::
 
  ADAPTOR_INPLACEEDIT = {'text': 'app_name.fields.MyAdaptorText'}
 
 For this case you overwrite the AdaptorText with MyAdaptorText.
+
+Permission Adaptor API
+======================
+
+By default you can inline edit a field if you are authenticated with a superuser. But it's customizable:
+
+
+Overwriting the default permission adaptor
+-------------------------------------------
+
+To overwrite the permission adaptor add in your settings something like this:
+ 
+::
+
+ ADAPTOR_INPLACEEDIT_EDIT = 'app_name.fields.MyAdaptorEditInline'
+
+
+MyAdaptorEditInline is a class with a single class method, this method receives a adaptor field
+
+::
+
+ class MyAdaptorEditInline(object):
+
+     @classmethod
+     def can_edit(cls, adaptor_field):
+        return True # All user can edit
+
+Example
+-------
+
+::
+
+ class MyAdaptorEditInline(object):
+
+     @classmethod
+     def can_edit(cls, adaptor_field):
+         user = adaptor_field.request.user
+         obj = adaptor_field.obj
+         can_edit = False
+         if user.is_anonymous():
+             pass
+         elif user.is_superuser:
+             can_edit = True
+         else:
+            can_edit = has_permission(obj, user, 'edit')
+         return can_edit
 
 
 Testing
