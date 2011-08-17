@@ -87,18 +87,23 @@ class BaseAdaptorField(object):
     def empty_value(self):
         return ugettext('Dobleclick to edit')
 
-    def render_field(self, template_name="inplaceeditform/render_field.html"):
-        return render_to_string(template_name,
-                                {'form': self.get_form(),
-                                 'field': self.get_field(),
-                                 'MEDIA_URL': settings.MEDIA_URL,
-                                 'class_inplace': self.class_inplace})
+    def render_field(self, template_name="inplaceeditform/render_field.html", extra_context=None):
+        extra_context = extra_context or {}
+        context = {'form': self.get_form(),
+                   'field': self.get_field(),
+                   'MEDIA_URL': settings.MEDIA_URL,
+                   'class_inplace': self.class_inplace}
+        context.update(extra_context)
+        return render_to_string(template_name, context)
 
-    def render_media_field(self, template_name="inplaceeditform/render_media_field.html"):
-        return render_to_string(template_name,
-                                {'field': self.get_field(),
-                                 'MEDIA_URL': settings.MEDIA_URL,
-                                 'ADMIN_MEDIA_PREFIX': settings.ADMIN_MEDIA_PREFIX})
+    def render_media_field(self, template_name="inplaceeditform/render_media_field.html", extra_context=None):
+        extra_context = extra_context or {}
+        context = {'field': self.get_field(),
+                   'MEDIA_URL': settings.MEDIA_URL,
+                   'ADMIN_MEDIA_PREFIX': settings.ADMIN_MEDIA_PREFIX}
+        context.update(extra_context)
+
+        return render_to_string(template_name, context)
 
     def render_config(self, template_name="inplaceeditform/render_config.html"):
         return render_to_string(template_name,
@@ -330,6 +335,10 @@ class AdaptorCommaSeparatedManyToManyField(AdaptorManyToManyField):
 
 class AdaptorFileField(BaseAdaptorField):
 
+    def __init__(self, *args, **kwargs):
+        super(AdaptorFileField, self).__init__(*args, **kwargs)
+        self.config['send_csrfToken'] = 1
+
     def loads_to_post(self, request):
         files = request.FILES.values()
         return files and files[0] or None
@@ -338,7 +347,9 @@ class AdaptorFileField(BaseAdaptorField):
         return '25px'
 
     def render_field(self, template_name="inplaceeditform/adaptor_file/render_field.html"):
-        return super(AdaptorFileField, self).render_field(template_name)
+        from django.core.context_processors import csrf
+        extra_context = csrf(self.request)
+        return super(AdaptorFileField, self).render_field(template_name, extra_context)
 
     def render_media_field(self, template_name="inplaceeditform/adaptor_file/render_media_field.html"):
         return super(AdaptorFileField, self).render_media_field(template_name)
@@ -363,10 +374,10 @@ class AdaptorImageField(AdaptorFileField):
         return field
 
     def render_field(self, template_name="inplaceeditform/adaptor_image/render_field.html"):
-        return super(AdaptorFileField, self).render_field(template_name)
+        return super(AdaptorImageField, self).render_field(template_name)
 
     def render_media_field(self, template_name="inplaceeditform/adaptor_image/render_media_field.html"):
-        return super(AdaptorFileField, self).render_media_field(template_name)
+        return super(AdaptorImageField, self).render_media_field(template_name)
 
     def render_value(self, field_name=None, template_name='inplaceeditform/adaptor_image/render_value.html'):
         return super(AdaptorImageField, self).render_value(field_name=field_name, template_name=template_name)
