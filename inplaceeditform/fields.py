@@ -148,14 +148,12 @@ class BaseAdaptorField(object):
         auto_width = self.get_auto_width()
         if not 'style' in attrs:
             style = ''
-            height = widget_options.get('height', None)
-            width = widget_options.get('width', None)
+            height = int(widget_options.get('height', '0').replace('px', ''))
+            width = int(widget_options.get('width', '0').replace('px', ''))
             if height and not auto_height:
-                height = self.treatment_height(height, width)
-                style += "height: %s; " % height
+                style += "height: %s; " % self.treatment_height(height, width)
             if width and not auto_width:
-                width = self.treatment_width(width, height)
-                style += "width: %s; " % width
+                style += "width: %s; " % self.treatment_width(width, height)
             if not auto_height or not auto_width:
                 style += "font-size: %spx; " % self.font_size
             for key, value in widget_options.items():
@@ -189,6 +187,7 @@ class BaseAdaptorField(object):
 class AdaptorTextField(BaseAdaptorField):
 
     INCREASE_HEIGHT = 3
+    MULTIPLIER_WIDTH = 1.25
 
     @property
     def name(self):
@@ -198,11 +197,7 @@ class AdaptorTextField(BaseAdaptorField):
         return "%spx" % (self.font_size + self.INCREASE_HEIGHT)
 
     def treatment_width(self, width, height=None):
-        if width:
-            width = float(width.replace('px', ''))
-            width = width + width / 4
-            return '%spx' % width
-        return width
+        return "%spx" % (width * self.MULTIPLIER_WIDTH)
 
 
 class AdaptorTextAreaField(BaseAdaptorField):
@@ -286,18 +281,18 @@ class AdaptorDateTimeField(BaseDateField):
 
 class AdaptorChoicesField(BaseAdaptorField):
 
-    DEFAULT_MULTIPLIER_HEIGHT = 2.5
-    DEFAULT_MULTIPLIER_WIDTH = 9
+    INCREASE_HEIGHT = 3
+    INCREASE_WIDTH = 10
 
     @property
     def name(self):
         return 'choices'
 
     def treatment_height(self, height, width=None):
-        return "%spx" % int(self.font_size * self.DEFAULT_MULTIPLIER_HEIGHT)
+        return "%spx" % (self.font_size + self.INCREASE_HEIGHT)
 
     def treatment_width(self, width, height=None):
-        return "%spx" % int(self.font_size * self.DEFAULT_MULTIPLIER_WIDTH)
+        return "%spx" % width + self.INCREASE_WIDTH
 
     def render_value(self, field_name=None):
         field_name = field_name or self.field_name
@@ -306,18 +301,18 @@ class AdaptorChoicesField(BaseAdaptorField):
 
 class AdaptorForeingKeyField(BaseAdaptorField):
 
-    DEFAULT_MULTIPLIER_HEIGHT = 2.5
-    DEFAULT_MULTIPLIER_WIDTH = 9
+    INCREASE_HEIGHT = 3
+    INCREASE_WIDTH = 10
 
     @property
     def name(self):
         return 'fk'
 
     def treatment_height(self, height, width=None):
-        return "%spx" % int(self.font_size * self.DEFAULT_MULTIPLIER_HEIGHT)
+        return "%spx" % (self.font_size + self.INCREASE_HEIGHT)
 
     def treatment_width(self, width, height=None):
-        return "%spx" % int(self.font_size * self.DEFAULT_MULTIPLIER_WIDTH)
+        return "%spx" % width + self.INCREASE_WIDTH
 
     def render_value(self, field_name=None):
         value = super(AdaptorForeingKeyField, self).render_value(field_name)
@@ -335,18 +330,18 @@ class AdaptorForeingKeyField(BaseAdaptorField):
 
 class AdaptorManyToManyField(BaseAdaptorField):
 
-    DEFAULT_MULTIPLIER_HEIGHT = 9
-    DEFAULT_MULTIPLIER_WIDTH = 9
+    MULTIPLIER_HEIGHT = 6
+    INCREASE_WIDTH = 50
 
     @property
     def name(self):
         return 'm2m'
 
     def treatment_height(self, height, width=None):
-        return "%spx" % int(self.font_size * self.DEFAULT_MULTIPLIER_HEIGHT)
+        return "%spx" % (self.font_size * self.MULTIPLIER_HEIGHT)
 
     def treatment_width(self, width, height=None):
-        return "%spx" % int(self.font_size * self.DEFAULT_MULTIPLIER_WIDTH)
+        return "%spx" % (width + self.INCREASE_WIDTH)
 
     def get_value_editor(self, value):
         return [item.pk for item in super(AdaptorManyToManyField, self).get_value_editor(value)]
@@ -368,7 +363,7 @@ class AdaptorCommaSeparatedManyToManyField(AdaptorManyToManyField):
 
 class AdaptorFileField(BaseAdaptorField):
 
-    DEFAULT_MULTIPLIER_HEIGHT = 2
+    MULTIPLIER_HEIGHT = 2
 
     def __init__(self, *args, **kwargs):
         super(AdaptorFileField, self).__init__(*args, **kwargs)
@@ -379,7 +374,7 @@ class AdaptorFileField(BaseAdaptorField):
         return files and files[0] or None
 
     def treatment_height(self, height, width=None):
-        return "%spx" % int(self.font_size * self.DEFAULT_MULTIPLIER_HEIGHT)
+        return "%spx" % (self.font_size * self.MULTIPLIER_HEIGHT)
 
     def render_field(self, template_name="inplaceeditform/adaptor_file/render_field.html"):
         from django.core.context_processors import csrf
