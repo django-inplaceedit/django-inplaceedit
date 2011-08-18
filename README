@@ -56,15 +56,6 @@ And uncomment the request context processor:
         #...#
     )
 
-And comment the next middleware. (It's a temporary solution)
-
-::
-
-    MIDDLEWARE_CLASSES = (
-        #...#
-        #'django.middleware.csrf.CsrfViewMiddleware',
-        #...#
-    )
 
 In your urls.py
 ---------------
@@ -214,6 +205,8 @@ Python API
  * can_edit: It returns a boolean that indicate if this user can edit inline this content or not.
  * get_value_editor: It returns a clean value to be saved in DB.
  * save: Save the value in DB.
+ * get_auto_height: Returned if the field rendered with auto height
+ * get_auto_width: Returned if the field rendered with auto width
  * treatment_height: Special treatment to widget's height.
  * treatment_width: Special treatment to widget's width.
 
