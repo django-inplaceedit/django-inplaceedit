@@ -136,10 +136,10 @@ class BaseAdaptorField(object):
         return self.config.get('auto_width', False)
 
     def treatment_height(self, height, width=None):
-        return height
+        return "%spx" % height
 
     def treatment_width(self, width, height=None):
-        return width
+        return "%spx" % width
 
     def _adding_size(self, field):
         attrs = field.field.widget.attrs
@@ -281,18 +281,18 @@ class AdaptorDateTimeField(BaseDateField):
 
 class AdaptorChoicesField(BaseAdaptorField):
 
-    INCREASE_HEIGHT = 3
-    INCREASE_WIDTH = 10
+    MULTIPLIER_HEIGHT = 1.5
+    INCREASE_WIDTH = 40
 
     @property
     def name(self):
         return 'choices'
 
     def treatment_height(self, height, width=None):
-        return "%spx" % (self.font_size + self.INCREASE_HEIGHT)
+        return "%spx" % int(self.font_size * self.MULTIPLIER_HEIGHT)
 
     def treatment_width(self, width, height=None):
-        return "%spx" % width + self.INCREASE_WIDTH
+        return "%spx" % (width + self.INCREASE_WIDTH)
 
     def render_value(self, field_name=None):
         field_name = field_name or self.field_name
@@ -301,18 +301,18 @@ class AdaptorChoicesField(BaseAdaptorField):
 
 class AdaptorForeingKeyField(BaseAdaptorField):
 
-    INCREASE_HEIGHT = 3
-    INCREASE_WIDTH = 10
+    MULTIPLIER_HEIGHT = 1.5
+    INCREASE_WIDTH = 40
 
     @property
     def name(self):
         return 'fk'
 
     def treatment_height(self, height, width=None):
-        return "%spx" % (self.font_size + self.INCREASE_HEIGHT)
+        return "%spx" % int(self.font_size * self.MULTIPLIER_HEIGHT)
 
     def treatment_width(self, width, height=None):
-        return "%spx" % width + self.INCREASE_WIDTH
+        return "%spx" % (width + self.INCREASE_WIDTH)
 
     def render_value(self, field_name=None):
         value = super(AdaptorForeingKeyField, self).render_value(field_name)
