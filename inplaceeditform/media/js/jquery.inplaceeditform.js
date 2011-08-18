@@ -223,6 +223,10 @@
                     data = data + key + "=" + value;
                     dataToRequest += data;
                 });
+                var fontSize = inplaceedit_conf.parent().css("font-size");
+                if(fontSize!=null) {
+                    dataToRequest += "&font_size=" + fontSize;
+                }
                 return dataToRequest;
             }
 
@@ -235,6 +239,10 @@
                     var value = setting.html();
                     dataToRequest[key] = value;
                 });
+                var fontSize = inplaceedit_conf.parent().css("font-size");
+                if(fontSize!=null) {
+                    dataToRequest["font_size"] = fontSize;
+                }
                 return dataToRequest;
             }
 

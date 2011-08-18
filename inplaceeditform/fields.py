@@ -37,6 +37,11 @@ class BaseAdaptorField(object):
 
         self.class_inplace = self.config.get('class_inplace', '')
         self.tag_name_cover = self.config.get('tag_name_cover', 'span')
+        font_size = self.config.get('font_size', '12')
+        if font_size.endswith('px'):
+            self.font_size = int(font_size.replace('px', ''))
+        else:
+            self.font_size = 12
         loads = self.config.get('loads', None)
         self.loads = loads and loads.split(':') or []
         self.initial = {}
@@ -124,24 +129,38 @@ class BaseAdaptorField(object):
         setattr(self.obj, self.field_name, value)
         self.obj.save()
 
-    def treatment_height(self, height):
+    def get_auto_height(self):
+        return self.config.get('auto_height', False)
+
+    def get_auto_width(self):
+        return self.config.get('auto_width', False)
+
+    def treatment_height(self, height, width=None):
         return height
 
-    def treatment_width(self, width):
+    def treatment_width(self, width, height=None):
         return width
 
     def _adding_size(self, field):
         attrs = field.field.widget.attrs
         widget_options = self.config and self.config.get('widget_options', {})
-        auto_height = self.config.get('auto_height', False)
-        auto_width = self.config.get('auto_width', False)
+        auto_height = self.get_auto_height()
+        auto_width = self.get_auto_width()
         if not 'style' in attrs:
             style = ''
+            height = widget_options.get('height', None)
+            width = widget_options.get('width', None)
+            if height and not auto_height:
+                height = self.treatment_height(height, width)
+                style += "height: %s; " % height
+            if width and not auto_width:
+                width = self.treatment_width(width, height)
+                style += "width: %s; " % width
+            if not auto_height or not auto_width:
+                style += "font-size: %spx; " % self.font_size
             for key, value in widget_options.items():
-                if key == 'height' and not auto_height:
-                    value = self.treatment_height(value)
-                elif key == 'width' and not auto_width:
-                    value = self.treatment_width(value)
+                if key in ('height', 'width'):
+                    continue
                 style += "%s: %s; " % (key, value)
             attrs['style'] = style
         field.field.widget.attrs = attrs
@@ -169,11 +188,16 @@ class BaseAdaptorField(object):
 
 class AdaptorTextField(BaseAdaptorField):
 
+    INCREASE_HEIGHT = 3
+
     @property
     def name(self):
         return 'text'
 
-    def treatment_width(self, width):
+    def treatment_height(self, height, width=None):
+        return "%spx" % (self.font_size + self.INCREASE_HEIGHT)
+
+    def treatment_width(self, width, height=None):
         if width:
             width = float(width.replace('px', ''))
             width = width + width / 4
@@ -262,15 +286,18 @@ class AdaptorDateTimeField(BaseDateField):
 
 class AdaptorChoicesField(BaseAdaptorField):
 
+    DEFAULT_MULTIPLIER_HEIGHT = 2.5
+    DEFAULT_MULTIPLIER_WIDTH = 9
+
     @property
     def name(self):
         return 'choices'
 
-    def treatment_height(self, height):
-        return '30px'
+    def treatment_height(self, height, width=None):
+        return "%spx" % int(self.font_size * self.DEFAULT_MULTIPLIER_HEIGHT)
 
-    def treatment_width(self, width):
-        return '100px'
+    def treatment_width(self, width, height=None):
+        return "%spx" % int(self.font_size * self.DEFAULT_MULTIPLIER_WIDTH)
 
     def render_value(self, field_name=None):
         field_name = field_name or self.field_name
@@ -279,15 +306,18 @@ class AdaptorChoicesField(BaseAdaptorField):
 
 class AdaptorForeingKeyField(BaseAdaptorField):
 
+    DEFAULT_MULTIPLIER_HEIGHT = 2.5
+    DEFAULT_MULTIPLIER_WIDTH = 9
+
     @property
     def name(self):
         return 'fk'
 
-    def treatment_height(self, height):
-        return '30px'
+    def treatment_height(self, height, width=None):
+        return "%spx" % int(self.font_size * self.DEFAULT_MULTIPLIER_HEIGHT)
 
-    def treatment_width(self, width):
-        return '100px'
+    def treatment_width(self, width, height=None):
+        return "%spx" % int(self.font_size * self.DEFAULT_MULTIPLIER_WIDTH)
 
     def render_value(self, field_name=None):
         value = super(AdaptorForeingKeyField, self).render_value(field_name)
@@ -305,15 +335,18 @@ class AdaptorForeingKeyField(BaseAdaptorField):
 
 class AdaptorManyToManyField(BaseAdaptorField):
 
+    DEFAULT_MULTIPLIER_HEIGHT = 9
+    DEFAULT_MULTIPLIER_WIDTH = 9
+
     @property
     def name(self):
         return 'm2m'
 
-    def treatment_height(self, height):
-        return '100px'
+    def treatment_height(self, height, width=None):
+        return "%spx" % int(self.font_size * self.DEFAULT_MULTIPLIER_HEIGHT)
 
-    def treatment_width(self, width):
-        return '100px'
+    def treatment_width(self, width, height=None):
+        return "%spx" % int(self.font_size * self.DEFAULT_MULTIPLIER_WIDTH)
 
     def get_value_editor(self, value):
         return [item.pk for item in super(AdaptorManyToManyField, self).get_value_editor(value)]
@@ -335,6 +368,8 @@ class AdaptorCommaSeparatedManyToManyField(AdaptorManyToManyField):
 
 class AdaptorFileField(BaseAdaptorField):
 
+    DEFAULT_MULTIPLIER_HEIGHT = 2
+
     def __init__(self, *args, **kwargs):
         super(AdaptorFileField, self).__init__(*args, **kwargs)
         self.config['send_csrfToken'] = 1
@@ -343,8 +378,8 @@ class AdaptorFileField(BaseAdaptorField):
         files = request.FILES.values()
         return files and files[0] or None
 
-    def treatment_height(self, height):
-        return '25px'
+    def treatment_height(self, height, width=None):
+        return "%spx" % int(self.font_size * self.DEFAULT_MULTIPLIER_HEIGHT)
 
     def render_field(self, template_name="inplaceeditform/adaptor_file/render_field.html"):
         from django.core.context_processors import csrf
