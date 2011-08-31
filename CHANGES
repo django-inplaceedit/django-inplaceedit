@@ -1,9 +1,12 @@
+0.70
+====
+* Catalonia translations, by Raimon Esteve
+
 0.69
 ====
 * Compatible with the CSRF protection (CsrfViewMiddleware)
 * Improvement in the rendering of the widgets (better calculate the height and width)
 * More versatile the api
-
 
 0.68
 ====
