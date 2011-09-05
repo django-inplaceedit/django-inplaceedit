@@ -1,3 +1,7 @@
+0.71
+====
+* Fixed error in 0.69 rendering text fields whose font size is not integer.
+
 0.70
 ====
 * Catalonia translations, by Raimon Esteve

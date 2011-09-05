@@ -39,7 +39,7 @@ class BaseAdaptorField(object):
         self.tag_name_cover = self.config.get('tag_name_cover', 'span')
         font_size = self.config.get('font_size', '12')
         if font_size.endswith('px'):
-            self.font_size = int(font_size.replace('px', ''))
+            self.font_size = float(font_size.replace('px', ''))
         else:
             self.font_size = 12
         loads = self.config.get('loads', None)
@@ -289,7 +289,7 @@ class AdaptorChoicesField(BaseAdaptorField):
         return 'choices'
 
     def treatment_height(self, height, width=None):
-        return "%spx" % int(self.font_size * self.MULTIPLIER_HEIGHT)
+        return "%spx" % (self.font_size * self.MULTIPLIER_HEIGHT)
 
     def treatment_width(self, width, height=None):
         return "%spx" % (width + self.INCREASE_WIDTH)
