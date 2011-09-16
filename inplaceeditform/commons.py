@@ -4,7 +4,7 @@ from django.db import models
 from django.db.models.fields import FieldDoesNotExist
 from django.db.models.fields.related import ForeignKey, ManyToManyField
 from django.conf import settings
-from django.utils.importlib import import_module
+
 from inplaceeditform.adaptors import ADAPTOR_INPLACEEDIT as DEFAULT_ADAPTOR_INPLACEEDIT
 
 has_transmeta = False
@@ -43,6 +43,15 @@ def apply_filters(value, filters, load_tags=None):
             load_tags_str = ""
         value = template.Template("""%s{{ value%s }}""" % (load_tags_str, filters_str)).render(template.Context({'value': value}))
     return value
+
+
+def import_module(name, package=None):
+    try:
+        from django.utils.importlib import import_module
+        return import_module(name, package)
+    except ImportError:
+        path = [m for m in name.split('.')]
+        return __import__(name, {}, {}, path[-1])
 
 
 def get_adaptor_class(adaptor=None, obj=None, field_name=None):

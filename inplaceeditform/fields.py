@@ -5,9 +5,10 @@ from django.forms.models import modelform_factory
 from django.forms.widgets import FileInput
 from django.template.loader import render_to_string
 from django.utils import simplejson
-from django.utils.importlib import import_module
+
 from django.utils.translation import ugettext
 
+from inplaceeditform.commons import  import_module
 from inplaceeditform.commons import has_transmeta, apply_filters
 
 
@@ -281,7 +282,7 @@ class AdaptorDateTimeField(BaseDateField):
 
 class AdaptorChoicesField(BaseAdaptorField):
 
-    MULTIPLIER_HEIGHT = 1.5
+    MULTIPLIER_HEIGHT = 1.75
     INCREASE_WIDTH = 40
 
     @property
@@ -301,7 +302,7 @@ class AdaptorChoicesField(BaseAdaptorField):
 
 class AdaptorForeingKeyField(BaseAdaptorField):
 
-    MULTIPLIER_HEIGHT = 1.5
+    MULTIPLIER_HEIGHT = 1.75
     INCREASE_WIDTH = 40
 
     @property
