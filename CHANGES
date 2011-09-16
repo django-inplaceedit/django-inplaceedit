@@ -1,50 +1,55 @@
-0.71
-====
+0.72 (2011-09-16)
+=================
+* Compatibility with jQuery 1.2 (jQuery 1.5 or above recommended)
+* Compatibility with Django 1.1 (Django 1.2 or above recommended)
+
+0.71 (2011-09-5)
+================
 * Fixed error in 0.69 rendering text fields whose font size is not integer.
 
-0.70
-====
+0.70 (2011-08-31)
+=================
 * Catalonia translations, by Raimon Esteve
 
-0.69
-====
+0.69 (2011-08-18)
+=================
 * Compatible with the CSRF protection (CsrfViewMiddleware)
 * Improvement in the rendering of the widgets (better calculate the height and width)
 * More versatile the api
 
-0.68
-====
+0.68 (2011-08-16)
+=================
 * Update the README
 
-0.67
-====
+0.67 (2011-06-23)
+=================
 * Spanish translations
 
-0.66
-====
+0.66 (2011-06-21)
+=================
 * Support to old browsers. Some browser have not a JSON library
 
-0.65
-====
+0.65 (2011-06-7)
+================
 * Improved the inplace edit widget in images.
 
-0.64
-====
+0.64 (2011-06-6)
+================
 * Inplace edit of imagefield and filefield works in IE (new), FF, Chrome (alpha)
 
-0.63
-====
+0.63 (2011-05-24)
+=================
 * Inplace edit of imagefield and filefield (alpha)
 * More versatile the api
 
-0.62
-====
+0.62 (2011-03-18)
+=================
 
 * Fixes the warning when the error is for other field
 * More versatile the api
 
-0.60
-====
+0.60  (2011-02-18)
+==================
 
 * Created a test project
 * Inplace editof booleanfield
@@ -55,8 +60,8 @@
 * Improve the inplace edit with choices field
 * Made less intrusive inplace edit form, now it's putting two spaces)
 
-0.55
-====
+0.55  (2011-02-11)
+==================
 
  * A new egg from django-inplaceedit-version1
  * The js should be a plugin jQuery
