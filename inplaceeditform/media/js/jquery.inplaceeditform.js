@@ -13,14 +13,14 @@
                 return false;
             });
 
-            $(this).mouseenter(function() {
+            $(this).bind("mouseenter", function() {
                 if(!enabled) {
                     return false;
                 }
                 $(this).addClass("edit_over");
             });
 
-            $(this).mouseleave(function() {
+            $(this).bind("mouseleave", function() {
                 $(this).removeClass("edit_over");
             });
 
