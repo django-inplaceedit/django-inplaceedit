@@ -96,10 +96,6 @@ button.applyFile span {
     text-align: center;
 }
 
-span.textareainplaceedit {
-    display: block;
-}
-
 .inplaceHide {
     display: none;
 }
