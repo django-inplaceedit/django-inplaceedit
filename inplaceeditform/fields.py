@@ -2,7 +2,6 @@ from copy import deepcopy
 from django.conf import settings
 from django.contrib.admin.widgets import AdminSplitDateTime, AdminDateWidget
 from django.forms.models import modelform_factory
-from django.forms.widgets import FileInput
 from django.template.loader import render_to_string
 from django.utils import simplejson
 
@@ -378,8 +377,11 @@ class AdaptorFileField(BaseAdaptorField):
         return "%spx" % (self.font_size * self.MULTIPLIER_HEIGHT)
 
     def render_field(self, template_name="inplaceeditform/adaptor_file/render_field.html"):
-        from django.core.context_processors import csrf
-        extra_context = csrf(self.request)
+        try:
+            from django.core.context_processors import csrf
+            extra_context = csrf(self.request)
+        except ImportError:
+            extra_context = {}
         return super(AdaptorFileField, self).render_field(template_name, extra_context)
 
     def render_media_field(self, template_name="inplaceeditform/adaptor_file/render_media_field.html"):
@@ -396,13 +398,11 @@ class AdaptorFileField(BaseAdaptorField):
         config.update(context)
         return render_to_string(template_name, config)
 
+    def save(self, value):
+        getattr(self.obj, self.field_name).save(value.name, value)
+
 
 class AdaptorImageField(AdaptorFileField):
-
-    def get_field(self):
-        field = super(AdaptorImageField, self).get_field()
-        field.field.widget = FileInput()
-        return field
 
     def render_field(self, template_name="inplaceeditform/adaptor_image/render_field.html"):
         return super(AdaptorImageField, self).render_field(template_name)

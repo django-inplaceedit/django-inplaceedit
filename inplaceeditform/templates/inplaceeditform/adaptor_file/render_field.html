@@ -2,7 +2,7 @@
 {% load i18n %}
 
 {% block apply %}
-    {% csrf_token %}
+    {% include "inplaceeditform/adaptor_file/inc.csrf_token.html" %}
     <button class="applyFile {% block classapply %}{% endblock %}" title="{% trans "Apply change" %}" type="button">
         <span>
         {% trans "Save" %}
