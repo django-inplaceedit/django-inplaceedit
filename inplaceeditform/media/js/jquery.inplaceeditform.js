@@ -69,9 +69,22 @@
                                 link.removeAttr("href");
                             });
                         }
-                        _this.next().find(".cancel").click(inplaceCancel);
-                        _this.next().find(".apply").click(inplaceApply);
-                        _this.next().find(".applyFile").click(inplaceApplyUpload);
+                        var applyButton = _this.next().find(".apply");
+                        var cancelButton = _this.next().find(".cancel");
+                        var applyFileButton = _this.next().find(".applyFile");
+                        if (cancelButton) {
+                            cancelButton.click(inplaceCancel);
+                        }
+                        if (applyButton) {
+                            applyButton.click(inplaceApply);
+                            _this.next("form.inplaceeditform").submit(bind(inplaceApply, applyButton));
+                        }
+                        if (applyFileButton) {
+                            applyFileButton.click(inplaceApplyUpload);
+                            _this.next("form.inplaceeditform").submit(bind(inplaceApply, applyFileButton));
+                        }
+
+
                     }
                 }});
             });
