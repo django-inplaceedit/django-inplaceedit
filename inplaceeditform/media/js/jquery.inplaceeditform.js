@@ -1,6 +1,6 @@
 (function($) {
     $.fn.inplaceeditform = function (opts, callback) {
-        var defaults = {"getFieldUrl": "/implaceeditform/get_field/",
+        var defaults = {"getFieldUrl": "/inplaceeditform/get_field/",
             "saveURL": "/inplaceeditform/save/",
             "successText": "Successfully saved"};
         var enabled = true;
