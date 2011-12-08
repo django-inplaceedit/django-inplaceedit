@@ -1,3 +1,7 @@
+0.76 (2011-12-08)
+=================
+* More robust
+
 0.75 (2011-11-24)
 =================
 * The resources dont't have dependencie of MEDIA_URL (in CSS file)

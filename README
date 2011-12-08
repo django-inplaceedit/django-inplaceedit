@@ -337,10 +337,15 @@ Transmeta
 
 This egg is compatible with  `Transmeta <http://pypi.python.org/pypi/django-transmeta>`_  But it is not a requirement
 
+Django Inplace Edit Extra Field
+===============================
+
+If you want to get more download `Django Inplace Edit Extra Field <http://pypi.python.org/pypi/django-inplace-edit-extra-fields>`_ 
+
 Development
 ===========
 
-You can get the last bleeding edge version of inplaceedit by doing a checkout
+You can get the last leading edge version of inplaceedit by doing a checkout
 of its subversion repository::
 
   svn co http://svnpub.yaco.es/djangoapps/inplaceeditform/trunk/
