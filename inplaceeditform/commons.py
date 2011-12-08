@@ -85,7 +85,9 @@ def get_adaptor_class(adaptor=None, obj=None, field_name=None):
     path_adaptor = adaptor and ((getattr(settings, 'ADAPTOR_INPLACEEDIT', None) and
                                  settings.ADAPTOR_INPLACEEDIT.get(adaptor, None)) or
                                  (DEFAULT_ADAPTOR_INPLACEEDIT.get(adaptor, None)))
-    if not path_adaptor:
+    if not path_adaptor and adaptor:
+        return get_adaptor_class(obj=obj, field_name=field_name)
+    elif not path_adaptor:
         return BaseAdaptorField
     path_module, class_adaptor = ('.'.join(path_adaptor.split('.')[:-1]), path_adaptor.split('.')[-1])
     return getattr(import_module(path_module), class_adaptor)
