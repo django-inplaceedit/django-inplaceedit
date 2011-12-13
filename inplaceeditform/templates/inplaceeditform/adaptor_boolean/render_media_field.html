@@ -6,7 +6,10 @@
         (function($){
             $(document).ready(function () {
                 function getValueBoolean(form, field_id) {
-                    return form.find("#"+field_id).attr("checked");
+                    var val = form.find("#"+field_id).attr("checked");
+                    if (val)
+                        return 1
+                    return 0
                 }
                 $(".applyBoolean").data("getValue", getValueBoolean);
         });
