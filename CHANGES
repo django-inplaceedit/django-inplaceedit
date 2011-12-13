@@ -1,3 +1,8 @@
+0.77 (2011-12-14)
+=================
+* Fixes a error in bolean adaptor
+* Add a video demo
+
 0.76 (2011-12-08)
 =================
 * More robust
