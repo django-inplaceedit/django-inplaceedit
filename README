@@ -57,6 +57,14 @@ And uncomment the request context processor:
     )
 
 
+Optional:
+
+::
+
+    INPLACEEDIT_EDIT_EMPTY_VALUE = 'Doble click to edit'
+    INPLACEEDIT_EDIT_MESSAGE_TRANSLATION = 'Write a translation'
+
+
 In your urls.py
 ---------------
 
@@ -350,3 +358,10 @@ of its subversion repository::
 
   svn co http://svnpub.yaco.es/djangoapps/inplaceeditform/trunk/
 
+
+Demo
+====
+
+Video Demo, of django-inplaceedit and `Django-inlinetrans <http://pypi.python.org/pypi/django-inlinetrans>`_ (Set full screen mode to view it correctly)
+
+http://www.youtube.com/watch?v=_EjisXtMy_Y
