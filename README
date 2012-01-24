@@ -300,9 +300,9 @@ This package have two inplementations:
  * SuperUserPermEditInline (by default): Only you can edit if you are super user
  * AdminDjangoPermEditInline: Yo can edit the content if you have a permission edit for that model. If you want enabled this, write in your settings:
 
-::
+   ::
 
- ADAPTOR_INPLACEEDIT_EDIT = 'inplace_edit.perms.AdminDjangoPermEditInline'
+    ADAPTOR_INPLACEEDIT_EDIT = 'inplace_edit.perms.AdminDjangoPermEditInline'
 
 
 
