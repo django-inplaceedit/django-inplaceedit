@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from django.contrib.auth.decorators import login_required
 from django.contrib.contenttypes.models import ContentType
 from django.http import HttpResponse
 from django.forms import ValidationError
@@ -12,11 +11,12 @@ from inplaceeditform.commons import (get_dict_from_obj, apply_filters,
 MIMETYPE_RESPONSE = 'text'
 
 
-@login_required
 def save_ajax(request):
     if not request.method == 'POST':
         return _get_http_response({'errors': 'It is not a POST request'})
     adaptor = _get_adaptor(request, 'POST')
+    if not adaptor.can_edit():
+        return _get_http_response({'errors': 'You can not edit this content'})
     if not adaptor:
         return _get_http_response({'errors': 'Params insufficient'})
     value = adaptor.loads_to_post(request)
@@ -44,11 +44,12 @@ def save_ajax(request):
         return _get_http_response({'errors': message_i18n})
 
 
-@login_required
 def get_field(request):
     if not request.method == 'GET':
         return _get_http_response({'errors': 'It is not a GET request'})
     adaptor = _get_adaptor(request, 'GET')
+    if not adaptor.can_edit():
+        return _get_http_response({'errors': 'You can not edit this content'})
     if not adaptor:
         return _get_http_response({'errors': 'Params insufficient'})
     field_render = adaptor.render_field()
