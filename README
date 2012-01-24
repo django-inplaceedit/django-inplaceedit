@@ -295,22 +295,34 @@ By default you can inline edit a field if you are authenticated with a superuser
 Overwriting the default permission adaptor
 -------------------------------------------
 
-To overwrite the permission adaptor add in your settings something like this:
- 
-::
+This package have two inplementations:
 
- ADAPTOR_INPLACEEDIT_EDIT = 'app_name.fields.MyAdaptorEditInline'
-
-
-MyAdaptorEditInline is a class with a single class method, this method receives a adaptor field
+ * SuperUserPermEditInline (by default): Only you can edit if you are super user
+ * AdminDjangoPermEditInline: Yo can edit the content if you have a permission edit for that model. If you want enabled this, write in your settings:
 
 ::
+
+ ADAPTOR_INPLACEEDIT_EDIT = 'inplace_edit.perms.AdminDjangoPermEditInline'
+
+
+
+You can create a specify adaptor. MyAdaptorEditInline is a class with a single class method, this method receives a adaptor field
+
+::
+
+ # in your settings
+
+ ADAPTOR_INPLACEEDIT_EDIT = 'app_name.perms.MyAdaptorEditInline'
+
+
+ # in app_name.perms
 
  class MyAdaptorEditInline(object):
 
      @classmethod
      def can_edit(cls, adaptor_field):
         return True # All user can edit
+
 
 Example
 -------
