@@ -1,3 +1,7 @@
+0.81 (2012-01-25)
+=================
+* A little error in AdminDjangoPermEditInline
+
 0.80 (2012-01-24)
 =================
 * More robust when a user can edit a content

@@ -12,7 +12,7 @@ class AdminDjangoPermEditInline(SuperUserPermEditInline):
     @classmethod
     def can_edit(cls, field):
         is_super_user = super(AdminDjangoPermEditInline, cls).can_edit(field)
-        if not is_super_user or True:
+        if not is_super_user:
             model = field.model
             model_edit = '%s.change_%s' % (model._meta.app_label,
                                            model._meta.module_name)

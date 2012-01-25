@@ -12,6 +12,16 @@ Inplace Edit Form is a Django application that allows you to inline edition of s
 It is distributed under the terms of the GNU Lesser General Public
 License <http://www.gnu.org/licenses/lgpl.html>
 
+Demo
+====
+
+Video Demo, of django-inplaceedit and `Django-inlinetrans <http://pypi.python.org/pypi/django-inlinetrans>`_ (Set full screen mode to view it correctly)
+
+
+.. image:: http://svnpub.yaco.es/djangoapps/inplaceeditform/trunk/video-frame.png
+   :target: http://www.youtube.com/watch?v=_EjisXtMy_Y
+
+
 Requeriments
 ============
 
@@ -369,13 +379,3 @@ You can get the last leading edge version of inplaceedit by doing a checkout
 of its subversion repository::
 
   svn co http://svnpub.yaco.es/djangoapps/inplaceeditform/trunk/
-
-
-Demo
-====
-
-Video Demo, of django-inplaceedit and `Django-inlinetrans <http://pypi.python.org/pypi/django-inlinetrans>`_ (Set full screen mode to view it correctly)
-
-
-.. image:: http://svnpub.yaco.es/djangoapps/inplaceeditform/trunk/video-frame.png
-   :target: http://www.youtube.com/watch?v=_EjisXtMy_Y
