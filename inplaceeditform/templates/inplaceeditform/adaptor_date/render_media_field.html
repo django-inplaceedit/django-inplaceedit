@@ -5,7 +5,7 @@
 {% block media %}
     <script src="{% url django.views.i18n.javascript_catalog %}" type="text/javascript"></script>
     <script src="{{ ADMIN_MEDIA_PREFIX }}js/core.js" type="text/javascript"></script>
-    <link href="{{ ADMIN_MEDIA_PREFIX }}css/widgets.css" rel="stylesheet" type="text/css" media="print" />
+    <link href="{{ ADMIN_MEDIA_PREFIX }}css/widgets.css" rel="stylesheet" type="text/css" media="all" />
     {{ block.super }}
     <script src="/media/inplaceeditform/js/DateTimeShortcutsInitial.js" type="text/javascript"></script>
     <script type="text/javascript">
