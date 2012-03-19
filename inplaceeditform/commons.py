@@ -20,11 +20,15 @@ def get_dict_from_obj(obj):
     obj_dict = obj.__dict__
     obj_dict_result = obj_dict.copy()
     for key, value in obj_dict.items():
-        if '_id' in key:
+        if key.endswith('_id'):
             key2 = key.replace('_id', '')
-            obj_dict_result[key2] = obj_dict_result[key]
-            del obj_dict_result[key]
-
+            try:
+                field, model, direct, m2m = obj._meta.get_field_by_name(key2)
+                if isinstance(field, ForeignKey):
+                    obj_dict_result[key2] = obj_dict_result[key]
+                    del obj_dict_result[key]
+            except FieldDoesNotExist:
+                pass
     manytomany_list = obj._meta.many_to_many
     for manytomany in manytomany_list:
         ids = [obj_rel.id for obj_rel in manytomany.value_from_object(obj)]
