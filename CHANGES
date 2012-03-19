@@ -3,7 +3,7 @@ Releases
 
 0.82 (2012-03-19)
 -----------------
-* A little error in AdminDjangoPermEditInline
+* Fix a error when a field contained "_id"
 
 0.81 (2012-01-25)
 -----------------
