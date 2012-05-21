@@ -7,8 +7,7 @@ from django.utils import simplejson
 
 from django.utils.translation import ugettext
 
-from inplaceeditform.commons import  import_module
-from inplaceeditform.commons import has_transmeta, apply_filters
+from inplaceeditform.commons import apply_filters, import_module, has_transmeta, get_static_url
 from inplaceeditform.perms import SuperUserPermEditInline
 
 
@@ -98,7 +97,7 @@ class BaseAdaptorField(object):
         extra_context = extra_context or {}
         context = {'form': self.get_form(),
                    'field': self.get_field(),
-                   'MEDIA_URL': settings.MEDIA_URL,
+                   'STATIC_URL': get_static_url(),
                    'class_inplace': self.class_inplace}
         context.update(extra_context)
         return render_to_string(template_name, context)
@@ -106,7 +105,7 @@ class BaseAdaptorField(object):
     def render_media_field(self, template_name="inplaceeditform/render_media_field.html", extra_context=None):
         extra_context = extra_context or {}
         context = {'field': self.get_field(),
-                   'MEDIA_URL': settings.MEDIA_URL,
+                   'STATIC_URL': get_static_url(),
                    'ADMIN_MEDIA_PREFIX': settings.ADMIN_MEDIA_PREFIX}
         context.update(extra_context)
 
@@ -225,7 +224,7 @@ class AdaptorBooleanField(BaseAdaptorField):
 
     def render_value(self, field_name=None, template_name="inplaceeditform/adaptor_boolean/render_value.html"):
         value = super(AdaptorBooleanField, self).render_value(field_name)
-        return render_to_string(template_name, {'value': value, 'MEDIA_URL': settings.MEDIA_URL})
+        return render_to_string(template_name, {'value': value, 'STATIC_URL': get_static_url()})
 
     def render_field(self, template_name="inplaceeditform/adaptor_boolean/render_field.html"):
         return super(AdaptorBooleanField, self).render_field(template_name)

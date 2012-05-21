@@ -3,7 +3,7 @@ from django import template
 from django.template import Library, Variable
 from django.conf import settings
 
-from inplaceeditform.commons import get_adaptor_class
+from inplaceeditform.commons import get_adaptor_class, get_static_url
 from inplaceeditform.tag_utils import RenderWithArgsAndKwargsNode, parse_args_kwargs
 
 register = Library()
@@ -11,27 +11,33 @@ register = Library()
 
 def inplace_js(context, activate_inplaceedit=True):
     return context.update({
-            'MEDIA_URL': context.get('MEDIA_URL', settings.MEDIA_URL),
-            'ADMIN_MEDIA_PREFIX': settings.ADMIN_MEDIA_PREFIX,
-            'activate_inplaceedit': activate_inplaceedit,
+        'STATIC_URL': get_static_url(),
+        'ADMIN_MEDIA_PREFIX': settings.ADMIN_MEDIA_PREFIX,
+        'activate_inplaceedit': activate_inplaceedit,
     })
 register.inclusion_tag("inplaceeditform/inplace_js.html", takes_context=True)(inplace_js)
 
 
 def inplace_css(context):
     return context.update({
-            'MEDIA_URL': context.get('MEDIA_URL', settings.MEDIA_URL),
-            'ADMIN_MEDIA_PREFIX': settings.ADMIN_MEDIA_PREFIX,
+        'STATIC_URL': get_static_url(),
+        'ADMIN_MEDIA_PREFIX': settings.ADMIN_MEDIA_PREFIX,
     })
 register.inclusion_tag("inplaceeditform/inplace_css.html", takes_context=True)(inplace_css)
 
 
-def inplace_media(context):
+def inplace_static(context):
     return context.update({
-            'MEDIA_URL': context.get('MEDIA_URL', settings.MEDIA_URL),
-            'ADMIN_MEDIA_PREFIX': settings.ADMIN_MEDIA_PREFIX,
+        'STATIC_URL': get_static_url(),
+        'ADMIN_MEDIA_PREFIX': settings.ADMIN_MEDIA_PREFIX,
     })
-register.inclusion_tag("inplaceeditform/inplace_media.html", takes_context=True)(inplace_media)
+register.inclusion_tag("inplaceeditform/inplace_static.html", takes_context=True)(inplace_static)
+
+
+#to old django versions
+def inplace_media(context):
+    return inplace_static(context)
+register.inclusion_tag("inplaceeditform/inplace_static.html", takes_context=True)(inplace_media)
 
 
 class InplaceEditNode(RenderWithArgsAndKwargsNode):

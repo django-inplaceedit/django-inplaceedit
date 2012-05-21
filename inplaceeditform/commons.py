@@ -95,3 +95,11 @@ def get_adaptor_class(adaptor=None, obj=None, field_name=None):
         return BaseAdaptorField
     path_module, class_adaptor = ('.'.join(path_adaptor.split('.')[:-1]), path_adaptor.split('.')[-1])
     return getattr(import_module(path_module), class_adaptor)
+
+
+def get_static_url():
+    static_url = getattr(settings, 'STATIC_URL', None)
+    if static_url:
+        return static_url
+    else:  # To old django versions
+        return '%sinplaceeditform/' % getattr(settings, 'MEDIA_URL', None)
