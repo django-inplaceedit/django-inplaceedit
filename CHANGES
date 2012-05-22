@@ -1,6 +1,11 @@
 Releases
 ========
 
+0.83 (2012-05-22)
+-----------------
+
+* Now django-inplaceedit managing `static files <https://docs.djangoproject.com/en/dev/howto/static-files/>`_ (backward compatible)
+
 0.82 (2012-03-19)
 -----------------
 * Fix a error when a field contained "_id"
