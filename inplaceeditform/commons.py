@@ -97,9 +97,9 @@ def get_adaptor_class(adaptor=None, obj=None, field_name=None):
     return getattr(import_module(path_module), class_adaptor)
 
 
-def get_static_url():
+def get_static_url(subfix='inplaceeditform'):
     static_url = getattr(settings, 'STATIC_URL', None)
     if static_url:
         return static_url
     else:  # To old django versions
-        return '%sinplaceeditform/' % getattr(settings, 'MEDIA_URL', None)
+        return '%s%s/' % (getattr(settings, 'MEDIA_URL', None), subfix)
