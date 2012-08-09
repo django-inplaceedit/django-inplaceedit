@@ -1,5 +1,6 @@
 include AUTHORS.rst
 include CHANGES.rst
+include README.rst
 include COPYING.LGPLv3
 recursive-include inplaceeditform/ *
 exclude *~
