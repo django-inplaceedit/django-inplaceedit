@@ -1,6 +1,11 @@
 Releases
 ========
 
+0.84 (2012-05-22)
+-----------------
+
+* Move the repository to `github <https://github.com/Yaco-Sistemas/django-inplaceedit/>`_
+
 0.83 (2012-05-22)
 -----------------
 

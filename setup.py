@@ -22,11 +22,11 @@ def read(*rnames):
 
 setup(
     name="django-inplaceedit",
-    version="0.83",
+    version="0.84",
     author="Yaco Sistemas S.L.",
     author_email="pmartin@yaco.es",
     description="Django application that allows you to inline edition of some data from the database",
-    long_description=(read('README') + '\n\n' + read('CHANGES')),
+    long_description=(read('README.rst') + '\n\n' + read('CHANGES.rst')),
     classifiers=[
         'Development Status :: 4 - Beta',
         'Framework :: Django',
@@ -34,7 +34,7 @@ setup(
     ],
     license="LGPL 3",
     keywords="django,inplace,inline edit,inline form,inline,inplace edit,inplace form,ajax",
-    url='https://tracpub.yaco.es/djangoapps/wiki/InplaceEditForm',
+    url='https://github.com/Yaco-Sistemas/django-inplaceedit',
     packages=('inplaceeditform', 'inplaceeditform.templatetags'),
     include_package_data=True,
     zip_safe=False,
