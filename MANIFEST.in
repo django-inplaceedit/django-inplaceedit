@@ -1,7 +1,10 @@
 include AUTHORS.rst
 include CHANGES.rst
-include README.rst
 include COPYING.LGPLv3
-recursive-include inplaceeditform/ *
+include inplaceeditform/locale/*/LC_MESSAGES/*.*
+include inplaceeditform/templates/inplaceeditform/*.*
+include inplaceeditform/templates/inplaceeditform/*/*.*
+include inplaceeditform/static/*/*.*
 exclude *~
 exclude *.pyc
+exclude testing

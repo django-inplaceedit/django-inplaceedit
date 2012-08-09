@@ -1,6 +1,12 @@
 Releases
 ========
 
+0.85 (2012-05-22)
+-----------------
+
+* A strange error with buildout
+* I'm sorry but I removed the package by mistake
+
 0.84 (2012-05-22)
 -----------------
 
