@@ -1,5 +1,0 @@
-
-# Create this file: svn propget svn:externals . > externals.txt
-# Apply this file:  svn propset svn:externals -F externals.txt .
-
-inplaceeditform	    http://svnpub.yaco.es/djangoapps/inplaceeditform/trunk/inplaceeditform/media/

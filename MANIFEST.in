@@ -5,6 +5,8 @@ include inplaceeditform/locale/*/LC_MESSAGES/*.*
 include inplaceeditform/templates/inplaceeditform/*.*
 include inplaceeditform/templates/inplaceeditform/*/*.*
 include inplaceeditform/static/*/*.*
+include testing/multimediaresources/fixtures/*.*
+include testing/multimediaresources/templates/*.*
+include testing/multimediaresources/templates/multimediaresources/*.*
 exclude *~
 exclude *.pyc
-exclude testing
