@@ -17,8 +17,7 @@ Demo
 
 Video Demo, of django-inplaceedit and `Django-inlinetrans <http://pypi.python.org/pypi/django-inlinetrans>`_ (Set full screen mode to view it correctly)
 
-
-.. image:: http://svnpub.yaco.es/djangoapps/inplaceeditform/trunk/video-frame.png
+.. image:: https://github.com/Yaco-Sistemas/django-inplaceedit/raw/master/video-frame.png
    :target: http://www.youtube.com/watch?v=_EjisXtMy_Y
 
 
@@ -368,4 +367,4 @@ Development
 You can get the last leading edge version of inplaceedit by doing a checkout
 of its subversion repository::
 
-  svn co http://svnpub.yaco.es/djangoapps/inplaceeditform/trunk/
+  git clone git://github.com/Yaco-Sistemas/django-inplaceedit.git
