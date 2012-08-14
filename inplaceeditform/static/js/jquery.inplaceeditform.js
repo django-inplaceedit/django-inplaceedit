@@ -38,6 +38,7 @@
                     type: "GET",
                     async: true,
                     dataType: 'json',
+                    error: bind(treatmentStatusError, {"context": $(this)}),
                     success: function (response) {
                         if (response === null) {
                             alert("The server is down");
@@ -87,6 +88,16 @@
                     }
                 });
             });
+            function treatmentStatusError(response) {
+                if (response.status === 0) {
+                    alert("The server is down");
+                } else if (response.status === 403) {
+                    alert("Permission denied, please check that you are login");
+                } else {
+                    alert(response.statusText);
+                }
+                this.context.next(".cancel").click();
+            }
 
             function revertlinkInplaceEdit(links_parents) {
                 $.map(links_parents, function (link, i) {
@@ -192,6 +203,7 @@
                     type: "POST",
                     async: true,
                     dataType: 'text',
+                    error: bind(treatmentStatusError, {"context": $(this)}),
                     success: bind(inplaceApplySuccess, {"context": $(this),
                                                         "form": form,
                                                         "inplaceedit_conf": inplaceedit_conf})
@@ -226,6 +238,7 @@
                     async: true,
                     type: "POST",
                     dataType: "application/json",
+                    error: bind(treatmentStatusError, {"context": $(this)}),
                     success: bind(inplaceApplySuccess, {"context": $(this),
                                                         "form": form,
                                                         "inplaceedit_conf": inplaceedit_conf})
