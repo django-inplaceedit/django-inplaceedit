@@ -39,7 +39,7 @@
                     async: true,
                     dataType: 'json',
                     success: function (response) {
-                        if (response == null) {
+                        if (response === null) {
                             alert("The server is down");
                         } else if (response.errors) {
                             alert(response.errors);
@@ -130,7 +130,7 @@
                 var that = this.context;
                 var form = this.form;
                 var inplaceedit_conf = this.inplaceedit_conf;
-                if (response == null) {
+                if (response === null) {
                     alert("The server is down");
                 } else if (response.errors) {
                     form.animate({opacity: 1});
