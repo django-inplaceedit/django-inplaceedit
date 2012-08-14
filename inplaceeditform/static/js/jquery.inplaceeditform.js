@@ -165,7 +165,9 @@
             function bind(func, _this) {
                 return function() {return func.apply(_this, arguments)}
             }
-
+            function getCSFRToken() {
+                return $("input[name='csrfmiddlewaretoken']");
+            }
             function inplaceApply() {
                 var form = $(this).parents("form.inplaceeditform");
                 form.animate({opacity: 0.1});
@@ -181,6 +183,10 @@
                     var value = form.find("#"+field_id).val();
                 }
                 data += "&value=" + encodeURIComponent($.toJSON(value));
+                var csrfmiddlewaretoken = getCSFRToken();
+                if (csrfmiddlewaretoken) {
+                    data += "&csrfmiddlewaretoken=" + csrfmiddlewaretoken.val();
+                }
                 $.ajax({
                     data: data,
                     url:  opts.saveURL,
@@ -199,6 +205,10 @@
                 form.find("ul.errors").fadeOut(function(){$(this).remove();});
                 var inplaceedit_conf = form.prev().find("span.config");
                 var data = getDataToRequestUpload(inplaceedit_conf);
+                var csrfmiddlewaretoken = getCSFRToken();
+                if (csrfmiddlewaretoken) {
+                    data["csrfmiddlewaretoken"] = csrfmiddlewaretoken.val();
+                }
                 var field_id = form.find("span.field_id").html();
                 var getValue = $(this).data("getValue"); // A hook
                 if (getValue != null) {
