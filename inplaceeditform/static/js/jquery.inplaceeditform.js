@@ -176,7 +176,7 @@
                 };
             }
             function getCSFRToken() {
-                return $("input[name='csrfmiddlewaretoken']");
+                return csrf_token;
             }
             function inplaceApply() {
                 var form = $(this).parents("form.inplaceeditform");
@@ -195,7 +195,7 @@
                 data += "&value=" + encodeURIComponent($.toJSON(value));
                 var csrfmiddlewaretoken = getCSFRToken();
                 if (csrfmiddlewaretoken) {
-                    data += "&csrfmiddlewaretoken=" + csrfmiddlewaretoken.val();
+                    data += "&csrfmiddlewaretoken=" + csrfmiddlewaretoken;
                 }
                 $.ajax({
                     data: data,
@@ -219,7 +219,7 @@
                 var data = getDataToRequestUpload(inplaceedit_conf);
                 var csrfmiddlewaretoken = getCSFRToken();
                 if (csrfmiddlewaretoken) {
-                    data.csrfmiddlewaretoken = csrfmiddlewaretoken.val();
+                    data.csrfmiddlewaretoken = csrfmiddlewaretoken;
                 }
                 var field_id = form.find("span.field_id").html();
                 var getValue = $(this).data("getValue"); // A hook
