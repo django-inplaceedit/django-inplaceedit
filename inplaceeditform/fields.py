@@ -139,10 +139,14 @@ class BaseAdaptorField(object):
         return self.config.get('auto_width', False)
 
     def treatment_height(self, height, width=None):
-        return "%spx" % height
+        if isinstance(height, basestring) and not height.endswith('px'):
+            height = "%spx" % height
+        return height
 
     def treatment_width(self, width, height=None):
-        return "%spx" % width
+        if isinstance(width, basestring) and not width.endswith('px'):
+            width = "%spx" % width
+        return width
 
     def _adding_size(self, field):
         attrs = field.field.widget.attrs

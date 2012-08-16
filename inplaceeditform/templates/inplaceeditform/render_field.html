@@ -1,7 +1,7 @@
 {% load i18n %}
 
 {% block form %}
-    <form class="inplaceeditform {{ class_inplace }}" action="{% url inplace_save %}" enctype=multipart/form-data>
+    <form class="inplaceeditform {% block formclass %}{% endblock %}{{ class_inplace }}" action="{% url inplace_save %}" enctype=multipart/form-data>
         {{ field }}
         <span class="field_id" style="display:none">{{ field.auto_id }}</span>
         {% block actions %}

@@ -154,12 +154,14 @@
                     var config = inplace_span.find("span.config").html();
                     inplace_span.html(response.value + "<span class='config' style='display:none;'>" + config + "</span>");
                     var success_message = $("<ul class='success'><li>" + opts.successText + "</li></ul>");
-                    inplace_span.prepend(success_message);
-                    setTimeout(function () {
-                        success_message.fadeOut(function () {
-                            $(this).remove();
-                        });
-                    }, 2000);
+                    if (opts.successText) {
+                        inplace_span.prepend(success_message);
+                        setTimeout(function () {
+                            success_message.fadeOut(function () {
+                                $(this).remove();
+                            });
+                        }, 2000);
+                    }
                     inplace_span.show();
                     inplace_span.removeClass("inplaceHide");
                     var applyFinish = $(that).data("applyFinish");
