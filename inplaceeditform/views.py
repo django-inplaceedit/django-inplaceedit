@@ -32,7 +32,7 @@ def save_ajax(request):
         if form.is_valid():
             adaptor.save(value_edit_with_filter)
             return _get_http_response({'errors': False,
-                                       'value': adaptor.render_value()})
+                                       'value': adaptor.render_value_edit()})
         messages = []  # The error is for another field that you are editing
         for field_name_error, errors_field in form.errors.items():
             for error in errors_field:

@@ -40,7 +40,7 @@
                     dataType: 'json',
                     error: bind(treatmentStatusError, {"context": $(this)}),
                     success: function (response) {
-                        if (response === null) {
+                        if (!response) {
                             alert("The server is down");
                         } else if (response.errors) {
                             alert(response.errors);
@@ -141,7 +141,7 @@
                 var that = this.context;
                 var form = this.form;
                 var inplaceedit_conf = this.inplaceedit_conf;
-                if (response === null) {
+                if (!response) {
                     alert("The server is down");
                 } else if (response.errors) {
                     form.animate({opacity: 1});
@@ -189,7 +189,7 @@
                 var field_id = form.find("span.field_id").html();
                 var getValue = $(this).data("getValue"); // A hook
                 var value;
-                if (getValue !== undefined) {
+                if (getValue) {
                     value = getValue(form, field_id);
                 } else {
                     value = form.find("#" + field_id).val();
@@ -226,7 +226,7 @@
                 var field_id = form.find("span.field_id").html();
                 var getValue = $(this).data("getValue"); // A hook
                 var value;
-                if (getValue !== null) {
+                if (getValue) {
                     value = getValue(form, field_id);
                 } else {
                     value = form.find("#" + field_id).val();
@@ -263,7 +263,7 @@
                     dataToRequest += data;
                 });
                 var fontSize = inplaceedit_conf.parent().css("font-size");
-                if (fontSize !== null) {
+                if (fontSize) {
                     dataToRequest += "&font_size=" + fontSize;
                 }
                 return dataToRequest;
@@ -279,7 +279,7 @@
                     dataToRequest[key] = value;
                 });
                 var fontSize = inplaceedit_conf.parent().css("font-size");
-                if (fontSize !== null) {
+                if (fontSize) {
                     dataToRequest.font_size = fontSize;
                 }
                 return dataToRequest;
