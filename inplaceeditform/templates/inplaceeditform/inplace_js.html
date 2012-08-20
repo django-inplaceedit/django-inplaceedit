@@ -12,9 +12,13 @@
             var getFieldUrl = "{% url inplace_get_field %}";
             var saveURL = "{% url inplace_save %}";
             var successText = "{% trans "Successfully saved" %}"
+            var eventInplaceEdit = "dblclick";
+            var disableClick = true;
             var inplaceManager = $(".inplaceedit").inplaceeditform({"getFieldUrl": getFieldUrl,
                                                                     "saveURL": saveURL,
-                                                                    "successText": successText});
+                                                                    "successText": successText,
+                                                                    "eventInplaceEdit": eventInplaceEdit,
+                                                                    "disableClick": disableClick});
             inplaceManager.enable();
 
     });

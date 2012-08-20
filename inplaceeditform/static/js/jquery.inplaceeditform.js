@@ -1,18 +1,23 @@
 (function ($) {
     $.fn.inplaceeditform = function (opts, callback) {
-        var defaults = {"getFieldUrl": "/inplaceeditform/get_field/",
+        var defaults = {
+            "getFieldUrl": "/inplaceeditform/get_field/",
             "saveURL": "/inplaceeditform/save/",
-            "successText": "Successfully saved"};
+            "successText": "Successfully saved",
+            "eventInplaceEdit": "dblclick",
+            "disableClick": true
+        };
         var enabled = true;
         opts = $.extend(defaults, opts || {});
         this.each(function () {
-            $(this).click(function () {
-                if (!enabled) {
-                    return true;
-                }
-                return false;
-            });
-
+            if (opts.disableClick) {
+                $(this).click(function () {
+                    if (!enabled) {
+                        return true;
+                    }
+                    return false;
+                });
+            }
             $(this).bind("mouseenter", function () {
                 if (!enabled) {
                     return false;
@@ -24,7 +29,7 @@
                 $(this).removeClass("edit_over");
             });
 
-            $(this).dblclick(function () {
+            $(this).bind(opts.eventInplaceEdit, function () {
                 if (!enabled) {
                     return false;
                 }
