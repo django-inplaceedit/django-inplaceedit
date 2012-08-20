@@ -13,14 +13,13 @@
         opts = $.extend(defaults, opts || {});
         this.each(function () {
             if (opts.disableClick) {
-                $(this).click(function () {
-                    if (!enabled) {
-                        return true;
+                $(this).click(function (ev) {
+                    if (enabled) {
+                        ev.preventDefault();
                     }
-                    return false;
                 });
             }
-            $(this).bind("mouseenter", function () {
+            $(this).bind("mouseenter", function (ev) {
                 if (!enabled) {
                     return false;
                 }
@@ -39,7 +38,11 @@
                 var data = getDataToRequest($(this).find("span.config"));
                 var can_auto_save = parseInt($(this).find("span.config span.can_auto_save").html());
                 data += "&__widget_height=" + $(this).innerHeight() + "px" + "&__widget_width=" + $(this).innerWidth() + "px";
-                var that = $(this);
+                var that = this;
+                if (that.ajax_time) {
+                    return false;
+                }
+                that.ajax_time = true;
                 $.ajax({
                     data: data,
                     url: opts.getFieldUrl,
@@ -53,10 +56,10 @@
                         } else if (response.errors) {
                             alert(response.errors);
                         } else {
-                            that.hide();
-                            that.addClass("inplaceHide");
+                            $(that).hide();
+                            $(that).addClass("inplaceHide");
                             var tags = $(response.field_render);
-                            $(response.field_render).insertAfter(that);
+                            $(response.field_render).insertAfter($(that));
 
                             var head = $("head")[0];
                             try {
@@ -66,7 +69,7 @@
                                 });
                             } catch (err) {
                             }
-                            var links_parents = that.next().parents("a");
+                            var links_parents = $(that).next().parents("a");
                             if (links_parents.length > 0) {
                                 $.map(links_parents, function (link, i) {
                                     link = $(link);
@@ -76,38 +79,39 @@
                                     link.removeAttr("href");
                                 });
                             }
-                            var applyButton = that.next().find(".apply");
-                            var cancelButton = that.next().find(".cancel");
-                            var applyFileButton = that.next().find(".applyFile");
+                            var applyButton = $(that).next().find(".apply");
+                            var cancelButton = $(that).next().find(".cancel");
+                            var applyFileButton = $(that).next().find(".applyFile");
                             if (cancelButton.size()) {
                                 cancelButton.click(inplaceCancel);
                             }
                             if (applyButton.size()) {
                                 applyButton.click(inplaceApply);
-                                that.next("form.inplaceeditform").submit(bind(inplaceApply, applyButton));
+                                $(that).next("form.inplaceeditform").submit(bind(inplaceApply, applyButton));
                             }
                             if (applyFileButton.size()) {
                                 applyFileButton.click(inplaceApplyUpload);
-                                that.next("form.inplaceeditform").submit(bind(inplaceApply, applyFileButton));
+                                $(that).next("form.inplaceeditform").submit(bind(inplaceApply, applyFileButton));
                             }
-                            that.next("form.inplaceeditform").find("input, select").focus();
+                            $(that).next("form.inplaceeditform").find("input, select").focus();
                             if (opts.autoSave && can_auto_save) {
                                 applyButton.hide();
                                 cancelButton.hide();
                                 applyFileButton.hide();
-                                var value = that.next("form.inplaceeditform").find("input, select").val();
+                                var value = $(that).next("form.inplaceeditform").find("input, select").val();
                                 var autoSave = function () {
                                     var newValue = $(this).val();
                                     if (newValue !== value) {
-                                        that.next("form.inplaceeditform").find(".apply").click();
+                                        $(that).next("form.inplaceeditform").find(".apply").click();
                                     } else {
-                                        that.next("form.inplaceeditform").find(".cancel").click();
+                                        $(that).next("form.inplaceeditform").find(".cancel").click();
                                     }
                                 };
-                                that.next("form.inplaceeditform").find("input, select").blur(autoSave);
-                                that.next("form.inplaceeditform").find("select").change(autoSave);
+                                $(that).next("form.inplaceeditform").find("input, select").blur(autoSave);
+                                $(that).next("form.inplaceeditform").find("select").change(autoSave);
                             }
                         }
+                        that.ajax_time = false;
                     }
                 });
             });
