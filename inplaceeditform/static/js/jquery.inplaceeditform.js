@@ -10,6 +10,7 @@
             "autoSave": false
         };
         var enabled = true;
+        var inplaceeditfields = this;
         opts = $.extend(defaults, opts || {});
         this.each(function () {
             if (opts.disableClick) {
@@ -19,17 +20,6 @@
                     }
                 });
             }
-            $(this).bind("mouseenter", function (ev) {
-                if (!enabled) {
-                    return false;
-                }
-                $(this).addClass("edit_over");
-            });
-
-            $(this).bind("mouseleave", function () {
-                $(this).removeClass("edit_over");
-            });
-
             $(this).bind(opts.eventInplaceEdit, function () {
                 if (!enabled) {
                     return false;
@@ -60,10 +50,9 @@
                         } else if (response.errors) {
                             alert(response.errors);
                         } else {
-                            $(that).hide();
-                            $(that).addClass("inplaceHide");
                             var tags = $(response.field_render);
                             $(response.field_render).insertAfter($(that));
+                            $(that).hide();
 
                             var head = $("head")[0];
                             try {
@@ -128,6 +117,7 @@
                     alert(response.statusText);
                 }
                 this.context.next(".cancel").click();
+                this.context.ajax_time = false;
             }
 
             function revertlinkInplaceEdit(links_parents) {
@@ -143,7 +133,6 @@
             function inplaceCancel() {
                 revertlinkInplaceEdit($(this).parents("a.linkInplaceEdit"));
                 $(this).parent().prev().fadeIn();
-                $(this).parent().prev().removeClass("inplaceHide");
                 var cancelFinish = $(this).data("cancelFinish");
                 if (cancelFinish) {
                     cancelFinish();
@@ -194,7 +183,6 @@
                         }, 2000);
                     }
                     inplace_span.show();
-                    inplace_span.removeClass("inplaceHide");
                     var applyFinish = that.data("applyFinish");
                     if (applyFinish) {
                         applyFinish(that);
@@ -390,9 +378,15 @@
         return {
             enable: function () {
                 enabled = true;
+                inplaceeditfields.each(function () {
+                    $(this).addClass("enable");
+                });
             },
             disable: function () {
                 enabled = false;
+                inplaceeditfields.each(function () {
+                    $(this).removeClass("enable");
+                });
             }
         };
     };

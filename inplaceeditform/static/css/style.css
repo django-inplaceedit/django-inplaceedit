@@ -35,16 +35,6 @@ button.applyFile span {
   visibility: hidden;
 }
 
-.edit_over {
-  cursor: pointer; 
-  background: #FFFFBB;
- }
-
-.edit_over img {
-    cursor: pointer; 
-    border: 2px solid #FFFFBB;
-}
-
 .errors  {
     list-style: none;
     list-style-image: none !important;
@@ -100,12 +90,21 @@ span.textareainplaceedit {
     display: block; 
 } 
 
-.inplaceHide {
-    display: none;
-}
-
 form.inplaceeditform {
     display: inline;
+}
+
+.inplaceedit.enable:hover,
+.inplaceedit.enable:hover img {
+    cursor: pointer; 
+}
+
+.inplaceedit.enable:hover {
+    background: #FFFFBB;
+}
+
+.inplaceedit.enable:hover img {
+   border: 2px solid #FFFFBB;
 }
 
 form.inplaceeditform input[type=file] {
