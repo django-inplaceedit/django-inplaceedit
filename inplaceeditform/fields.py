@@ -31,6 +31,7 @@ class BaseAdaptorField(object):
         self.config['app_label'] = self.model._meta.app_label
         self.config['module_name'] = self.model._meta.module_name
         self.config['filters_to_show'] = filters_to_show
+        self.config['can_auto_save'] = 1
 
         filters_to_edit = self.config.get('filters_to_edit', None)
         self.filters_to_edit = filters_to_edit and filters_to_edit.split('|') or []
@@ -239,6 +240,11 @@ class AdaptorBooleanField(BaseAdaptorField):
 
 class BaseDateField(BaseAdaptorField):
 
+    def __init__(self, *args, **kwargs):
+        super(BaseDateField, self).__init__(*args, **kwargs)
+        self.config['can_auto_save'] = 0
+
+
     def render_media_field(self, template_name="inplaceeditform/adaptor_date/render_media_field.html"):
         return super(BaseDateField, self).render_media_field(template_name)
 
@@ -365,6 +371,10 @@ class AdaptorCommaSeparatedManyToManyField(AdaptorManyToManyField):
     def name(self):
         return 'm2mcomma'
 
+    def __init__(self, *args, **kwargs):
+        super(AdaptorCommaSeparatedManyToManyField, self).__init__(*args, **kwargs)
+        self.config['can_auto_save'] = 0
+
     def render_value(self, field_name=None, template_name="inplaceeditform/adaptor_m2m/render_commaseparated_value.html"):
         queryset = super(AdaptorCommaSeparatedManyToManyField, self).render_value(field_name)
         return render_to_string(template_name, {'queryset': queryset})
@@ -376,7 +386,7 @@ class AdaptorFileField(BaseAdaptorField):
 
     def __init__(self, *args, **kwargs):
         super(AdaptorFileField, self).__init__(*args, **kwargs)
-        self.config['send_csrfToken'] = 1
+        self.config['can_auto_save'] = 0
 
     def loads_to_post(self, request):
         files = request.FILES.values()

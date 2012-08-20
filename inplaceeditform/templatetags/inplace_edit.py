@@ -2,6 +2,7 @@
 from django import template
 from django.template import Library, Variable
 from django.conf import settings
+from django.utils import simplejson
 
 from inplaceeditform.commons import get_adaptor_class, get_static_url
 from inplaceeditform.tag_utils import RenderWithArgsAndKwargsNode, parse_args_kwargs
@@ -14,6 +15,9 @@ def inplace_js(context, activate_inplaceedit=True):
         'STATIC_URL': get_static_url(),
         'ADMIN_MEDIA_PREFIX': settings.ADMIN_MEDIA_PREFIX,
         'activate_inplaceedit': activate_inplaceedit,
+        'auto_save': simplejson.dumps(getattr(settings, "INPLACEEDIT_AUTO_SAVE", False)),
+        'event': getattr(settings, "INPLACEEDIT_EVENT", "dblclick"),
+        'disable_click': simplejson.dumps(getattr(settings, "INPLACEEDIT_DISABLE_CLICK", True)),
     })
 register.inclusion_tag("inplaceeditform/inplace_js.html", takes_context=True)(inplace_js)
 

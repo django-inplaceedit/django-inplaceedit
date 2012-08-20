@@ -9,16 +9,13 @@
 <script type="text/javascript"> 
     (function($){
         $(document).ready(function () {
-            var getFieldUrl = "{% url inplace_get_field %}";
-            var saveURL = "{% url inplace_save %}";
-            var successText = "{% trans "Successfully saved" %}"
-            var eventInplaceEdit = "dblclick";
-            var disableClick = true;
-            var inplaceManager = $(".inplaceedit").inplaceeditform({"getFieldUrl": getFieldUrl,
-                                                                    "saveURL": saveURL,
-                                                                    "successText": successText,
-                                                                    "eventInplaceEdit": eventInplaceEdit,
-                                                                    "disableClick": disableClick});
+            var options = {"getFieldUrl": "{% url inplace_get_field %}",
+                           "saveURL": "{% url inplace_save %}",
+                           "successText": "{% trans "Successfully saved" %}",
+                           "eventInplaceEdit": "{{ event }}",
+                           "disableClick": {{ disable_click }},
+                           "autoSave": {{ auto_save }}};
+            var inplaceManager = $(".inplaceedit").inplaceeditform(options);
             inplaceManager.enable();
 
     });

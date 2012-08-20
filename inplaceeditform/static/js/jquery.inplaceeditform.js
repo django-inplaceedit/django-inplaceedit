@@ -1,11 +1,13 @@
 (function ($) {
+    "use strict";
     $.fn.inplaceeditform = function (opts, callback) {
         var defaults = {
             "getFieldUrl": "/inplaceeditform/get_field/",
             "saveURL": "/inplaceeditform/save/",
             "successText": "Successfully saved",
             "eventInplaceEdit": "dblclick",
-            "disableClick": true
+            "disableClick": true,
+            "autoSave": false
         };
         var enabled = true;
         opts = $.extend(defaults, opts || {});
@@ -35,6 +37,7 @@
                 }
                 $(this).data("inplace_enabled");
                 var data = getDataToRequest($(this).find("span.config"));
+                var can_auto_save = parseInt($(this).find("span.config span.can_auto_save").html());
                 data += "&__widget_height=" + $(this).innerHeight() + "px" + "&__widget_width=" + $(this).innerWidth() + "px";
                 var that = $(this);
                 $.ajax({
@@ -76,18 +79,34 @@
                             var applyButton = that.next().find(".apply");
                             var cancelButton = that.next().find(".cancel");
                             var applyFileButton = that.next().find(".applyFile");
-                            if (cancelButton) {
+                            if (cancelButton.size()) {
                                 cancelButton.click(inplaceCancel);
                             }
-                            if (applyButton) {
+                            if (applyButton.size()) {
                                 applyButton.click(inplaceApply);
                                 that.next("form.inplaceeditform").submit(bind(inplaceApply, applyButton));
                             }
-                            if (applyFileButton) {
+                            if (applyFileButton.size()) {
                                 applyFileButton.click(inplaceApplyUpload);
                                 that.next("form.inplaceeditform").submit(bind(inplaceApply, applyFileButton));
                             }
-                            that.next("form.inplaceeditform").find("input").focus();
+                            that.next("form.inplaceeditform").find("input, select").focus();
+                            if (opts.autoSave && can_auto_save) {
+                                applyButton.hide();
+                                cancelButton.hide();
+                                applyFileButton.hide();
+                                var value = that.next("form.inplaceeditform").find("input, select").val();
+                                var autoSave = function () {
+                                    var newValue = $(this).val();
+                                    if (newValue !== value) {
+                                        that.next("form.inplaceeditform").find(".apply").click();
+                                    } else {
+                                        that.next("form.inplaceeditform").find(".cancel").click();
+                                    }
+                                };
+                                that.next("form.inplaceeditform").find("input, select").blur(autoSave);
+                                that.next("form.inplaceeditform").find("select").change(autoSave);
+                            }
                         }
                     }
                 });
