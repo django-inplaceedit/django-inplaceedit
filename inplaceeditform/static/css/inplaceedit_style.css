@@ -1,0 +1,12 @@
+.inplaceedit.enable:hover,
+.inplaceedit.enable:hover img {
+    cursor: pointer; 
+}
+
+.inplaceedit.enable:hover {
+    background: #FFFFBB;
+}
+
+.inplaceedit.enable:hover img {
+   border: 2px solid #FFFFBB;
+}

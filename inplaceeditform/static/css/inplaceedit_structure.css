@@ -88,25 +88,11 @@ button.applyFile span {
 
 span.textareainplaceedit {
     display: block; 
-} 
+}
+form.inplaceeditform input[type=file] {
+    margin-right: 100px;
+}
 
 form.inplaceeditform {
     display: inline;
-}
-
-.inplaceedit.enable:hover,
-.inplaceedit.enable:hover img {
-    cursor: pointer; 
-}
-
-.inplaceedit.enable:hover {
-    background: #FFFFBB;
-}
-
-.inplaceedit.enable:hover img {
-   border: 2px solid #FFFFBB;
-}
-
-form.inplaceeditform input[type=file] {
-    margin-right: 100px;
 }
