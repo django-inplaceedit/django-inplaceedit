@@ -36,6 +36,10 @@
                 }
                 $(this).data("inplace_enabled");
                 var data = getDataToRequest($(this).find("span.config"));
+                var extraConfig = $(this).find(".config").data("extraConfig");
+                if (extraConfig) {
+                    data = extraConfig(data);
+                }
                 var can_auto_save = parseInt($(this).find("span.config span.can_auto_save").html());
                 data += "&__widget_height=" + $(this).innerHeight() + "px" + "&__widget_width=" + $(this).innerWidth() + "px";
                 var that = this;
@@ -191,7 +195,7 @@
                     }
                     inplace_span.show();
                     inplace_span.removeClass("inplaceHide");
-                    var applyFinish = $(that).data("applyFinish");
+                    var applyFinish = that.data("applyFinish");
                     if (applyFinish) {
                         applyFinish(that);
                     }
@@ -322,10 +326,13 @@
                     } else {
                         appendChild(fileref, media.innerHTML);
                     }
-                } else if (media.tagName === "LINK" && media.type === "text/css") { //if filename is an external CSS file
+                } else if (media.tagName === "LINK") { //if filename is an external CSS file
+                    var type = media.type || "text/css";
+                    var rel = media.rel || "stylesheet";
+                    var href = media.href;
                     fileref = document.createElement("link");
-                    fileref.setAttribute("rel", "stylesheet");
-                    fileref.setAttribute("type", "text/css");
+                    fileref.setAttribute("rel", rel);
+                    fileref.setAttribute("type", type);
                     fileref.setAttribute("href", media.href);
                 }
 

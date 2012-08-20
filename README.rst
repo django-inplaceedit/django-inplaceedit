@@ -225,7 +225,7 @@ Python API
 JavaScript API
 --------------
 
-Exist there hooks, 
+There are four hooks, 
 
  * getValue: if the value is componing for various widgets, you can set the function getValue, to these DOM elements. Something like this:
 
@@ -235,7 +235,7 @@ Exist there hooks,
             (function($){
                 $(document).ready(function () {
                     function myGetValue(form, field_id) {
-                        return ""Something""
+                        return ""Something"";
                     }
                     $(".applyMyAdaptor").data("getValue", myGetValue);
             });
@@ -250,7 +250,7 @@ Exist there hooks,
             (function($){
                 $(document).ready(function () {
                     function myApplyFinish() {
-                        return ""Something""
+                        return ""Something"";
                     }
                     $(".applyMyAdaptor").data("applyFinish", myApplyFinish);
             });
@@ -265,9 +265,24 @@ Exist there hooks,
             (function($){
                 $(document).ready(function () {
                     function myCancelFinish() {
-                        return ""Something""
+                        return ""Something"";
                     }
-                    $(".applyMyAdaptor").data("cancelFinish", myCancelFinish);
+                    $(".cancelMyAdaptor").data("cancelFinish", myCancelFinish);
+            });
+            })(jQuery);
+        </script>
+
+  * 
+
+    :: extraConfig: if you need/want add something to the config in the ajax request to print the field
+
+        <script type="text/javascript">
+            (function($){
+                $(document).ready(function () {
+                    function myExtraConfig(data) {
+                        return data + ""Something"";
+                    }
+                    $(".configMyAdaptor").data("extraConfig", myExtraConfig);
             });
             })(jQuery);
         </script>
