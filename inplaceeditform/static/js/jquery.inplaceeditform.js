@@ -87,8 +87,7 @@
                                 applyFileButton.click(inplaceApplyUpload);
                                 that.next("form.inplaceeditform").submit(bind(inplaceApply, applyFileButton));
                             }
-
-
+                            that.next("form.inplaceeditform").find("input").focus();
                         }
                     }
                 });
