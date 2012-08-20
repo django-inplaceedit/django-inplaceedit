@@ -216,10 +216,6 @@ class AdaptorTextAreaField(BaseAdaptorField):
     def name(self):
         return 'textarea'
 
-    @property
-    def classes(self):
-        return "textareainplaceedit %s" % super(AdaptorTextAreaField, self).classes
-
 
 class AdaptorBooleanField(BaseAdaptorField):
 
@@ -243,7 +239,6 @@ class BaseDateField(BaseAdaptorField):
     def __init__(self, *args, **kwargs):
         super(BaseDateField, self).__init__(*args, **kwargs)
         self.config['can_auto_save'] = 0
-
 
     def render_media_field(self, template_name="inplaceeditform/adaptor_date/render_media_field.html"):
         return super(BaseDateField, self).render_media_field(template_name)
