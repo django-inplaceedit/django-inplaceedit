@@ -19,7 +19,9 @@
             {% if not toolbar %}
                 inplaceManager.enable();
             {% else %}
-                {% include "inplaceeditform/inc.inplace_toolbar.html" %}
+                if ($(".inplaceedit").size()) {
+                    {% include "inplaceeditform/inc.inplace_toolbar.html" %}
+                }
             {% endif %}
 
     });

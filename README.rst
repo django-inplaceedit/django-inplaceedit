@@ -35,7 +35,13 @@ Install in your base.html
 ::
 
     {% load inplace_edit %}
-    {% inplace_static %} 
+
+    {% inplace_toolbar %}
+
+    or 
+
+    {% inplace_static %}
+    
 
 In your settings.py
 -------------------
@@ -71,7 +77,11 @@ Optional:
 ::
 
     INPLACEEDIT_EDIT_EMPTY_VALUE = 'Doble click to edit'
-    INPLACEEDIT_EDIT_MESSAGE_TRANSLATION = 'Write a translation'
+    INPLACEEDIT_AUTO_SAVE = True
+    INPLACEEDIT_EVENT = "dblclick"
+    INPLACEEDIT_DISABLE_CLICK = True  # For inplace edit text into a link tag
+    INPLACEEDIT_EDIT_MESSAGE_TRANSLATION = 'Write a translation' # transmeta option
+
 
 
 In your urls.py
@@ -272,9 +282,9 @@ There are four hooks,
             })(jQuery);
         </script>
 
-  * 
+  * extraConfig: if you need/want add something to the config in the ajax request to print the field
 
-    :: extraConfig: if you need/want add something to the config in the ajax request to print the field
+    ::
 
         <script type="text/javascript">
             (function($){

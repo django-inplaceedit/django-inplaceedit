@@ -1,13 +1,28 @@
 Releases
 ========
 
-0.85 (2012-05-22)
+0.86 (2012-08-21)
+-----------------
+
+* Toolbar to edit inplace
+* Auto save option
+* New JS hook (extraConfig)
+* Now you can choose the event to edit inplace, by default is doble click
+* Now when you edit inline the input (or select) get the focus
+* Now while there is a ajax request cannot do other ajax request to the same element
+* Update the way to get the CSFRToken
+* JSLint to jquery.inplaceeditform.js (There were some errors still)
+* Refactor and remove little errors
+* Refactor the css files
+
+
+0.85 (2012-08-09)
 -----------------
 
 * A strange error with buildout
 * I'm sorry but I removed the package by mistake
 
-0.84 (2012-05-22)
+0.84 (2012-08-09)
 -----------------
 
 * Move the repository to `github <https://github.com/Yaco-Sistemas/django-inplaceedit/>`_
