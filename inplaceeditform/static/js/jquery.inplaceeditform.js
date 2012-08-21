@@ -21,14 +21,13 @@
                 });
             }
             $(this).bind(opts.eventInplaceEdit, function () {
-                if (this.ajax_time) {
+                if ($(this).data("ajaxTime")) {
                     return false;
                 }
                 if (!enabled) {
                     return false;
                 }
-                this.ajax_time = true;
-                $(this).data("inplace_enabled");
+                $(this).data("ajaxTime", true);
                 var data = getDataToRequest($(this).find("span.config"));
                 var extraConfig = $(this).find(".config").data("extraConfig");
                 if (extraConfig) {
@@ -104,7 +103,7 @@
                                 $(that).next("form.inplaceeditform").find("select").change(autoSave);
                             }
                         }
-                        that.ajax_time = false;
+                        $(that).data("ajaxTime", false);
                     }
                 });
             });
@@ -117,7 +116,7 @@
                     alert(response.statusText);
                 }
                 this.context.next(".cancel").click();
-                this.context[0].ajax_time = false;
+                this.context.data("ajaxTime", false);
             }
 
             function revertlinkInplaceEdit(links_parents) {
