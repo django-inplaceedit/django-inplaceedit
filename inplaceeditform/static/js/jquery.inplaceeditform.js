@@ -117,7 +117,7 @@
                     alert(response.statusText);
                 }
                 this.context.next(".cancel").click();
-                this.context.ajax_time = false;
+                this.context[0].ajax_time = false;
             }
 
             function revertlinkInplaceEdit(links_parents) {
