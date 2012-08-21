@@ -133,7 +133,7 @@ Examples
     <head>
     ...
     <script src="{{ STATIC_URL }}js/jquery.min.js" type="text/javascript"></script> 
-    {% inplace_media %} 
+    {% inplace_toolbar %} 
     </head>
     <body>
         ...
@@ -156,7 +156,8 @@ Examples
 How to use it
 -------------
 
- Just pass the cursor above the field and double click, authenticated with a super user
+ * If you use inplace_static: Just pass the cursor above the field and double click (this is customizable), authenticated with a super user
+ * If you use inplace_toolbar: Enable a edit inline and just pass the cursor above the field and double click (this is customizable), authenticated with a super user
 
 Advanced usage
 ==============
