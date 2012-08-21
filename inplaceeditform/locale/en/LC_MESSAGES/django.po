@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-06-23 12:59+0200\n"
+"POT-Creation-Date: 2012-08-21 03:11-0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,12 +16,12 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: fields.py:88
-msgid "Dobleclick to edit"
+#: templates/inplaceeditform/inc.inplace_toolbar.html:3
+msgid "Enable edit inline"
 msgstr ""
 
-#: fields.py:153
-msgid "Write a traslation"
+#: templates/inplaceeditform/inc.inplace_toolbar.html:4
+msgid "Disable edit inline"
 msgstr ""
 
 #: templates/inplaceeditform/inplace_js.html:14
