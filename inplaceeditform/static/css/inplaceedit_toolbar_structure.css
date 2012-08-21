@@ -1,0 +1,23 @@
+#toolbar-inplace-edit {
+    height: 20px;
+    background: #dddddd;
+    border: 1px solid #cccccc;
+    font-size: 11px;
+    font-family: sans-serif;
+}
+
+
+#toolbar-inplace-edit div.toolbarContainer {
+    display: inline;
+    line-height: 20px;
+    border-right: 1px solid #cccccc;
+}
+
+#toolbar-inplace-edit .toolbarAction {
+    cursor: pointer;
+    padding: 0px 5px;
+}
+
+#toolbar-inplace-edit .active {
+    background-color: #bfbfbf;
+}

@@ -10,7 +10,7 @@ from inplaceeditform.tag_utils import RenderWithArgsAndKwargsNode, parse_args_kw
 register = Library()
 
 
-def inplace_js(context, activate_inplaceedit=True):
+def inplace_js(context, activate_inplaceedit=True, toolbar=False):
     return context.update({
         'STATIC_URL': get_static_url(),
         'ADMIN_MEDIA_PREFIX': settings.ADMIN_MEDIA_PREFIX,
@@ -18,14 +18,16 @@ def inplace_js(context, activate_inplaceedit=True):
         'auto_save': simplejson.dumps(getattr(settings, "INPLACEEDIT_AUTO_SAVE", False)),
         'event': getattr(settings, "INPLACEEDIT_EVENT", "dblclick"),
         'disable_click': simplejson.dumps(getattr(settings, "INPLACEEDIT_DISABLE_CLICK", True)),
+        'toolbar': toolbar,
     })
 register.inclusion_tag("inplaceeditform/inplace_js.html", takes_context=True)(inplace_js)
 
 
-def inplace_css(context):
+def inplace_css(context, toolbar):
     return context.update({
         'STATIC_URL': get_static_url(),
         'ADMIN_MEDIA_PREFIX': settings.ADMIN_MEDIA_PREFIX,
+        'toolbar': toolbar,
     })
 register.inclusion_tag("inplaceeditform/inplace_css.html", takes_context=True)(inplace_css)
 
@@ -34,6 +36,7 @@ def inplace_static(context):
     return context.update({
         'STATIC_URL': get_static_url(),
         'ADMIN_MEDIA_PREFIX': settings.ADMIN_MEDIA_PREFIX,
+        'toolbar': False,
     })
 register.inclusion_tag("inplaceeditform/inplace_static.html", takes_context=True)(inplace_static)
 
@@ -42,6 +45,15 @@ register.inclusion_tag("inplaceeditform/inplace_static.html", takes_context=True
 def inplace_media(context):
     return inplace_static(context)
 register.inclusion_tag("inplaceeditform/inplace_static.html", takes_context=True)(inplace_media)
+
+
+def inplace_toolbar(context):
+    return context.update({
+        'STATIC_URL': get_static_url(),
+        'ADMIN_MEDIA_PREFIX': settings.ADMIN_MEDIA_PREFIX,
+        'toolbar': True,
+    })
+register.inclusion_tag("inplaceeditform/inplace_static.html", takes_context=True)(inplace_toolbar)
 
 
 class InplaceEditNode(RenderWithArgsAndKwargsNode):

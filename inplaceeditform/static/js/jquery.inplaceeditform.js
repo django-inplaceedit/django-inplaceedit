@@ -9,7 +9,7 @@
             "disableClick": true,
             "autoSave": false
         };
-        var enabled = true;
+        var enabled = false;
         var inplaceeditfields = this;
         opts = $.extend(defaults, opts || {});
         this.each(function () {
