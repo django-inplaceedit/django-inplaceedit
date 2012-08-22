@@ -9,6 +9,7 @@
             "disableClick": true,
             "autoSave": false
         };
+        var formSelector = "form.inplaceeditform";
         var enabled = false;
         var inplaceeditfields = this;
         opts = $.extend(defaults, opts || {});
@@ -79,28 +80,28 @@
                             }
                             if (applyButton.size()) {
                                 applyButton.click(inplaceApply);
-                                $(that).next("form.inplaceeditform").submit(bind(inplaceApply, applyButton));
+                                $(that).next(formSelector).submit(bind(inplaceApply, applyButton));
                             }
                             if (applyFileButton.size()) {
                                 applyFileButton.click(inplaceApplyUpload);
-                                $(that).next("form.inplaceeditform").submit(bind(inplaceApply, applyFileButton));
+                                $(that).next(formSelector).submit(bind(inplaceApply, applyFileButton));
                             }
-                            $(that).next("form.inplaceeditform").find("input, select").focus();
+                            $(that).next(formSelector).find("input, select").focus();
                             if (opts.autoSave && can_auto_save) {
                                 applyButton.hide();
                                 cancelButton.hide();
                                 applyFileButton.hide();
-                                var value = $(that).next("form.inplaceeditform").find("input, select").val();
+                                var value = $(that).next(formSelector).find("input, select").val();
                                 var autoSave = function () {
                                     var newValue = $(this).val();
                                     if (newValue !== value) {
-                                        $(that).next("form.inplaceeditform").find(".apply").click();
+                                        $(that).next(formSelector).find(".apply").click();
                                     } else {
-                                        $(that).next("form.inplaceeditform").find(".cancel").click();
+                                        $(that).next(formSelector).find(".cancel").click();
                                     }
                                 };
-                                $(that).next("form.inplaceeditform").find("input, select").blur(autoSave);
-                                $(that).next("form.inplaceeditform").find("select").change(autoSave);
+                                $(that).next(formSelector).find("input, select").blur(autoSave);
+                                $(that).next(formSelector).find("select").change(autoSave);
                             }
                         }
                         $(that).data("ajaxTime", false);
@@ -199,7 +200,7 @@
                 return csrf_token;
             }
             function inplaceApply() {
-                var form = $(this).parents("form.inplaceeditform");
+                var form = $(this).parents(formSelector);
                 form.animate({opacity: 0.1});
                 form.find("ul.errors").fadeOut(function () {$(this).remove(); });
                 var inplaceedit_conf = form.prev().find("span.config");
@@ -232,7 +233,7 @@
             }
 
             function inplaceApplyUpload() {
-                var form = $(this).parents("form.inplaceeditform");
+                var form = $(this).parents(formSelector);
                 form.animate({opacity: 0.1});
                 form.find("ul.errors").fadeOut(function () {$(this).remove(); });
                 var inplaceedit_conf = form.prev().find("span.config");
@@ -332,6 +333,17 @@
                     node.appendChild(document.createTextNode(text));
                 } else {
                     node.text = text;
+                }
+            }
+            window.onbeforeunload = function (event) {
+                var msg = "You have unsaved changes!";
+                if ($(formSelector).size()) {
+                    if (event) {
+                        // For IE and Firefox prior to version 4
+                        event.returnValue = msg;
+                    }
+                    // For Safari and Firefox version 4 and later
+                    return msg;
                 }
             }
             // https://docs.djangoproject.com/en/1.3/ref/contrib/csrf/#ajax

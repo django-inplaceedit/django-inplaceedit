@@ -1,6 +1,13 @@
 Releases
 ========
 
+0.87 (2012-??-??)
+-----------------
+
+* Add callback to onbeforeunload
+* Refactor the jquery.inplaceeditform.js
+
+
 0.86 (2012-08-21)
 -----------------
 
