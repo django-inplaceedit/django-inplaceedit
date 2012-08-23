@@ -48,10 +48,10 @@ def get_field(request):
     if not request.method == 'GET':
         return _get_http_response({'errors': 'It is not a GET request'})
     adaptor = _get_adaptor(request, 'GET')
-    if not adaptor.can_edit():
-        return _get_http_response({'errors': 'You can not edit this content'})
     if not adaptor:
         return _get_http_response({'errors': 'Params insufficient'})
+    if not adaptor.can_edit():
+        return _get_http_response({'errors': 'You can not edit this content'})
     field_render = adaptor.render_field()
     field_media_render = adaptor.render_media_field()
     return _get_http_response({'field_render': field_render,
