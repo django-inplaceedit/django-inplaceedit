@@ -15,10 +15,10 @@ def save_ajax(request):
     if not request.method == 'POST':
         return _get_http_response({'errors': 'It is not a POST request'})
     adaptor = _get_adaptor(request, 'POST')
-    if not adaptor.can_edit():
-        return _get_http_response({'errors': 'You can not edit this content'})
     if not adaptor:
         return _get_http_response({'errors': 'Params insufficient'})
+    if not adaptor.can_edit():
+        return _get_http_response({'errors': 'You can not edit this content'})
     value = adaptor.loads_to_post(request)
     new_data = get_dict_from_obj(adaptor.obj)
     form_class = adaptor.get_form_class()
