@@ -71,6 +71,21 @@ class InplaceEditNode(RenderWithArgsAndKwargsNode):
         request = context.get('request')
 
         config = class_adaptor.get_config(**kwargs)
+
+        # Implementation of a default config set for the inplace_edit template tag.
+        config_from_settings = getattr(settings, "DEFAULT_INPLACE_EDIT_OPTIONS", {})
+        config_one_by_one = getattr(settings, "DEFAULT_INPLACE_EDIT_OPTIONS_ONE_BY_ONE", False)
+
+        if not config_one_by_one:
+            # Solution 1: Using default config only if none specified.
+            if not config and config_from_settings:
+                config = config_from_settings
+        else:
+            # Solution 2: Updating the configured config with the default one.
+            config = dict(config_from_settings, **config)
+
+        # End of the implementation.
+
         adaptor_field = class_adaptor(request, obj, field_name,
                                                filters_to_show,
                                                config)
