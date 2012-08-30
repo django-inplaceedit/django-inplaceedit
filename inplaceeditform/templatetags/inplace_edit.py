@@ -13,7 +13,7 @@ register = Library()
 def inplace_js(context, activate_inplaceedit=True, toolbar=False):
     return context.update({
         'STATIC_URL': get_static_url(),
-        'ADMIN_MEDIA_PREFIX': getattr(settings, 'ADMIN_MEDIA_PREFIX', None),
+        'ADMIN_MEDIA_PREFIX': getattr(settings, 'ADMIN_MEDIA_PREFIX', get_static_url()),
         'activate_inplaceedit': activate_inplaceedit,
         'auto_save': simplejson.dumps(getattr(settings, "INPLACEEDIT_AUTO_SAVE", False)),
         'event': getattr(settings, "INPLACEEDIT_EVENT", "dblclick"),
@@ -26,7 +26,7 @@ register.inclusion_tag("inplaceeditform/inplace_js.html", takes_context=True)(in
 def inplace_css(context, toolbar):
     return context.update({
         'STATIC_URL': get_static_url(),
-        'ADMIN_MEDIA_PREFIX': getattr(settings, 'ADMIN_MEDIA_PREFIX', None),
+        'ADMIN_MEDIA_PREFIX': getattr(settings, 'ADMIN_MEDIA_PREFIX', get_static_url()),
         'toolbar': toolbar,
     })
 register.inclusion_tag("inplaceeditform/inplace_css.html", takes_context=True)(inplace_css)
@@ -35,7 +35,7 @@ register.inclusion_tag("inplaceeditform/inplace_css.html", takes_context=True)(i
 def inplace_static(context):
     return context.update({
         'STATIC_URL': get_static_url(),
-        'ADMIN_MEDIA_PREFIX': getattr(settings, 'ADMIN_MEDIA_PREFIX', None),
+        'ADMIN_MEDIA_PREFIX': getattr(settings, 'ADMIN_MEDIA_PREFIX', get_static_url()),
         'toolbar': False,
     })
 register.inclusion_tag("inplaceeditform/inplace_static.html", takes_context=True)(inplace_static)
@@ -50,7 +50,7 @@ register.inclusion_tag("inplaceeditform/inplace_static.html", takes_context=True
 def inplace_toolbar(context):
     return context.update({
         'STATIC_URL': get_static_url(),
-        'ADMIN_MEDIA_PREFIX': getattr(settings, 'ADMIN_MEDIA_PREFIX', None),
+        'ADMIN_MEDIA_PREFIX': getattr(settings, 'ADMIN_MEDIA_PREFIX', get_static_url()),
         'toolbar': True,
     })
 register.inclusion_tag("inplaceeditform/inplace_static.html", takes_context=True)(inplace_toolbar)
