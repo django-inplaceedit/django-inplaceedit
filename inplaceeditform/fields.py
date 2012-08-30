@@ -7,7 +7,7 @@ from django.utils import simplejson
 
 from django.utils.translation import ugettext
 
-from inplaceeditform.commons import apply_filters, import_module, has_transmeta, get_static_url
+from inplaceeditform.commons import apply_filters, import_module, has_transmeta, get_static_url, get_admin_static_url
 from inplaceeditform.perms import SuperUserPermEditInline
 
 
@@ -107,7 +107,7 @@ class BaseAdaptorField(object):
         extra_context = extra_context or {}
         context = {'field': self.get_field(),
                    'STATIC_URL': get_static_url(),
-                   'ADMIN_MEDIA_PREFIX': getattr(settings, 'ADMIN_MEDIA_PREFIX', get_static_url())}
+                   'ADMIN_MEDIA_PREFIX': getattr(settings, 'ADMIN_MEDIA_PREFIX', get_admin_static_url())}
         context.update(extra_context)
 
         return render_to_string(template_name, context)
