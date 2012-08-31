@@ -110,4 +110,8 @@ def get_admin_static_url():
     the static url from the previous function and add /admin/.
     """
     admin_media_prefix = getattr(settings, 'ADMIN_MEDIA_PREFIX', None)
-    return admin_media_prefix if admin_media_prefix else get_static_url() + "/admin/"
+
+    if admin_media_prefix:
+        return admin_media_prefix
+    else:
+        return get_static_url() + "/admin/"
