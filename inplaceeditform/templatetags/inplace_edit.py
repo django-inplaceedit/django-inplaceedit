@@ -23,7 +23,7 @@ def inplace_js(context, activate_inplaceedit=True, toolbar=False):
 register.inclusion_tag("inplaceeditform/inplace_js.html", takes_context=True)(inplace_js)
 
 
-def inplace_css(context, toolbar):
+def inplace_css(context, toolbar=False):
     return context.update({
         'STATIC_URL': get_static_url(),
         'ADMIN_MEDIA_PREFIX': get_admin_static_url(),

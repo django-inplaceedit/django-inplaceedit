@@ -1,6 +1,11 @@
 Releases
 ========
 
+0.88 (2012-??-??)
+-----------------
+
+* Add to default parameter to inplace_css
+
 0.87 (2012-09-05)
 -----------------
 
