@@ -1,11 +1,17 @@
 Releases
 ========
 
-0.87 (2012-??-??)
+0.87 (2012-09-05)
 -----------------
 
 * Add callback to onbeforeunload
 * Refactor the jquery.inplaceeditform.js
+* Now is not required the ADMIN_MEDIA_PREFIX in the settings, but this is backward compatible
+* New options to the settings: DEFAULT_INPLACE_EDIT_OPTIONS and DEFAULT_INPLACE_EDIT_OPTIONS_ONE_BY_ONE
+* Thanks to:
+    * `Tobias Birmili <https://github.com/toabi/>`_
+    * `Serpah <https://github.com/serpah/>`_
+    * And spatially to `Altimore <https://github.com/altimore>`_
 
 
 0.86 (2012-08-21)
