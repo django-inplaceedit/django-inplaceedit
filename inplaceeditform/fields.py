@@ -58,7 +58,26 @@ class BaseAdaptorField(object):
 
     @classmethod
     def get_config(self, **kwargs):
-        return kwargs
+        """
+        Get the arguments given to the template tag element and complete these
+        with the ones from the settings.py if necessary.
+        """
+        config = kwargs
+
+        config_from_settings = getattr(
+            settings, "DEFAULT_INPLACE_EDIT_OPTIONS", {})
+        config_one_by_one = getattr(
+            settings, "DEFAULT_INPLACE_EDIT_OPTIONS_ONE_BY_ONE", False)
+
+        if not config_one_by_one:
+            # Solution 1: Using default config only if none specified.
+            if not config and config_from_settings:
+                config = config_from_settings
+        else:
+            # Solution 2: Updating the configured config with the default one.
+            config = dict(config_from_settings, **config)
+
+        return config
 
     def get_form_class(self):
         return modelform_factory(self.model)

@@ -81,7 +81,8 @@ Optional:
     INPLACEEDIT_EVENT = "dblclick"
     INPLACEEDIT_DISABLE_CLICK = True  # For inplace edit text into a link tag
     INPLACEEDIT_EDIT_MESSAGE_TRANSLATION = 'Write a translation' # transmeta option
-
+    DEFAULT_INPLACE_EDIT_OPTIONS = {} # dictionnary of the optionals parameters that the templatetag can receive to change its behavior (see the Advanced usage section)
+    DEFAULT_INPLACE_EDIT_OPTIONS_ONE_BY_ONE = True # modify the behavior of the DEFAULT_INPLACE_EDIT_OPTIONS usage, if True then it use the default values not specified in your template, if False it uses these options only when the dictionnary is empty (when you do put any options in your template)
 
 
 In your urls.py
@@ -373,7 +374,7 @@ Example
 Testing
 =======
 
-This django application has been tested on severals browsers: Firefox, Google Chrome, Opera, Safari and Internet Explorer on versions 7 and 8, to ckeck javascript actions.
+This django application has been tested on severals browsers: Firefox, Google Chrome, Opera, Safari and Internet Explorer on versions 7 and 8, to check javascript actions.
 
 Also, exists a django project to test inplaceeditform. This project can use as demo project, because inplaceeditform is totally adapted to it.
 
@@ -390,7 +391,7 @@ If you want to get more download `Django Inplace Edit Extra Field <http://pypi.p
 Development
 ===========
 
-You can get the last leading edge version of inplaceedit by doing a checkout
-of its subversion repository::
+You can get the last bleeding edge version of inplaceedit by doing a checkout
+of its git repository::
 
   git clone git://github.com/Yaco-Sistemas/django-inplaceedit.git
