@@ -14,7 +14,8 @@
                            "successText": "{% trans "Successfully saved" %}",
                            "eventInplaceEdit": "{{ event }}",
                            "disableClick": {{ disable_click }},
-                           "autoSave": {{ auto_save }}};
+                           "autoSave": {{ auto_save }},
+                           "unsavedChanges": "You have unsaved changes!"};
             var inplaceManager = $(".inplaceedit").inplaceeditform(options);
             {% if not toolbar %}
                 inplaceManager.enable();

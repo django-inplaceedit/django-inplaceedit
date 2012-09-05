@@ -7,7 +7,8 @@
             "successText": "Successfully saved",
             "eventInplaceEdit": "dblclick",
             "disableClick": true,
-            "autoSave": false
+            "autoSave": false,
+            "unsavedChanges": "You have unsaved changes!"
         };
         var formSelector = "form.inplaceeditform";
         var enabled = false;
@@ -336,7 +337,7 @@
                 }
             }
             window.onbeforeunload = function (event) {
-                var msg = "You have unsaved changes!";
+                var msg = opts.unsavedChanges;
                 if ($(formSelector).size()) {
                     if (event) {
                         // For IE and Firefox prior to version 4
@@ -345,7 +346,7 @@
                     // For Safari and Firefox version 4 and later
                     return msg;
                 }
-            }
+            };
             // https://docs.djangoproject.com/en/1.3/ref/contrib/csrf/#ajax
             $(document).ajaxSend(function (event, xhr, settings) {
                 function getCookie(name) {
