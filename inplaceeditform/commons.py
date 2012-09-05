@@ -104,14 +104,10 @@ def get_static_url(subfix='inplaceeditform'):
     else:  # To old django versions
         return '%s%s/' % (getattr(settings, 'MEDIA_URL', None), subfix)
 
+
 def get_admin_static_url():
     """
     Return the ADMIN_MEDIA_PREFIX if it is in the settings.py else get
     the static url from the previous function and add /admin/.
     """
-    admin_media_prefix = getattr(settings, 'ADMIN_MEDIA_PREFIX', None)
-
-    if admin_media_prefix:
-        return admin_media_prefix
-    else:
-        return get_static_url() + "/admin/"
+    return getattr(settings, 'ADMIN_MEDIA_PREFIX', get_static_url() + "admin/")
