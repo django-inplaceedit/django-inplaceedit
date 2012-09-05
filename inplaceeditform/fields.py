@@ -413,7 +413,11 @@ class AdaptorFileField(BaseAdaptorField):
         return render_to_string(template_name, config)
 
     def save(self, value):
-        getattr(self.obj, self.field_name).save(value.name, value)
+        file_name = value and value.name
+        if not file_name:
+            super(AdaptorFileField, self).save(value)
+        else:
+            getattr(self.obj, self.field_name).save(file_name, value)
 
 
 class AdaptorImageField(AdaptorFileField):
