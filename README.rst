@@ -38,10 +38,10 @@ Install in your base.html
 
     {% inplace_toolbar %}
 
-    or 
+    or
 
     {% inplace_static %}
-    
+
 
 In your settings.py
 -------------------
@@ -133,8 +133,8 @@ Examples
     <html>
     <head>
     ...
-    <script src="{{ STATIC_URL }}js/jquery.min.js" type="text/javascript"></script> 
-    {% inplace_toolbar %} 
+    <script src="{{ STATIC_URL }}js/jquery.min.js" type="text/javascript"></script>
+    {% inplace_toolbar %}
     </head>
     <body>
         ...
@@ -169,8 +169,9 @@ Inplaceedit has some optionals parameters that the templatetag can receive to ch
  * class_inplace: Add a class to edit inline form.
  * tag_name_cover: The value is covered for a span. But it's possible to change it.
  * filters_to_show: The server filters the value before to save. List separate for "|"
- * loads: If you use some filter that need a load, you set this option. List separate for ":" 
- 
+ * loads: If you use some filter that need a load, you set this option. List separate for ":"
+ * edit_empty_value: The text to display when the field is empty
+
 Examples
 --------
 
@@ -180,7 +181,7 @@ Examples
     {% inplace_edit "content.title" class_inplace="titleFormEditInline" %}
     {% inplace_edit "content.description|safe" filters_to_show="safe|truncatewords_html:30", tag_name_cover="div" %}
     {% inplace_edit "content.description|my_filter" loads="my_template_tag" %}
- 
+    {% inplace_edit "content.index" edit_empty_value "0"  %}
 
 Adaptor API
 ===========
@@ -237,7 +238,7 @@ Python API
 JavaScript API
 --------------
 
-There are four hooks, 
+There are four hooks,
 
  * getValue: if the value is componing for various widgets, you can set the function getValue, to these DOM elements. Something like this:
 
@@ -305,7 +306,7 @@ Overwriting a default adaptor
 -----------------------------
 
 To overwrite a adaptor add in your settings something like this:
- 
+
 ::
 
  ADAPTOR_INPLACEEDIT = {'text': 'app_name.fields.MyAdaptorText'}
@@ -386,7 +387,7 @@ This egg is compatible with  `Transmeta <http://pypi.python.org/pypi/django-tran
 Django Inplace Edit Extra Field
 ===============================
 
-If you want to get more download `Django Inplace Edit Extra Field <http://pypi.python.org/pypi/django-inplaceedit-extra-fields>`_ 
+If you want to get more download `Django Inplace Edit Extra Field <http://pypi.python.org/pypi/django-inplaceedit-extra-fields>`_
 
 Development
 ===========

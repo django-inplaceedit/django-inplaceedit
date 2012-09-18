@@ -110,8 +110,15 @@ class BaseAdaptorField(object):
         return self.empty_value()
 
     def empty_value(self):
-        return ugettext(getattr(settings, 'INPLACEEDIT_EDIT_EMPTY_VALUE',
-                                          'Dobleclick to edit'))
+        '''
+        Get the text to display when the field is empty.
+        '''
+        edit_empty_value = self.config.get('edit_empty_value', False)
+        if edit_empty_value:
+            return edit_empty_value
+        else:
+            return ugettext(getattr(settings, 'INPLACEEDIT_EDIT_EMPTY_VALUE',
+                                    'Dobleclick to edit'))
 
     def render_field(self, template_name="inplaceeditform/render_field.html", extra_context=None):
         extra_context = extra_context or {}
