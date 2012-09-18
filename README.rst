@@ -181,7 +181,7 @@ Examples
     {% inplace_edit "content.title" class_inplace="titleFormEditInline" %}
     {% inplace_edit "content.description|safe" filters_to_show="safe|truncatewords_html:30", tag_name_cover="div" %}
     {% inplace_edit "content.description|my_filter" loads="my_template_tag" %}
-    {% inplace_edit "content.index" edit_empty_value "0"  %}
+    {% inplace_edit "content.index" edit_empty_value="0" %}
 
 Adaptor API
 ===========
