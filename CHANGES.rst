@@ -5,6 +5,7 @@ Releases
 -----------------
 
 * Add to default parameter to inplace_css
+* Translate to the string: "You have unsaved changes!"
 
 0.87 (2012-09-05)
 -----------------

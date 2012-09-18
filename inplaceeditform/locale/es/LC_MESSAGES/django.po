@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-08-21 03:11-0700\n"
+"POT-Creation-Date: 2012-09-18 04:56-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -27,6 +27,10 @@ msgstr "Deshabilitar edición inline"
 #: templates/inplaceeditform/inplace_js.html:14
 msgid "Successfully saved"
 msgstr "Guardado satisfactoriamente"
+
+#: templates/inplaceeditform/inplace_js.html:18
+msgid "You have unsaved changes!"
+msgstr "Tienes cambios sin guardar!"
 
 #: templates/inplaceeditform/render_field.html:9
 #: templates/inplaceeditform/adaptor_file/render_field.html:5
