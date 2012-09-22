@@ -1,0 +1,43 @@
+django-inplaceedit test project
+=================================
+Project to reproduce errors for others to debug it.
+
+default login : test
+default password : testtest
+
+Howto
+======
+1) create a virtual env
+$ virtualenv virt-inplaceedit
+2) copy/link the testing project in
+$ cp django-inplaceedit/testing virt-inplaceedit/testing
+3) get in and activate the env
+$ cd virt-inplaceedit/testing
+$ source ../bin/activate
+4) install the required packages
+$ pip install -r REQUIREMENTS
+5) create db and load fixtures
+$ ./manage.py syncdb
+6) start the debug server
+$ ./manage.py runserver
+7) do your stuffs
+
+Notes
+=======
+The procedure on top install the inplaceedit app from pypi (normally the one you want patched) if you want to install it from another folder just update the REQUIREMENTS file.
+
+
+Reproducing the bugs
+=======================
+I don't know where to put this section, it will be here in the meantime.
+
+--------------------------------------------------------------------------
+Concerning https://github.com/Yaco-Sistemas/django-inplaceedit/issues/3
+- 'GenericRelatedObjectManager' object is not iterable
+--------------------------------------------------------------------------
+1) follow the steps of the howto
+2) url http://localhost:8000/fk/1/
+3) login
+4) double click on the company name
+5) save
+TADAM ! it crashes ! you got your error.
