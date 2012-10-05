@@ -159,12 +159,12 @@ class BaseAdaptorField(object):
         return self.config.get('auto_width', False)
 
     def treatment_height(self, height, width=None):
-        if isinstance(height, basestring) and not height.endswith('px'):
+        if isinstance(height, basestring) and not height.endswith('px') or not isinstance(height, basestring):
             height = "%spx" % height
         return height
 
     def treatment_width(self, width, height=None):
-        if isinstance(width, basestring) and not width.endswith('px'):
+        if isinstance(width, basestring) and not width.endswith('px') or not isinstance(width, basestring):
             width = "%spx" % width
         return width
 

@@ -1,11 +1,15 @@
 Releases
 ========
 
-0.88 (2012-??-??)
+0.88 (2012-10-05)
 -----------------
 
 * Add to default parameter to inplace_css
 * Translate to the string: "You have unsaved changes!"
+* Fix a problem with the treatment of the sizes
+* Thanks to:
+    * `Tobias Birmili <https://github.com/toabi/>`_
+
 
 0.87 (2012-09-05)
 -----------------
