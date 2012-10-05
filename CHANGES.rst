@@ -7,8 +7,10 @@ Releases
 * Add to default parameter to inplace_css
 * Translate to the string: "You have unsaved changes!"
 * Fix a problem with the treatment of the sizes
+* INPLACEEDIT_EDIT_EMPTY_VALUE settings
 * Thanks to:
     * `Tobias Birmili <https://github.com/toabi/>`_
+    * `Altimore <https://github.com/altimore>`_
 
 
 0.87 (2012-09-05)
