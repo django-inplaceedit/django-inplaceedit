@@ -1,1 +1,7 @@
-[{"pk": 1, "model": "test_fk.address", "fields": {"street": "test, test, test", "postal_code": "123456789", "object_id": 1, "content_type": 10, "address": "far far away"}}, {"pk": 1, "model": "test_fk.document", "fields": {"name": "mydoc.doc"}}, {"pk": 1, "model": "test_fk.company", "fields": {"logo": 1, "name": "my company"}}]
+[{"fields": {"address": "far far away", "content_type": 10, "object_id": 1},
+  "model": "test_fk.address",
+  "pk": 1},
+ {"fields": {"name": "mydoc.doc"}, "model": "test_fk.document", "pk": 1},
+ {"fields": {"logo": 1, "name": "my company"},
+  "model": "test_fk.company",
+  "pk": 1}]
