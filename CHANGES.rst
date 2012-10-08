@@ -1,6 +1,12 @@
 Releases
 ========
 
+0.89 (2012-10-08)
+-----------------
+
+* Fix a problem when the model that you are editing had a Generic Foreign key
+* Thanks to `Altimore <https://github.com/altimore>`_
+
 0.88 (2012-10-05)
 -----------------
 
