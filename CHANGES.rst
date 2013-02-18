@@ -1,6 +1,13 @@
 Releases
 ========
 
+0.90 (2012-10-08)
+-----------------
+
+* Now works with jQuery 1.9
+* Thanks to:
+    * `Tobias Birmili <https://github.com/toabi/>`_
+
 0.89 (2012-10-08)
 -----------------
 

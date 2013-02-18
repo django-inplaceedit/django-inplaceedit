@@ -51,13 +51,12 @@
                         } else if (response.errors) {
                             alert(response.errors);
                         } else {
-                            var tags = $(response.field_render);
-                            $(response.field_render).insertAfter($(that));
+                            var tags = $(removeStartSpaces(response.field_render));
+                            $(tags).insertAfter($(that));
                             $(that).hide();
-
                             var head = $("head")[0];
                             try {
-                                var medias = $(response.field_media_render);
+                                var medias = $(removeStartSpaces(response.field_media_render));
                                 $.map(medias, function (media) {
                                     loadjscssfile(media);
                                 });
@@ -148,7 +147,7 @@
 
             function inplaceApplySuccess(response) {
                 if (typeof response === "string") {
-                    if ($.browser.msie) {
+                    if ($.browser && $.browser.msie) { // This does not exists in jQuery 1.9
                         response = replaceAll(response, "'\\\\\"", "'");
                         response = replaceAll(response, "\"'", "'");
                     }
@@ -259,6 +258,7 @@
                     data: data,
                     async: true,
                     type: "POST",
+                    method: "POST",
                     dataType: "application/json",
                     error: bind(treatmentStatusError, {"context": $(this)}),
                     success: bind(inplaceApplySuccess, {"context": $(this),
@@ -304,7 +304,10 @@
                 }
                 return dataToRequest;
             }
-
+            function removeStartSpaces(html) {
+                // Remove the espaces and \n to the begin of the field_render
+                return html.replace(/^( |\n)*/g, "");
+            }
             function loadjscssfile(media) {
                 var fileref;
                 if (media.tagName === "SCRIPT") { //if filename is a external JavaScript file

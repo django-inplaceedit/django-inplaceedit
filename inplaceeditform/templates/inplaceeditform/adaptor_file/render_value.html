@@ -1,2 +1,2 @@
 {% load inplace_edit %}
-<a href="{{ value.url }}" />{% if innerHtml %}{% eval %}{{ innerHtml }}{% endeval %}{% else %}{{ value.url }}{% endif %}</a>
+<a href="{{ value.url }}">{% if innerHtml %}{% eval %}{{ innerHtml }}{% endeval %}{% else %}{{ value.url }}{% endif %}</a>
