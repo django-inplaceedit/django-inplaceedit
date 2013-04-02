@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from django import template
+from django.core.urlresolvers import reverse
 from django.template import Library, Variable
 from django.conf import settings
 from django.utils import simplejson
@@ -19,6 +20,8 @@ def inplace_js(context, activate_inplaceedit=True, toolbar=False):
         'event': getattr(settings, "INPLACEEDIT_EVENT", "dblclick"),
         'disable_click': simplejson.dumps(getattr(settings, "INPLACEEDIT_DISABLE_CLICK", True)),
         'toolbar': toolbar,
+        'inplace_get_field_url': reverse('inplace_get_field'),
+        'inplace_save_url': reverse('inplace_save'),
     })
 register.inclusion_tag("inplaceeditform/inplace_js.html", takes_context=True)(inplace_js)
 

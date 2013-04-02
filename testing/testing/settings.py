@@ -119,13 +119,13 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'multimediaresources',
+    'testing.multimediaresources',
     'inplaceeditform',
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
-    'test_fk',
+    'testing.test_fk',
 )
 
 # A sample logging configuration. The only tangible logging

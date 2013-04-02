@@ -1,5 +1,6 @@
 from copy import deepcopy
 from django.conf import settings
+from django.core.urlresolvers import reverse
 from django.contrib.admin.widgets import AdminSplitDateTime, AdminDateWidget
 from django.forms.models import modelform_factory
 from django.template.loader import render_to_string
@@ -14,8 +15,8 @@ from inplaceeditform.perms import SuperUserPermEditInline
 class BaseAdaptorField(object):
 
     def __init__(self, request, obj, field_name,
-                       filters_to_show=None,
-                       config=None):
+                 filters_to_show=None,
+                 config=None):
         self.request = request
         self.obj = obj
         self.field_name = field_name
@@ -125,7 +126,8 @@ class BaseAdaptorField(object):
         context = {'form': self.get_form(),
                    'field': self.get_field(),
                    'STATIC_URL': get_static_url(),
-                   'class_inplace': self.class_inplace}
+                   'class_inplace': self.class_inplace,
+                   'inplace_save_url': reverse('inplace_save')}
         context.update(extra_context)
         return render_to_string(template_name, context)
 
@@ -215,8 +217,8 @@ class BaseAdaptorField(object):
     def _get_translatable_fields(self, cls):
         classes = cls.mro()
         translatable_fields = []
-        [translatable_fields.extend(cl._meta.translatable_fields) for cl in classes \
-                                    if getattr(cl, '_meta', None) and getattr(cl._meta, 'translatable_fields', None)]
+        [translatable_fields.extend(cl._meta.translatable_fields) for cl in classes
+         if getattr(cl, '_meta', None) and getattr(cl._meta, 'translatable_fields', None)]
         return translatable_fields
 
 
@@ -267,7 +269,9 @@ class BaseDateField(BaseAdaptorField):
         self.config['can_auto_save'] = 0
 
     def render_media_field(self, template_name="inplaceeditform/adaptor_date/render_media_field.html"):
-        return super(BaseDateField, self).render_media_field(template_name)
+        extra_context = {'javascript_catalog_url': reverse('django.views.i18n.javascript_catalog')}
+        return super(BaseDateField, self).render_media_field(template_name,
+                                                             extra_context=extra_context)
 
 
 class AdaptorDateField(BaseDateField):

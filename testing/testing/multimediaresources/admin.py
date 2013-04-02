@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from multimediaresources.models import TypeResource, Resource
+from testing.multimediaresources.models import TypeResource, Resource
 
 
 class TypeResourceAdmin(admin.ModelAdmin):

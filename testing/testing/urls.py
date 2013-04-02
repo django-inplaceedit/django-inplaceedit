@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
 
 from django.conf import settings
-from django.conf.urls.defaults import patterns, include, url
+try:
+    from django.conf.urls.defaults import include, patterns, url
+except ImportError:  # Django 1.5
+    from django.conf.urls import include, patterns, url
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
@@ -15,7 +18,7 @@ urlpatterns = patterns('',
     # Examples:
     # url(r'^$', 'testing.views.home', name='home'),
     # url(r'^testing/', include('testing.foo.urls')),
-    url(r'^$', include('multimediaresources.urls')),
+    url(r'^$', include('testing.multimediaresources.urls')),
     url(r'^inplaceeditform/', include('inplaceeditform.urls')),
     url(r'^jsi18n/$', 'django.views.i18n.javascript_catalog', js_info_dict),
 
@@ -25,11 +28,11 @@ urlpatterns = patterns('',
     # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),
 
-    url(r'^fk/', include('test_fk.urls')),
+    url(r'^fk/', include('testing.test_fk.urls')),
 )
 
 urlpatterns += patterns('',
     (r'^media/(?P<path>.*)$',
      'django.views.static.serve',
      {'document_root': settings.MEDIA_ROOT}),
-    )
+)

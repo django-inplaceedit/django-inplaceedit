@@ -12,8 +12,8 @@
 <script type="text/javascript"> 
     (function($){
         $(document).ready(function () {
-            var options = {"getFieldUrl": "{% url inplace_get_field %}",
-                           "saveURL": "{% url inplace_save %}",
+            var options = {"getFieldUrl": "{{ inplace_get_field_url }}",
+                           "saveURL": "{{ inplace_save_url }}",
                            "successText": "{% trans "Successfully saved" %}",
                            "eventInplaceEdit": "{{ event }}",
                            "disableClick": {{ disable_click }},

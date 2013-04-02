@@ -1,6 +1,14 @@
 Releases
 ========
 
+0.91 (2013-04-01)
+-----------------
+
+* Now works with Django 1.5 and **the older versions of Django**
+* Thanks to:
+    * `Yuego <https://github.com/Yuego>`_
+
+
 0.90 (2012-10-08)
 -----------------
 
