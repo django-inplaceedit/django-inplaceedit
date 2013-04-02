@@ -9,7 +9,7 @@ Releases
     * `Yuego <https://github.com/Yuego>`_
 
 
-0.90 (2012-10-08)
+0.90 (2013-02-18)
 -----------------
 
 * Now works with jQuery 1.9
