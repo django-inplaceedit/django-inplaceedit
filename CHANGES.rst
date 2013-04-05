@@ -1,6 +1,13 @@
 Releases
 ========
 
+0.92 (2013-04-05)
+-----------------
+
+* Make javascript extendable and refactor success handler
+* Thanks to:
+    * `Jens Nistler <https://github.com/lociii>`_
+
 0.91 (2013-04-01)
 -----------------
 
