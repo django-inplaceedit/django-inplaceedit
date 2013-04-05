@@ -238,7 +238,33 @@ Python API
 JavaScript API
 --------------
 
-There are four hooks,
+You can change the javascript behaviour by adding or overriding methods from the original implementation by adding the special file jquery.inplaceeditform.hooks.js to your project.
+$.inplaceeditform.extend takes an object with the new or replacement methods.
+
+::
+
+    $.inplaceeditform.extend(
+        {
+            inplaceApplySuccessShowMessage: function(inplace_span) {
+                var self = $.inplaceeditform;
+                if (self.opts.successText) {
+                    var modal = $('#inplaceedit-modal');
+                    var body = modal.find('div.modal-body p');
+                    body.html(self.opts.successText);
+
+                    setTimeout(function () {
+                        modal.fadeOut(function () {
+                            $(this).remove();
+                        });
+                    }, 2000);
+                }
+                modal.show();
+            }
+        }
+    );
+
+
+Additionally there are four hooks,
 
  * getValue: if the value is componing for various widgets, you can set the function getValue, to these DOM elements. Something like this:
 
@@ -396,3 +422,4 @@ You can get the last bleeding edge version of inplaceedit by doing a checkout
 of its git repository::
 
   git clone git://github.com/Yaco-Sistemas/django-inplaceedit.git
+
