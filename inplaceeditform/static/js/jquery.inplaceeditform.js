@@ -275,21 +275,26 @@
                     var inplace_span = inplaceedit_conf.parents(".inplaceedit");
                     var config = inplace_span.find("span.config").html();
                     inplace_span.html(response.value + "<span class='config' style='display:none;'>" + config + "</span>");
-                    var success_message = $("<ul class='success'><li>" + self.opts.successText + "</li></ul>");
-                    if (self.opts.successText) {
-                        inplace_span.prepend(success_message);
-                        setTimeout(function () {
-                            success_message.fadeOut(function () {
-                                $(this).remove();
-                            });
-                        }, 2000);
-                    }
                     inplace_span.show();
+                    self.methods.inplaceApplySuccessShowMessage(inplace_span, response);
                     var applyFinish = that.data("applyFinish");
                     if (applyFinish) {
                         applyFinish(that);
                     }
                     that.parent().remove();
+                }
+            },
+
+            inplaceApplySuccessShowMessage: function(inplace_span) {
+                var self = $.inplaceeditform;
+                if (self.opts.successText) {
+                    var success_message = $("<ul class='success'><li>" + self.opts.successText + "</li></ul>");
+                    inplace_span.prepend(success_message);
+                    setTimeout(function () {
+                        success_message.fadeOut(function () {
+                            $(this).remove();
+                        });
+                    }, 2000);
                 }
             },
 
