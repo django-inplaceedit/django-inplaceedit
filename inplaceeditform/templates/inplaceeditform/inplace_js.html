@@ -1,15 +1,16 @@
 {% load i18n %}
-<!-- it needs jquery to work 
+<!-- it needs jquery to work
 <script src="//code.jquery.com/jquery-1.9.1.min.js" type="text/javascript"></script>
 -->
 <script src="{{ STATIC_URL }}js/jquery.json.js" type="text/javascript"></script>
 <script src="{{ STATIC_URL }}js/jquery.inplaceeditform.js" type="text/javascript"></script>
+<script src="{{ STATIC_URL }}js/jquery.inplaceeditform.hooks.js" type="text/javascript"></script>
 
 {% if activate_inplaceedit %}
 <!--[if IE]>
 <script> if(typeof $!== typeof undefined && $.browser === undefined){ $.browser = { msie : true}} </script>
 <![endif]-->
-<script type="text/javascript"> 
+<script type="text/javascript">
     (function($){
         $(document).ready(function () {
             var options = {"getFieldUrl": "{{ inplace_get_field_url }}",
