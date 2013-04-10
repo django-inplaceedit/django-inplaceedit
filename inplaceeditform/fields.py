@@ -251,6 +251,10 @@ class AdaptorBooleanField(BaseAdaptorField):
     def name(self):
         return 'boolean'
 
+    def __init__(self, *args, **kwargs):
+        super(AdaptorBooleanField, self).__init__(*args, **kwargs)
+        self.config['can_auto_save'] = 0
+
     def render_value(self, field_name=None, template_name="inplaceeditform/adaptor_boolean/render_value.html"):
         value = super(AdaptorBooleanField, self).render_value(field_name)
         return render_to_string(template_name, {'value': value, 'STATIC_URL': get_static_url()})

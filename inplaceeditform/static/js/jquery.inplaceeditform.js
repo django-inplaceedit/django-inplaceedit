@@ -114,12 +114,12 @@
                                             applyFileButton.click(self.methods.inplaceApplyUpload);
                                             $(that).next(self.formSelector).submit(self.methods.bind(self.methods.inplaceApply, applyFileButton));
                                         }
-                                        $(that).next(self.formSelector).find("input, select").focus();
+                                        $(that).next(self.formSelector).find("input, select, textarea").focus();
                                         if (self.opts.autoSave && can_auto_save) {
                                             applyButton.hide();
                                             cancelButton.hide();
                                             applyFileButton.hide();
-                                            var value = $(that).next(self.formSelector).find("input, select").val();
+                                            var value = $(that).next(self.formSelector).find("input, select, textarea").val();
                                             var autoSave = function () {
                                                 var newValue = $(this).val();
                                                 if (newValue !== value) {
@@ -128,7 +128,7 @@
                                                     $(that).next(self.formSelector).find(".cancel").click();
                                                 }
                                             };
-                                            $(that).next(self.formSelector).find("input, select").blur(autoSave);
+                                            $(that).next(self.formSelector).find("input, select, textarea").blur(autoSave);
                                             $(that).next(self.formSelector).find("select").change(autoSave);
                                         }
                                     }
