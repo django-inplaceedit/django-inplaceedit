@@ -1,6 +1,14 @@
 Releases
 ========
 
+0.93 (2013-04-10)
+-----------------
+
+* Fix a erros with INPLACEEDIT_AUTO_SAVE = True
+* Thanks to:
+    * `Fynjah <https://github.com/fynjah>`_
+
+
 0.92 (2013-04-05)
 -----------------
 
