@@ -8,5 +8,5 @@
 }
 
 .inplaceedit.enable:hover img {
-   border: 2px solid #FFFFBB;
+   outline: 2px solid #FFFFBB;
 }

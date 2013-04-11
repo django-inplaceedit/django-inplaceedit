@@ -76,7 +76,7 @@ Optional:
 
 ::
 
-    INPLACEEDIT_EDIT_EMPTY_VALUE = 'Doble click to edit'
+    INPLACEEDIT_EDIT_EMPTY_VALUE = 'Double click to edit'
     INPLACEEDIT_AUTO_SAVE = True
     INPLACEEDIT_EVENT = "dblclick"
     INPLACEEDIT_DISABLE_CLICK = True  # For inplace edit text into a link tag
