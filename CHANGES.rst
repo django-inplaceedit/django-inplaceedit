@@ -1,12 +1,21 @@
 Releases
 ========
 
+0.94 (2013-??-??)
+-----------------
+
+* Fix the small typo error
+* Fix a css error
+* Thanks to:
+    * `Anton <https://github.com/fynjah>`_
+
+
 0.93 (2013-04-10)
 -----------------
 
 * Fix a erros with INPLACEEDIT_AUTO_SAVE = True
 * Thanks to:
-    * `Fynjah <https://github.com/fynjah>`_
+    * `Anton <https://github.com/fynjah>`_
 
 
 0.92 (2013-04-05)
