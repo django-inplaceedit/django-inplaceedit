@@ -86,9 +86,6 @@ button.applyFile span {
     text-align: center;
 }
 
-span.textareainplaceedit {
-    display: block; 
-}
 form.inplaceeditform input[type=file] {
     margin-right: 100px;
 }

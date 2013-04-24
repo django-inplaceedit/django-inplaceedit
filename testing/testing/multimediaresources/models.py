@@ -8,7 +8,7 @@ STATUS = (
     ('available', _('Available')),
     ('order', _('Ordered')),
     ('borrow', _('Borrowed')),
-    )
+)
 
 
 class TypeResource(models.Model):
@@ -33,7 +33,7 @@ class Resource(models.Model):
                               default='order', help_text='Status of the resource.',
                               editable=True, null=False, blank=False)
     resource_type = models.ForeignKey(TypeResource, verbose_name=_(u'Type'),
-                                     null=False, blank=False, editable=True)
+                                      null=False, blank=False, editable=True)
     owner = models.ManyToManyField(User, verbose_name=_(u'Owner'))
     amount = models.IntegerField(verbose_name=_(u'Amount'), null=True, blank=True)
     can_borrow = models.BooleanField(verbose_name=_(u'Can borrow?'))
