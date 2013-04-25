@@ -1,13 +1,15 @@
 Releases
 ========
 
-0.94 (2013-??-??)
+0.94 (2013-04-25)
 -----------------
 
+* Fix errors when you use `filters <https://docs.djangoproject.com/en/dev/ref/templates/builtins/>`_ for the fk fields or m2m fields
+* Fix css errors
 * Fix the small typo error
-* Fix a css error
 * Thanks to:
     * `Anton <https://github.com/fynjah>`_
+    * `Tobias Lorenz <https://github.com/Tyrdall>`_
 
 
 0.93 (2013-04-10)

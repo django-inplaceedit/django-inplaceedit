@@ -9,7 +9,7 @@
   {% for type in types %}
   <div><p>{{ type.name }}</p>
     <ul>
-      <li>{% trans "Name: " %}{% inplace_edit "type.name" %}</li>
+      <li>{% trans "Name: " %}{% inplace_edit "type.name|upper" %}</li>
     </ul>
   </div>
   {% endfor %}
@@ -24,10 +24,14 @@
       <li>{% trans "Description: " %}{% inplace_edit "resource.description" %}</li>
       <li>{% trans "Description (auto):" %}{% inplace_edit "resource.description" auto_height=1, auto_width=1 %}</li>
       <li>{% trans "Date of creation: " %}{% inplace_edit "resource.created" %}</li>
+      <li>{% trans "Date of creation(filter): " %}{% inplace_edit "resource.created|date:'D d M Y'" %}</li>
       <li>{% trans "Status: " %}{% inplace_edit "resource.status" %}</li>
       <li>{% trans "Status (tag):" %}{% inplace_edit "resource.status" tag_name_cover="div" %}</li>
+      <li>{% trans "Status (filter):" %}{% inplace_edit "resource.status|slice:'5'" %}</li>
       <li>{% trans "Type of resource: " %}{% inplace_edit "resource.resource_type" %}</li>
+      <li>{% trans "Type of resource(filter): " %}{% inplace_edit "resource.resource_type|truncatewords_html:1" %}</li>
       <li>{% trans "Owner: " %}{% inplace_edit "resource.owner" %}</li>
+      <li>{% trans "Owner (filter): " %}{% inplace_edit "resource.owner|truncatewords_html:1" %}</li>
       <li>{% trans "Amount: " %}{% inplace_edit "resource.amount" %}</li>
       <li>{% trans "Can be borrow?: " %}{% inplace_edit "resource.can_borrow" %}</li>
       <li>{% trans "Can be borrow? (class): " %}{% inplace_edit "resource.can_borrow" class_inplace="testingImplaceEditForm"%}</li>

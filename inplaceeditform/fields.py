@@ -294,7 +294,7 @@ class AdaptorDateField(BaseDateField):
 
     def render_value(self, field_name=None):
         val = super(AdaptorDateField, self).render_value(field_name)
-        if not isinstance(val, str) and not isinstance(val, unicode):
+        if not isinstance(val, basestring):
             val = apply_filters(val, ["date:'%s'" % settings.DATE_FORMAT])
         return val
 
@@ -318,7 +318,7 @@ class AdaptorDateTimeField(BaseDateField):
 
     def render_value(self, field_name=None):
         val = super(AdaptorDateTimeField, self).render_value(field_name)
-        if not isinstance(val, str) and not isinstance(val, unicode):
+        if not isinstance(val, basestring):
             val = apply_filters(val, ["date:'%s'" % settings.DATETIME_FORMAT])
         return val
 
@@ -360,7 +360,8 @@ class AdaptorForeingKeyField(BaseAdaptorField):
 
     def render_value(self, field_name=None):
         value = super(AdaptorForeingKeyField, self).render_value(field_name)
-        value = getattr(value, '__unicode__', None) and value.__unicode__() or None
+        if not isinstance(value, basestring):
+            value = unicode(value)
         return value
 
     def get_value_editor(self, value):
@@ -380,6 +381,11 @@ class AdaptorManyToManyField(BaseAdaptorField):
     @property
     def name(self):
         return 'm2m'
+
+    def __init__(self, *args, **kwargs):
+        super(AdaptorManyToManyField, self).__init__(*args, **kwargs)
+        self._filters_to_show = self.filters_to_show
+        self.filters_to_show = None
 
     def treatment_height(self, height, width=None):
         return "%spx" % (self.font_size * self.MULTIPLIER_HEIGHT)
@@ -406,7 +412,8 @@ class AdaptorCommaSeparatedManyToManyField(AdaptorManyToManyField):
 
     def render_value(self, field_name=None, template_name="inplaceeditform/adaptor_m2m/render_commaseparated_value.html"):
         queryset = super(AdaptorCommaSeparatedManyToManyField, self).render_value(field_name)
-        return render_to_string(template_name, {'queryset': queryset})
+        value = render_to_string(template_name, {'queryset': queryset})
+        return apply_filters(value, self._filters_to_show, self.loads)
 
 
 class AdaptorFileField(BaseAdaptorField):
