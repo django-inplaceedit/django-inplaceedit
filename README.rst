@@ -21,7 +21,7 @@ Video Demo, of django-inplaceedit and `Django-inlinetrans <http://pypi.python.or
    :target: http://www.youtube.com/watch?v=_EjisXtMy_Y
 
 
-Requeriments
+Requirements
 ============
 
  * `jQuery <http://jquery.com/>`_
