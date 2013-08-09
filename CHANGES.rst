@@ -1,12 +1,14 @@
 Releases
 ========
 
-0.95 (2013-??-??)
+0.95 (2013-08-09)
 -----------------
 
 * Fix a small typo error
+* Fix a little error when you use DEFAULT_INPLACE_EDIT_OPTIONS
 * Thanks to:
     * `Kartik Agaram <https://github.com/akkartik>`_
+    * `Iwaszko <https://github.com/iwaszko>`_
 
 
 

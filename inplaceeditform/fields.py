@@ -1,4 +1,5 @@
 from copy import deepcopy
+
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.contrib.admin.widgets import AdminSplitDateTime, AdminDateWidget
@@ -65,8 +66,8 @@ class BaseAdaptorField(object):
         """
         config = kwargs
 
-        config_from_settings = getattr(
-            settings, "DEFAULT_INPLACE_EDIT_OPTIONS", {})
+        config_from_settings = deepcopy(getattr(
+            settings, "DEFAULT_INPLACE_EDIT_OPTIONS", {}))
         config_one_by_one = getattr(
             settings, "DEFAULT_INPLACE_EDIT_OPTIONS_ONE_BY_ONE", False)
 
