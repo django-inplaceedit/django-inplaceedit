@@ -1,6 +1,14 @@
 Releases
 ========
 
+0.96 (2013-08-09)
+-----------------
+
+* Python3 compatible
+* Compatible with the future version  of Django (>=1.6)
+* Fix a little error with the boolean fields
+
+
 0.95 (2013-08-09)
 -----------------
 

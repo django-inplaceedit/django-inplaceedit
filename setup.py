@@ -22,7 +22,7 @@ def read(*rnames):
 
 setup(
     name="django-inplaceedit",
-    version="0.95",
+    version="0.96",
     author="Yaco Sistemas S.L.",
     author_email="pmartin@yaco.es",
     description="Django application that allows you to inline edition of some data from the database",
@@ -31,6 +31,8 @@ setup(
         'Development Status :: 4 - Beta',
         'Framework :: Django',
         'License :: OSI Approved :: GNU Library or Lesser General Public License (LGPL)',
+        'Programming Language :: Python :: 2',
+        'Programming Language :: Python :: 3',
     ],
     license="LGPL 3",
     keywords="django,inplace,inline edit,inline form,inline,inplace edit,inplace form,ajax",
