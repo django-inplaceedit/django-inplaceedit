@@ -8,10 +8,10 @@ Information
 ===========
 
 .. image:: https://badge.fury.io/py/django-inplaceedit.png
-    :target: http://badge.fury.io/py/django-inplaceedit
+    :target: https://badge.fury.io/py/django-inplaceedit
 
 .. image:: https://pypip.in/d/django-inplaceedit/badge.png
-        :target: https://pypi.python.org/pypi/django-inplaceedit
+    :target: https://pypi.python.org/pypi/django-inplaceedit
 
 Inplace Edit Form is a Django application that allows you to inline edition of some data from the database
 
