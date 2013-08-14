@@ -1,3 +1,6 @@
+import json
+import sys
+
 from copy import deepcopy
 
 from django.conf import settings
@@ -5,12 +8,18 @@ from django.core.urlresolvers import reverse
 from django.contrib.admin.widgets import AdminSplitDateTime, AdminDateWidget
 from django.forms.models import modelform_factory
 from django.template.loader import render_to_string
-from django.utils import simplejson
 
 from django.utils.translation import ugettext
 
 from inplaceeditform.commons import apply_filters, import_module, has_transmeta, get_static_url, get_admin_static_url
 from inplaceeditform.perms import SuperUserPermEditInline
+
+
+if sys.version_info.major == 2:
+    string = basestring
+else:
+    string = str
+    unicode = str
 
 
 class BaseAdaptorField(object):
@@ -156,7 +165,7 @@ class BaseAdaptorField(object):
         return cls_perm.can_edit(self)
 
     def loads_to_post(self, request):
-        return simplejson.loads(request.POST.get('value'))
+        return json.loads(request.POST.get('value'))
 
     def save(self, value):
         setattr(self.obj, self.field_name, value)
@@ -169,12 +178,12 @@ class BaseAdaptorField(object):
         return self.config.get('auto_width', False)
 
     def treatment_height(self, height, width=None):
-        if isinstance(height, basestring) and not height.endswith('px') or not isinstance(height, basestring):
+        if isinstance(height, string) and not height.endswith('px') or not isinstance(height, string):
             height = "%spx" % height
         return height
 
     def treatment_width(self, width, height=None):
-        if isinstance(width, basestring) and not width.endswith('px') or not isinstance(width, basestring):
+        if isinstance(width, string) and not width.endswith('px') or not isinstance(width, string):
             width = "%spx" % width
         return width
 
@@ -295,7 +304,7 @@ class AdaptorDateField(BaseDateField):
 
     def render_value(self, field_name=None):
         val = super(AdaptorDateField, self).render_value(field_name)
-        if not isinstance(val, basestring):
+        if not isinstance(val, string):
             val = apply_filters(val, ["date:'%s'" % settings.DATE_FORMAT])
         return val
 
@@ -319,7 +328,7 @@ class AdaptorDateTimeField(BaseDateField):
 
     def render_value(self, field_name=None):
         val = super(AdaptorDateTimeField, self).render_value(field_name)
-        if not isinstance(val, basestring):
+        if not isinstance(val, string):
             val = apply_filters(val, ["date:'%s'" % settings.DATETIME_FORMAT])
         return val
 
@@ -361,7 +370,7 @@ class AdaptorForeingKeyField(BaseAdaptorField):
 
     def render_value(self, field_name=None):
         value = super(AdaptorForeingKeyField, self).render_value(field_name)
-        if not isinstance(value, basestring):
+        if not isinstance(value, string):
             value = unicode(value)
         return value
 
@@ -426,7 +435,7 @@ class AdaptorFileField(BaseAdaptorField):
         self.config['can_auto_save'] = 0
 
     def loads_to_post(self, request):
-        files = request.FILES.values()
+        files = [f for f in request.FILES.values()]
         return files and files[0] or None
 
     def treatment_height(self, height, width=None):

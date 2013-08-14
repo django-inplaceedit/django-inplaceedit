@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
+import json
+
 from django import template
 from django.core.urlresolvers import reverse
 from django.template import Library, Variable
 from django.conf import settings
-from django.utils import simplejson
 
 from inplaceeditform.commons import get_adaptor_class, get_static_url, get_admin_static_url
 from inplaceeditform.tag_utils import RenderWithArgsAndKwargsNode, parse_args_kwargs
@@ -16,9 +17,9 @@ def inplace_js(context, activate_inplaceedit=True, toolbar=False):
         'STATIC_URL': get_static_url(),
         'ADMIN_MEDIA_PREFIX': get_admin_static_url(),
         'activate_inplaceedit': activate_inplaceedit,
-        'auto_save': simplejson.dumps(getattr(settings, "INPLACEEDIT_AUTO_SAVE", False)),
+        'auto_save': json.dumps(getattr(settings, "INPLACEEDIT_AUTO_SAVE", False)),
         'event': getattr(settings, "INPLACEEDIT_EVENT", "dblclick"),
-        'disable_click': simplejson.dumps(getattr(settings, "INPLACEEDIT_DISABLE_CLICK", True)),
+        'disable_click': json.dumps(getattr(settings, "INPLACEEDIT_DISABLE_CLICK", True)),
         'toolbar': toolbar,
         'inplace_get_field_url': reverse('inplace_get_field'),
         'inplace_save_url': reverse('inplace_save'),
@@ -76,8 +77,8 @@ class InplaceEditNode(RenderWithArgsAndKwargsNode):
         config = class_adaptor.get_config(**kwargs)
 
         adaptor_field = class_adaptor(request, obj, field_name,
-                                               filters_to_show,
-                                               config)
+                                      filters_to_show,
+                                      config)
 
         context = {
             'adaptor_field': adaptor_field,

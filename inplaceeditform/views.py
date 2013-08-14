@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
+import json
+
 from django.contrib.contenttypes.models import ContentType
 from django.http import HttpResponse
 from django.forms import ValidationError
 from django.shortcuts import get_object_or_404
-from django.utils import simplejson
 
 from inplaceeditform.commons import (get_dict_from_obj, apply_filters,
                                      get_adaptor_class)
@@ -23,7 +24,6 @@ def save_ajax(request):
     new_data = get_dict_from_obj(adaptor.obj)
     form_class = adaptor.get_form_class()
     field_name = adaptor.field_name
-
     form = form_class(data=new_data, instance=adaptor.obj)
     try:
         value_edit = adaptor.get_value_editor(value)
@@ -39,7 +39,7 @@ def save_ajax(request):
                 messages.append("%s: %s" % (field_name_error, unicode(error)))
         message_i18n = ','.join(messages)
         return _get_http_response({'errors': message_i18n})
-    except ValidationError, error:  # The error is for a field that you are editing
+    except ValidationError as error:  # The error is for a field that you are editing
         message_i18n = ', '.join([u"%s" % m for m in error.messages])
         return _get_http_response({'errors': message_i18n})
 
@@ -88,8 +88,8 @@ def _get_adaptor(request, method='GET'):
                                                         'adaptor'))
     config = class_adaptor.get_config(**kwargs)
     adaptor_field = class_adaptor(request, obj, field_name,
-                                               filters_to_show,
-                                               config)
+                                  filters_to_show,
+                                  config)
     return adaptor_field
 
 
@@ -109,5 +109,5 @@ def _convert_params_in_config(request_params, exclude_params=None):
 
 
 def _get_http_response(context, mimetype=MIMETYPE_RESPONSE):
-    return HttpResponse(simplejson.dumps(context),
-                        mimetype=MIMETYPE_RESPONSE)
+    return HttpResponse(json.dumps(context),
+                        MIMETYPE_RESPONSE)
