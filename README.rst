@@ -41,12 +41,13 @@ Install in your base.html
 ::
 
     {% load inplace_edit %}
-
-    {% inplace_toolbar %}
-
+    ...
+    <head>
+        {% inplace_toolbar %}
     or
-
-    {% inplace_static %}
+        {% inplace_static %}
+    ...
+    </head>
 
 
 In your settings.py
