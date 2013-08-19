@@ -1,6 +1,15 @@
 Releases
 ========
 
+0.96 (2013-??-??)
+-----------------
+
+* Details of the toolbar css
+* Fix translations errors
+* Thanks to:
+    * `Pfeyz <https://github.com/pfeyz>`_
+
+
 0.96 (2013-08-09)
 -----------------
 
