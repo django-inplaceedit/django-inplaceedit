@@ -129,7 +129,7 @@ class BaseAdaptorField(object):
             return edit_empty_value
         else:
             return ugettext(getattr(settings, 'INPLACEEDIT_EDIT_EMPTY_VALUE',
-                                    'Dobleclick to edit'))
+                                    'Doubleclick to edit'))
 
     def render_field(self, template_name="inplaceeditform/render_field.html", extra_context=None):
         extra_context = extra_context or {}
