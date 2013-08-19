@@ -7,14 +7,23 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-09-18 04:56-0500\n"
+"POT-Creation-Date: 2013-08-19 02:58-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Last-Translator: Pablo Martín <goinnn@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: Es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: fields.py:134
+msgid "Doubleclick to edit"
+msgstr "Dobleclick para editar"
+
+#: fields.py:227
+msgid "Write a translation"
+msgstr "Escribe una traducción"
 
 #: templates/inplaceeditform/inc.inplace_toolbar.html:3
 msgid "Enable edit inline"
@@ -24,11 +33,11 @@ msgstr "Habilitar edición inline"
 msgid "Disable edit inline"
 msgstr "Deshabilitar edición inline"
 
-#: templates/inplaceeditform/inplace_js.html:14
+#: templates/inplaceeditform/inplace_js.html:18
 msgid "Successfully saved"
 msgstr "Guardado satisfactoriamente"
 
-#: templates/inplaceeditform/inplace_js.html:18
+#: templates/inplaceeditform/inplace_js.html:22
 msgid "You have unsaved changes!"
 msgstr "Tienes cambios sin guardar!"
 

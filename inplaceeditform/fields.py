@@ -128,8 +128,10 @@ class BaseAdaptorField(object):
         if edit_empty_value:
             return edit_empty_value
         else:
-            return ugettext(getattr(settings, 'INPLACEEDIT_EDIT_EMPTY_VALUE',
-                                    'Doubleclick to edit'))
+            edit_empty_value = getattr(settings, 'INPLACEEDIT_EDIT_EMPTY_VALUE', None)
+            if edit_empty_value:
+                return ugettext(edit_empty_value)
+            return ugettext('Doubleclick to edit')
 
     def render_field(self, template_name="inplaceeditform/render_field.html", extra_context=None):
         extra_context = extra_context or {}
@@ -218,8 +220,11 @@ class BaseAdaptorField(object):
                 self.field_name = transmeta.get_real_fieldname(self.field_name)
                 self.transmeta = True
                 if not self.render_value(self.field_name):
-                    message_translation = ugettext(getattr(settings, 'INPLACEEDIT_EDIT_MESSAGE_TRANSLATION',
-                                                           'Write a traslation'))
+                    message_translation = getattr(settings, 'INPLACEEDIT_EDIT_MESSAGE_TRANSLATION', None)
+                    if message_translation:
+                        message_translation = ugettext(message_translation)
+                    else:
+                        message_translation = ugettext('Write a translation')
                     self.initial = {self.field_name: message_translation}
                 return
         self.transmeta = False
