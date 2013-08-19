@@ -1,7 +1,7 @@
 Releases
 ========
 
-0.96 (2013-??-??)
+0.97 (2013-??-??)
 -----------------
 
 * Details of the toolbar css
@@ -10,7 +10,7 @@ Releases
     * `Pfeyz <https://github.com/pfeyz>`_
 
 
-0.96 (2013-08-09)
+0.96 (2013-08-14)
 -----------------
 
 * Python3 compatible
