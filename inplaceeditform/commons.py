@@ -5,6 +5,7 @@ from django.db.models.fields import FieldDoesNotExist
 from django.db.models.fields.related import ForeignKey, ManyToManyField
 from django.conf import settings
 
+from inplaceeditform import settings as inplace_settings
 from inplaceeditform.adaptors import ADAPTOR_INPLACEEDIT as DEFAULT_ADAPTOR_INPLACEEDIT
 
 has_transmeta = False
@@ -90,9 +91,8 @@ def get_adaptor_class(adaptor=None, obj=None, field_name=None):
         elif isinstance(field, models.FileField):
             adaptor = 'file'
     from inplaceeditform.fields import BaseAdaptorField
-    path_adaptor = adaptor and ((getattr(settings, 'ADAPTOR_INPLACEEDIT', None) and
-                                 settings.ADAPTOR_INPLACEEDIT.get(adaptor, None)) or
-                                 (DEFAULT_ADAPTOR_INPLACEEDIT.get(adaptor, None)))
+    path_adaptor = adaptor and (inplace_settings.ADAPTOR_INPLACEEDIT.get(adaptor, None) or
+                                DEFAULT_ADAPTOR_INPLACEEDIT.get(adaptor, None))
     if not path_adaptor and adaptor:
         return get_adaptor_class(obj=obj, field_name=field_name)
     elif not path_adaptor:

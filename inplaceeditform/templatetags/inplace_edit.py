@@ -4,8 +4,8 @@ import json
 from django import template
 from django.core.urlresolvers import reverse
 from django.template import Library, Variable
-from django.conf import settings
 
+from inplaceeditform import settings as inplace_settings
 from inplaceeditform.commons import get_adaptor_class, get_static_url, get_admin_static_url
 from inplaceeditform.tag_utils import RenderWithArgsAndKwargsNode, parse_args_kwargs
 
@@ -17,9 +17,9 @@ def inplace_js(context, activate_inplaceedit=True, toolbar=False):
         'STATIC_URL': get_static_url(),
         'ADMIN_MEDIA_PREFIX': get_admin_static_url(),
         'activate_inplaceedit': activate_inplaceedit,
-        'auto_save': json.dumps(getattr(settings, "INPLACEEDIT_AUTO_SAVE", False)),
-        'event': getattr(settings, "INPLACEEDIT_EVENT", "dblclick"),
-        'disable_click': json.dumps(getattr(settings, "INPLACEEDIT_DISABLE_CLICK", True)),
+        'auto_save': json.dumps(inplace_settings.INPLACEEDIT_AUTO_SAVE),
+        'event': inplace_settings.INPLACEEDIT_EVENT,
+        'disable_click': json.dumps(inplace_settings.INPLACEEDIT_DISABLE_CLICK),
         'toolbar': toolbar,
         'inplace_get_field_url': reverse('inplace_get_field'),
         'inplace_save_url': reverse('inplace_save'),

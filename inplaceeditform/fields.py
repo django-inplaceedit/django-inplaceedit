@@ -9,8 +9,7 @@ from django.contrib.admin.widgets import AdminSplitDateTime, AdminDateWidget
 from django.forms.models import modelform_factory
 from django.template.loader import render_to_string
 
-from django.utils.translation import ugettext
-
+from inplaceeditform import settings as inplace_settings
 from inplaceeditform.commons import apply_filters, import_module, has_transmeta, get_static_url, get_admin_static_url
 from inplaceeditform.perms import SuperUserPermEditInline
 
@@ -75,10 +74,8 @@ class BaseAdaptorField(object):
         """
         config = kwargs
 
-        config_from_settings = deepcopy(getattr(
-            settings, "DEFAULT_INPLACE_EDIT_OPTIONS", {}))
-        config_one_by_one = getattr(
-            settings, "DEFAULT_INPLACE_EDIT_OPTIONS_ONE_BY_ONE", False)
+        config_from_settings = deepcopy(inplace_settings.DEFAULT_INPLACE_EDIT_OPTIONS)
+        config_one_by_one = inplace_settings.DEFAULT_INPLACE_EDIT_OPTIONS_ONE_BY_ONE
 
         if not config_one_by_one:
             # Solution 1: Using default config only if none specified.
@@ -128,10 +125,7 @@ class BaseAdaptorField(object):
         if edit_empty_value:
             return edit_empty_value
         else:
-            edit_empty_value = getattr(settings, 'INPLACEEDIT_EDIT_EMPTY_VALUE', None)
-            if edit_empty_value:
-                return ugettext(edit_empty_value)
-            return ugettext('Doubleclick to edit')
+            return unicode(inplace_settings.INPLACEEDIT_EDIT_EMPTY_VALUE)
 
     def render_field(self, template_name="inplaceeditform/render_field.html", extra_context=None):
         extra_context = extra_context or {}
@@ -157,7 +151,7 @@ class BaseAdaptorField(object):
                                 {'config': self.config})
 
     def can_edit(self):
-        can_edit_adaptor_path = getattr(settings, 'ADAPTOR_INPLACEEDIT_EDIT', None)
+        can_edit_adaptor_path = inplace_settings.ADAPTOR_INPLACEEDIT_EDIT
         if can_edit_adaptor_path:
             path_module, class_adaptor = ('.'.join(can_edit_adaptor_path.split('.')[:-1]),
                                           can_edit_adaptor_path.split('.')[-1])
@@ -220,11 +214,7 @@ class BaseAdaptorField(object):
                 self.field_name = transmeta.get_real_fieldname(self.field_name)
                 self.transmeta = True
                 if not self.render_value(self.field_name):
-                    message_translation = getattr(settings, 'INPLACEEDIT_EDIT_MESSAGE_TRANSLATION', None)
-                    if message_translation:
-                        message_translation = ugettext(message_translation)
-                    else:
-                        message_translation = ugettext('Write a translation')
+                    message_translation = unicode(inplace_settings.INPLACEEDIT_EDIT_MESSAGE_TRANSLATION)
                     self.initial = {self.field_name: message_translation}
                 return
         self.transmeta = False
