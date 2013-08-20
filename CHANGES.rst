@@ -4,6 +4,8 @@ Releases
 0.97 (2013-??-??)
 -----------------
 
+* Move the settings to the module
+* Detail of Python3 compatibility
 * Details of the toolbar css
 * Fix translations errors
 * Thanks to:
