@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import json
+import sys
 
 from django.contrib.contenttypes.models import ContentType
 from django.http import HttpResponse
@@ -10,6 +11,9 @@ from inplaceeditform.commons import (get_dict_from_obj, apply_filters,
                                      get_adaptor_class)
 
 MIMETYPE_RESPONSE = 'text'
+
+if sys.version_info.major >= 2:
+    unicode = str
 
 
 def save_ajax(request):
