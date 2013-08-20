@@ -24,7 +24,8 @@ class TypeResource(models.Model):
 
 class Resource(models.Model):
     name = models.CharField(verbose_name=_(u'Name'),
-                            max_length=100, null=False, blank=False)
+                            max_length=100, null=False, blank=False,
+                            unique=True)
     created = models.DateField(verbose_name=_(u'Date of created'))
     description = models.TextField(verbose_name=_(u'Description'),
                                    blank=True, null=True)
