@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block title %}{% trans "Manage Unusual Objects" %}{% endblock %}
+
+{% block content-title %}{% trans "Manage Unusual Objects"%}{% endblock %}
+
+{% block content %}
+    <div>
+        <ul>
+        {% for unusual_obj in unusual_objs %}
+            <li><a href="{% url 'unusual_edit' unusual_obj.pk %}">Inplace edit {{ unusual_obj }}</a></li>
+        {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

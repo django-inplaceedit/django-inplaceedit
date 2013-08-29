@@ -1,0 +1,22 @@
+[
+    {
+        "pk": 1, 
+        "model": "unusual_fields.unusualmodel", 
+        "fields": {
+            "float_field": 4.0, 
+            "url_field": "http://www.yaco.es/", 
+            "time_field": "13:37:42", 
+            "one_to_one_field": 2, 
+            "generic_ip_field": "1.1.1.1", 
+            "smallinteger_field": 9, 
+            "decimal_field": "1", 
+            "comma_field": "1", 
+            "positive_integer_field": 1, 
+            "filepath_field": "media/images/example1.jpg", 
+            "big_integer_field": 1, 
+            "slug_field": "my-slug", 
+            "positive_small_integer_field": 6, 
+            "nullboolean_field": false
+        }
+    }
+]

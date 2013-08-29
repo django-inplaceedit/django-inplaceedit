@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% load i18n inplace_edit %}
+
+{% block extrahead %}{% inplace_toolbar %}{% endblock %}
+
+{% block title %}{% trans "Manage Unusual Object" %} {{ unusual_obj }}{% endblock %}
+
+{% block content-title %}{% trans "Manage Unusual Object"%} {{ unusual_obj }} {% endblock %}
+
+{% block content %}
+    <div>
+        <ul>
+            <li>OneToOneField: {% inplace_edit "unusual_obj.one_to_one_field" %}</li>
+            <li>CommaSeparatedIntegerField: {% inplace_edit "unusual_obj.comma_field" %}</li>
+            <li>DecimalField: {% inplace_edit "unusual_obj.decimal_field" %}</li>
+            <li>FilePathField: {% inplace_edit "unusual_obj.filepath_field" %}</li>
+            <li>FloatField: {% inplace_edit "unusual_obj.float_field" %}</li>
+            <li>GenericIPAddressField: {% inplace_edit "unusual_obj.generic_ip_field" %}</li>
+            <li>NullBooleanField: {% inplace_edit "unusual_obj.nullboolean_field" %}</li>
+            <li>BigIntegerField: {% inplace_edit "unusual_obj.big_integer_field" %}</li>
+            <li>PositiveIntegerField: {% inplace_edit "unusual_obj.positive_integer_field" %}</li>
+            <li>PositiveSmallIntegerField: {% inplace_edit "unusual_obj.positive_small_integer_field" %}</li>
+            <li>SlugField: {% inplace_edit "unusual_obj.slug_field" %}</li>
+            <li>SmallIntegerField: {% inplace_edit "unusual_obj.smallinteger_field" %}</li>
+            <li>TimeField: {% inplace_edit "unusual_obj.time_field" %}</li>
+            <li>URLField (with title): {% inplace_edit "unusual_obj.url_field" title="My Url" %}</li>
+            <li>URLField (with variable title): {% inplace_edit "unusual_obj.url_field" title="{{ obj.slug_field }}" %}</li>
+            <li>URLField (without title): {% inplace_edit "unusual_obj.url_field" %}</li>
+
+        </ul>
+    </div>
+
+{% endblock %}
