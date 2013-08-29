@@ -35,16 +35,18 @@ Requirements
 Installation
 ============
 
-Install in your base.html
--------------------------
+In your base.html
+-----------------
 
-::
+Add ::
 
     {% load inplace_edit %}
 
+and wherever you load your static files, add either ::
+
     {% inplace_toolbar %}
 
-    or
+or ::
 
     {% inplace_static %}
 
@@ -430,4 +432,3 @@ You can get the last bleeding edge version of inplaceedit by doing a checkout
 of its git repository::
 
   git clone git://github.com/Yaco-Sistemas/django-inplaceedit.git
-
