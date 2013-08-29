@@ -251,6 +251,21 @@ class AdaptorTextField(BaseAdaptorField):
         return "%spx" % (width * self.MULTIPLIER_WIDTH)
 
 
+class AdaptorURLField(AdaptorTextField):
+
+    @property
+    def name(self):
+        return 'url'
+
+    def render_value(self, field_name=None, template_name="inplaceeditform/adaptor_url/render_value.html"):
+        value = super(AdaptorURLField, self).render_value(field_name)
+        config = deepcopy(self.config)
+        context = {'value': value,
+                   'obj': self.obj}
+        config.update(context)
+        return render_to_string(template_name, config)
+
+
 class AdaptorTextAreaField(BaseAdaptorField):
 
     @property

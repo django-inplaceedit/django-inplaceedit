@@ -1,4 +1,5 @@
 ADAPTOR_INPLACEEDIT = {'text': 'inplaceeditform.fields.AdaptorTextField',
+                       'url': 'inplaceeditform.fields.AdaptorURLField',
                        'textarea': 'inplaceeditform.fields.AdaptorTextAreaField',
                        'choices': 'inplaceeditform.fields.AdaptorChoicesField',
                        'boolean': 'inplaceeditform.fields.AdaptorBooleanField',
