@@ -1,44 +1,17 @@
-{% extends "multimediaresources/base.html" %}
+{% extends "base.html" %}
 
-{% load i18n inplace_edit %}
+{% load i18n %}
+
+{% block title %}{% trans "Manage Multimedia Resources" %}{% endblock %}
+
+{% block content-title %}{% trans "Manage Multimedia Resources"%}{% endblock %}
 
 {% block content %}
-<h1 id="title">Manage Multimedia Resources</h1>
-<h2>Types of Resources</h2>
-<div>
-  {% for type in types %}
-  <div><p>{{ type.name }}</p>
-    <ul>
-      <li>{% trans "Name: " %}{% inplace_edit "type.name|upper" %}</li>
-    </ul>
-  </div>
-  {% endfor %}
-</div>
-<h2>Resources</h2>
-<div>
-  {% for resource in resources %}
-  <div><p>{{ resource }}</p>
-    <ul>
-      <li>{% trans "Name: " %}{% inplace_edit "resource.name" %}</li>
-      <li>{% trans "Name (auto):" %}{% inplace_edit "resource.name" auto_height=1, auto_width=1%}</li>
-      <li>{% trans "Description: " %}{% inplace_edit "resource.description" %}</li>
-      <li>{% trans "Description (auto):" %}{% inplace_edit "resource.description" auto_height=1, auto_width=1 %}</li>
-      <li>{% trans "Date of creation: " %}{% inplace_edit "resource.created" %}</li>
-      <li>{% trans "Date of creation(filter): " %}{% inplace_edit "resource.created|date:'D d M Y'" %}</li>
-      <li>{% trans "Status: " %}{% inplace_edit "resource.status" %}</li>
-      <li>{% trans "Status (tag):" %}{% inplace_edit "resource.status" tag_name_cover="div" %}</li>
-      <li>{% trans "Status (filter):" %}{% inplace_edit "resource.status|slice:'5'" %}</li>
-      <li>{% trans "Type of resource: " %}{% inplace_edit "resource.resource_type" %}</li>
-      <li>{% trans "Type of resource(filter): " %}{% inplace_edit "resource.resource_type|truncatewords_html:1" %}</li>
-      <li>{% trans "Owner: " %}{% inplace_edit "resource.owner" %}</li>
-      <li>{% trans "Owner (filter): " %}{% inplace_edit "resource.owner|truncatewords_html:1" %}</li>
-      <li>{% trans "Amount: " %}{% inplace_edit "resource.amount" %}</li>
-      <li>{% trans "Can be borrow?: " %}{% inplace_edit "resource.can_borrow" %}</li>
-      <li>{% trans "Can be borrow? (class): " %}{% inplace_edit "resource.can_borrow" class_inplace="testingImplaceEditForm"%}</li>
-      <li>{% trans "Associated Image: " %}{% inplace_edit "resource.image" title="{{ obj.name }}" alt="{{ obj.name }}"%}</li>
-      <li>{% trans "File Text: " %}{% inplace_edit "resource.file" %}</li>
-    </ul>
-  </div>
-  {% endfor %}
-</div>
+    <div>
+        <ul>
+        {% for resource in resources %}
+            <li><a href="{% url 'multimediaresources_edit' resource.pk %}">Inplace edit {{ resource }}</a></li>
+        {% endfor %}
+        </ul>
+    </div>
 {% endblock %}

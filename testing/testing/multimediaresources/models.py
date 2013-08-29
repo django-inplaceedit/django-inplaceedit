@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
@@ -42,8 +40,12 @@ class Resource(models.Model):
     image = models.ImageField(verbose_name=_(u"Associated Image"), null=True, blank=True, upload_to="images")
     file = models.FileField(verbose_name=_(u"File Text"), null=True, blank=True, upload_to="files")
 
-    def __unicode__(self):
-        return self.name
-
     class Meta:
         verbose_name = _(u'Resources')
+
+    @models.permalink
+    def get_absolute_url(self):
+        return ('multimediaresources_edit', (self.pk,))
+
+    def __unicode__(self):
+        return self.name

@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% load i18n inplace_edit %}
+
+{% block extrahead %}{% inplace_toolbar %}{% endblock %}
+
+{% block title %}{% trans "Manage Multimedia Resource:" %} {{ resource }}{% endblock %}
+
+{% block content-title %}{% trans "Manage Multimedia Resource:" %} {{ resource }}{% endblock %}
+
+{% block content %}
+    <div>
+        <ul>
+            <li>{% trans "Name (CharField): " %}{% inplace_edit "resource.name" %}</li>
+            <li>{% trans "Name, option auto size (CharField):" %}{% inplace_edit "resource.name" auto_height=1, auto_width=1%}</li>
+            <li>{% trans "Description (TextField):" %}{% inplace_edit "resource.description" %}</li>
+            <li>{% trans "Description option auto size (TextField):" %}{% inplace_edit "resource.description" auto_height=1, auto_width=1 %}</li>
+            <li>{% trans "Date of creation (DateField):" %}{% inplace_edit "resource.created" %}</li>
+            <li>{% trans "Date of creation, date filter (DateField):" %}{% inplace_edit "resource.created|date:'D d M Y'" %}</li>
+            <li>{% trans "Will be available from (DateTimeField):" %}{% inplace_edit "resource.available_from" %}</li>
+            <li>{% trans "Status (CharField, choices):" %}{% inplace_edit "resource.status" %}</li>
+            <li>{% trans "Status tag_name_cover option (CharField, choices):" %}{% inplace_edit "resource.status" tag_name_cover="div" %}</li>
+            <li>{% trans "Status slice filter (CharField, choices):" %}{% inplace_edit "resource.status|slice:'5'" %}</li>
+            <li>{% trans "Type of resource (ForeignKey):" %}{% inplace_edit "resource.resource_type" %}</li>
+            <li>{% trans "Type of resource truncatewords html option (ForeignKey):" %}{% inplace_edit "resource.resource_type|truncatewords_html:1" %}</li>
+            <li>{% trans "Owner (ManyToManyField):" %}{% inplace_edit "resource.owner" %}</li>
+            <li>{% trans "Owner truncatewords html option (ManyToManyField):" %}{% inplace_edit "resource.owner|truncatewords_html:1" %}</li>
+            <li>{% trans "Amount (IntegerField):" %}{% inplace_edit "resource.amount" %}</li>
+            <li>{% trans "Can be borrow? (BooleanField):" %}{% inplace_edit "resource.can_borrow" %}</li>
+            <li>{% trans "Can be borrow? adding class (BooleanField):" %}{% inplace_edit "resource.can_borrow" class_inplace="testingImplaceEditForm"%}</li>
+            <li>{% trans "Associated Image (ImageField):" %}{% inplace_edit "resource.image" title="{{ obj.name }}" alt="{{ obj.name }}"%}</li>
+            <li>{% trans "File Text (FileField):" %}{% inplace_edit "resource.file" %}</li>
+        </ul>
+    </div>
+
+{% endblock %}
