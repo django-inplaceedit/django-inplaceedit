@@ -112,9 +112,6 @@ class BaseAdaptorField(object):
         if callable(value):
             value = value()
         return apply_filters(value, self.filters_to_show, self.loads)
-        if hasattr(value, 'all'):
-            return apply_filters(value, self.filters_to_show, self.loads)
-        return '%s %s' % (unicode(apply_filters(value, self.filters_to_show, self.loads)), unicode(self))
 
     def render_value_edit(self):
         value = self.render_value()
