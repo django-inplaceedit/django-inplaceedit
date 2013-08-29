@@ -76,12 +76,22 @@ def get_adaptor_class(adaptor=None, obj=None, field_name=None):
                 adaptor = 'choices'
         elif isinstance(field, models.TextField):
             adaptor = 'textarea'
+        elif isinstance(field, models.NullBooleanField):
+            adaptor = 'nullboolean'
         elif isinstance(field, models.BooleanField):
             adaptor = 'boolean'
         elif isinstance(field, models.DateTimeField):
             adaptor = 'datetime'
         elif isinstance(field, models.DateField):
             adaptor = 'date'
+        elif isinstance(field, models.TimeField):
+            adaptor = 'time'
+        elif isinstance(field, models.IntegerField):
+            adaptor = 'integer'
+        elif isinstance(field, models.FloatField):
+            adaptor = 'float'
+        elif isinstance(field, models.DecimalField):
+            adaptor = 'decimal'
         elif isinstance(field, ForeignKey):
             adaptor = 'fk'
         elif isinstance(field, ManyToManyField):

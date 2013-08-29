@@ -1,3 +1,4 @@
+import decimal
 import json
 import sys
 
@@ -5,7 +6,7 @@ from copy import deepcopy
 
 from django.conf import settings
 from django.core.urlresolvers import reverse
-from django.contrib.admin.widgets import AdminSplitDateTime, AdminDateWidget
+from django.contrib.admin.widgets import AdminDateWidget, AdminSplitDateTime, AdminTimeWidget
 from django.forms.models import modelform_factory
 from django.template.loader import render_to_string
 
@@ -48,6 +49,7 @@ class BaseAdaptorField(object):
 
         self.class_inplace = self.config.get('class_inplace', '')
         self.tag_name_cover = self.config.get('tag_name_cover', 'span')
+        self.min_width = self.config.get('min_width', 30)
         font_size = self.config.get('font_size', '12')
         if font_size.endswith('px'):
             self.font_size = float(font_size.replace('px', ''))
@@ -110,6 +112,9 @@ class BaseAdaptorField(object):
         if callable(value):
             value = value()
         return apply_filters(value, self.filters_to_show, self.loads)
+        if hasattr(value, 'all'):
+            return apply_filters(value, self.filters_to_show, self.loads)
+        return '%s %s' % (unicode(apply_filters(value, self.filters_to_show, self.loads)), unicode(self))
 
     def render_value_edit(self):
         value = self.render_value()
@@ -173,6 +178,12 @@ class BaseAdaptorField(object):
     def get_auto_width(self):
         return self.config.get('auto_width', False)
 
+    def get_height(self, widget_options):
+        return int(widget_options.get('height', '0').replace('px', ''))
+
+    def get_width(self, widget_options):
+        return max(int(widget_options.get('width', '0').replace('px', '')), self.min_width)
+
     def treatment_height(self, height, width=None):
         if isinstance(height, string) and not height.endswith('px') or not isinstance(height, string):
             height = "%spx" % height
@@ -190,8 +201,8 @@ class BaseAdaptorField(object):
         auto_width = self.get_auto_width()
         if not 'style' in attrs:
             style = ''
-            height = int(widget_options.get('height', '0').replace('px', ''))
-            width = int(widget_options.get('width', '0').replace('px', ''))
+            height = self.get_height(widget_options)
+            width = self.get_width(widget_options)
             if height and not auto_height:
                 style += "height: %s; " % self.treatment_height(height, width)
             if width and not auto_width:
@@ -264,11 +275,45 @@ class AdaptorBooleanField(BaseAdaptorField):
         value = super(AdaptorBooleanField, self).render_value(field_name)
         return render_to_string(template_name, {'value': value, 'STATIC_URL': get_static_url()})
 
-    def render_field(self, template_name="inplaceeditform/adaptor_boolean/render_field.html"):
-        return super(AdaptorBooleanField, self).render_field(template_name)
+    def render_field(self, template_name="inplaceeditform/adaptor_boolean/render_field.html", extra_context=None):
+        return super(AdaptorBooleanField, self).render_field(template_name, extra_context=extra_context)
 
-    def render_media_field(self, template_name="inplaceeditform/adaptor_boolean/render_media_field.html"):
-        return super(AdaptorBooleanField, self).render_media_field(template_name)
+    def render_media_field(self, template_name="inplaceeditform/adaptor_boolean/render_media_field.html", extra_context=None):
+        return super(AdaptorBooleanField, self).render_media_field(template_name, extra_context=extra_context)
+
+
+class AdaptorNullBooleanField(AdaptorBooleanField):
+
+    def __init__(self, *args, **kwargs):
+        super(AdaptorNullBooleanField, self).__init__(*args, **kwargs)
+        if not 'min_width' in self.config:
+            self.min_width = 60
+
+    @property
+    def name(self):
+        return 'nullboolean'
+
+    def get_value_editor(self, value):
+        request = self.request
+        value = request.POST.get('value', None)
+        if value and isinstance(value, string):
+            value = json.loads(value)
+        value = {'2': True,
+                 True: True,
+                 'True': True,
+                 '3': False,
+                 'False': False,
+                 False: False}.get(value, None)
+        return self.get_field().field.clean(value)
+
+    def render_value(self, field_name=None, template_name="inplaceeditform/adaptor_boolean/render_value.html"):
+        value = super(AdaptorBooleanField, self).render_value(field_name)
+        if value is None:
+            return value
+        return super(AdaptorNullBooleanField, self).render_value(field_name=field_name, template_name=template_name)
+
+    def render_media_field(self, template_name="inplaceeditform/render_media_field.html", extra_context=None):
+        return super(AdaptorBooleanField, self).render_media_field(template_name, extra_context=extra_context)
 
 
 class BaseDateField(BaseAdaptorField):
@@ -277,10 +322,12 @@ class BaseDateField(BaseAdaptorField):
         super(BaseDateField, self).__init__(*args, **kwargs)
         self.config['can_auto_save'] = 0
 
-    def render_media_field(self, template_name="inplaceeditform/adaptor_date/render_media_field.html"):
-        extra_context = {'javascript_catalog_url': reverse('django.views.i18n.javascript_catalog')}
+    def render_media_field(self, template_name="inplaceeditform/adaptor_date/render_media_field.html", extra_context=None):
+        extra_context = extra_context or {}
+        context = {'javascript_catalog_url': reverse('django.views.i18n.javascript_catalog')}
+        context.update(extra_context)
         return super(BaseDateField, self).render_media_field(template_name,
-                                                             extra_context=extra_context)
+                                                             extra_context=context)
 
 
 class AdaptorDateField(BaseDateField):
@@ -289,8 +336,8 @@ class AdaptorDateField(BaseDateField):
     def name(self):
         return 'date'
 
-    def render_field(self, template_name="inplaceeditform/adaptor_date/render_field.html"):
-        return super(AdaptorDateField, self).render_field(template_name)
+    def render_field(self, template_name="inplaceeditform/adaptor_date/render_field.html", extra_context=None):
+        return super(AdaptorDateField, self).render_field(template_name, extra_context=extra_context)
 
     def get_field(self):
         field = super(AdaptorDateField, self).get_field()
@@ -310,11 +357,11 @@ class AdaptorDateTimeField(BaseDateField):
     def name(self):
         return 'datetime'
 
-    def render_field(self, template_name="inplaceeditform/adaptor_datetime/render_field.html"):
-        return super(AdaptorDateTimeField, self).render_field(template_name)
+    def render_field(self, template_name="inplaceeditform/adaptor_datetime/render_field.html", extra_context=None):
+        return super(AdaptorDateTimeField, self).render_field(template_name, extra_context=extra_context)
 
-    def render_media_field(self, template_name="inplaceeditform/adaptor_datetime/render_media_field.html"):
-        return super(AdaptorDateTimeField, self).render_media_field(template_name)
+    def render_media_field(self, template_name="inplaceeditform/adaptor_datetime/render_media_field.html", extra_context=None):
+        return super(AdaptorDateTimeField, self).render_media_field(template_name, extra_context=extra_context)
 
     def get_field(self):
         field = super(AdaptorDateTimeField, self).get_field()
@@ -326,6 +373,66 @@ class AdaptorDateTimeField(BaseDateField):
         if not isinstance(val, string):
             val = apply_filters(val, ["date:'%s'" % settings.DATETIME_FORMAT])
         return val
+
+
+class AdaptorTimeField(BaseDateField):
+
+    @property
+    def name(self):
+        return 'time'
+
+    def get_field(self):
+        field = super(AdaptorTimeField, self).get_field()
+        field.field.widget = AdminTimeWidget()
+        return field
+
+    def render_value(self, field_name=None):
+        val = super(AdaptorTimeField, self).render_value(field_name)
+        if not isinstance(val, string):
+            val = apply_filters(val, ["date:'%s'" % settings.TIME_FORMAT])
+        return val
+
+
+class AdaptorIntegerField(BaseAdaptorField):
+
+    def __init__(self, *args, **kwargs):
+        super(AdaptorIntegerField, self).__init__(*args, **kwargs)
+        if not 'min_width' in self.config:
+            self.min_width = 40
+
+    @property
+    def name(self):
+        return 'integer'
+
+
+class AdaptorFloatField(BaseAdaptorField):
+
+    def __init__(self, *args, **kwargs):
+        super(AdaptorFloatField, self).__init__(*args, **kwargs)
+        if not 'min_width' in self.config:
+            self.min_width = 50
+
+    @property
+    def name(self):
+        return 'float'
+
+
+class AdaptorDecimalField(BaseAdaptorField):
+
+    def __init__(self, *args, **kwargs):
+        super(AdaptorDecimalField, self).__init__(*args, **kwargs)
+        if not 'min_width' in self.config:
+            self.min_width = 60
+
+    @property
+    def name(self):
+        return 'decimal'
+
+    def render_value_edit(self):
+        value = super(AdaptorDecimalField, self).render_value_edit()
+        if value and isinstance(value, decimal.Decimal):
+            value = float(value)
+        return value
 
 
 class AdaptorChoicesField(BaseAdaptorField):
@@ -436,16 +543,18 @@ class AdaptorFileField(BaseAdaptorField):
     def treatment_height(self, height, width=None):
         return "%spx" % (self.font_size * self.MULTIPLIER_HEIGHT)
 
-    def render_field(self, template_name="inplaceeditform/adaptor_file/render_field.html"):
+    def render_field(self, template_name="inplaceeditform/adaptor_file/render_field.html", extra_context=None):
+        extra_context = extra_context or {}
         try:
             from django.core.context_processors import csrf
-            extra_context = csrf(self.request)
+            context = csrf(self.request)
         except ImportError:
-            extra_context = {}
-        return super(AdaptorFileField, self).render_field(template_name, extra_context)
+            context = {}
+        context.update(extra_context)
+        return super(AdaptorFileField, self).render_field(template_name, context)
 
-    def render_media_field(self, template_name="inplaceeditform/adaptor_file/render_media_field.html"):
-        return super(AdaptorFileField, self).render_media_field(template_name)
+    def render_media_field(self, template_name="inplaceeditform/adaptor_file/render_media_field.html", extra_context=None):
+        return super(AdaptorFileField, self).render_media_field(template_name, extra_context=extra_context)
 
     def render_value(self, field_name=None, template_name='inplaceeditform/adaptor_file/render_value.html'):
         field_name = field_name or self.field_name_render
@@ -468,11 +577,11 @@ class AdaptorFileField(BaseAdaptorField):
 
 class AdaptorImageField(AdaptorFileField):
 
-    def render_field(self, template_name="inplaceeditform/adaptor_image/render_field.html"):
-        return super(AdaptorImageField, self).render_field(template_name)
+    def render_field(self, template_name="inplaceeditform/adaptor_image/render_field.html", extra_context=None):
+        return super(AdaptorImageField, self).render_field(template_name, extra_context=extra_context)
 
-    def render_media_field(self, template_name="inplaceeditform/adaptor_image/render_media_field.html"):
-        return super(AdaptorImageField, self).render_media_field(template_name)
+    def render_media_field(self, template_name="inplaceeditform/adaptor_image/render_media_field.html", extra_context=None):
+        return super(AdaptorImageField, self).render_media_field(template_name, extra_context=extra_context)
 
     def render_value(self, field_name=None, template_name='inplaceeditform/adaptor_image/render_value.html'):
         return super(AdaptorImageField, self).render_value(field_name=field_name, template_name=template_name)

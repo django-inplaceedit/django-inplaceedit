@@ -85,9 +85,29 @@
                                         var head = $("head")[0];
                                         try {
                                             var medias = $(self.methods.removeStartSpaces(response.field_media_render));
-                                            $.map(medias, function (media) {
-                                                self.methods.loadjscssfile(media);
+                                            var medias_preferred = medias.filter("[delay=delay]");
+                                            var medias_regular = medias.not("[delay=delay]");
+
+                                            $.map(medias_preferred, function (media, i) {
+                                                    if (i === 0) {
+                                                        self.methods.loadjscssfile(media);
+                                                    } else {
+                                                        setTimeout(function () {
+                                                            self.methods.loadjscssfile(media);
+                                                        }, 500);
+                                                    }
                                             });
+                                            if (medias_preferred.length === 0) {
+                                                $.map(medias_regular, function (media) {
+                                                    self.methods.loadjscssfile(media);
+                                                });
+                                            } else {
+                                                setTimeout(function () {
+                                                    $.map(medias_regular, function (media) {
+                                                        self.methods.loadjscssfile(media);
+                                                    });
+                                                }, 500);
+                                            }
                                         } catch (err) {
                                         }
                                         var links_parents = $(that).next().parents("a");
@@ -468,3 +488,4 @@
         }
     );
 })(jQuery);
+
