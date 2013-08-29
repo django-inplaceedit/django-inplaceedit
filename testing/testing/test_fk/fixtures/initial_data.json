@@ -1,7 +1,0 @@
-[{"fields": {"address": "far far away", "content_type": 10, "object_id": 1},
-  "model": "test_fk.address",
-  "pk": 1},
- {"fields": {"name": "mydoc.doc"}, "model": "test_fk.document", "pk": 1},
- {"fields": {"logo": 1, "name": "my company"},
-  "model": "test_fk.company",
-  "pk": 1}]
