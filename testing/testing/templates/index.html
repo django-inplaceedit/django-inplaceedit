@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block content %}
+    <p>{% if user.is_anonymous %}{% trans "When you are authenticated." %}{% endif %}
+    {% trans "You can test inplaceedit in the next URLs:" %}
+    </p>
+    <ul>
+        <li><a href="{% url 'multimediaresources_index' %}">{% trans "Multimedia resources(normal example)" %}</a></li>
+        <li><a href="{% url 'unusual_index' %}">{% trans "Unusual fields" %}</a></li>
+    </ul>
+{% endblock %}

@@ -15,21 +15,23 @@ js_info_dict = {
 }
 
 urlpatterns = patterns('',
-    # Examples:
-    # url(r'^$', 'testing.views.home', name='home'),
-    # url(r'^testing/', include('testing.foo.urls')),
-    url(r'^$', include('testing.multimediaresources.urls')),
     url(r'^inplaceeditform/', include('inplaceeditform.urls')),
     url(r'^jsi18n/$', 'django.views.i18n.javascript_catalog', js_info_dict),
-
-    # Uncomment the admin/doc line below to enable admin documentation:
-    # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
-
-    # Uncomment the next line to enable the admin:
     url(r'^admin/', include(admin.site.urls)),
-
-    url(r'^fk/', include('testing.test_fk.urls')),
+    url(r'^multimediaresources/', include('testing.multimediaresources.urls')),
+    url(r'^unusualfields/', include('testing.unusual_fields.urls')),
 )
+
+from django.shortcuts import render_to_response
+from django.template import RequestContext
+
+
+def index(request):
+    return render_to_response('index.html',
+                              context_instance=RequestContext(request))
+
+urlpatterns += patterns('',
+    url(r'^$', index))
 
 urlpatterns += patterns('',
     (r'^media/(?P<path>.*)$',
