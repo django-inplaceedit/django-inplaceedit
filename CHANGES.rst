@@ -1,9 +1,13 @@
 Releases
 ========
 
-0.97 (2013-??-??)
+1.0.0 (2013-??-??)
 -----------------
 
+* Support to NullBooleanField, DecimalField and TimeField (you got an error)
+* Support to IntegerField, FloatField and URLField (improvements over BaseAdaptorField)
+* Improvement in DateField and DateTimeField
+* Improvement in testing project
 * Move the settings to the module
 * Detail of Python3 compatibility
 * Details of the toolbar css
