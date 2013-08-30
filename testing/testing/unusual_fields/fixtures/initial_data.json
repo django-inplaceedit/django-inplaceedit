@@ -12,7 +12,7 @@
             "decimal_field": "1", 
             "comma_field": "1", 
             "positive_integer_field": 1, 
-            "filepath_field": "media/images/example1.jpg", 
+            "filepath_field": null, 
             "big_integer_field": 1, 
             "slug_field": "my-slug", 
             "positive_small_integer_field": 6, 

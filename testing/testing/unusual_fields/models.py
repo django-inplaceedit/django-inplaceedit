@@ -25,7 +25,7 @@ class UnusualModel(models.Model):
 
     comma_field = models.CommaSeparatedIntegerField(max_length=250)
     decimal_field = models.DecimalField(decimal_places=10, max_digits=20)
-    filepath_field = models.FilePathField(path=os.path.join(settings.MEDIA_ROOT, 'images'))
+    filepath_field = models.FilePathField(path=os.path.join(settings.MEDIA_ROOT, 'images'), null=True, blank=True)
     float_field = models.FloatField()
     generic_ip_field = models.GenericIPAddressField()
     nullboolean_field = models.NullBooleanField()
