@@ -144,7 +144,7 @@ html_static_path = ['_static']
 #html_domain_indices = True
 
 # If false, no index is generated.
-#html_use_index = True
+html_use_index = False
 
 # If true, the index is split into individual pages for each letter.
 #html_split_index = False
@@ -231,7 +231,7 @@ man_pages = [
 #  dir menu entry, description, category)
 texinfo_documents = [
   ('index', 'django-inplaceedit', u'django-inplaceedit Documentation',
-   u'Pablo Martín', 'django-inplaceedit', 'One line description of project.',
+   u'Pablo Martín', 'django-inplaceedit', 'Inplace Edit Form is a Django application that allows you to inline edition of some data from the database.',
    'Miscellaneous'),
 ]
 
