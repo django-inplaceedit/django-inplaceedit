@@ -6,8 +6,6 @@
 Welcome to django-inplaceedit's documentation!
 ==============================================
 
-Contents:
-
 .. toctree::
    :maxdepth: 2
    :numbered:
@@ -21,12 +19,4 @@ Contents:
    other_packages
    development
 
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
 
