@@ -7,6 +7,7 @@ Releases
 * Support to NullBooleanField, DecimalField and TimeField (you got an error)
 * Support to IntegerField, FloatField and URLField (improvements over BaseAdaptorField)
 * Improvement in DateField and DateTimeField
+* Create a doc in readthedocs
 * Improvement in testing project
 * Move the settings to the module
 * Detail of Python3 compatibility
