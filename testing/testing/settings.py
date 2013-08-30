@@ -121,6 +121,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'testing.multimediaresources',
     'testing.unusual_fields',
+    'testing.unit_tests',
 )
 
 # A sample logging configuration. The only tangible logging
