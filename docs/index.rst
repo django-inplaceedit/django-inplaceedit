@@ -10,6 +10,16 @@ Contents:
 
 .. toctree::
    :maxdepth: 2
+   :numbered:
+
+   gettting_started
+   install
+   usage
+   advanced_usage
+   customize
+   testing
+   other_packages
+   development
 
 
 
