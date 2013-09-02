@@ -8,7 +8,8 @@ Releases
 * Support to IntegerField, FloatField and URLField (improvements over BaseAdaptorField)
 * Improvement in DateField and DateTimeField
 * Create a doc in readthedocs
-* Add unit test
+* Add unit test and integrate with `travis <https://travis-ci.org/Yaco-Sistemas/django-inplaceedit>`_
+* The django-inplaceedit now is less intrusive. '''Attention''' See this changes if you have customize django-inplaceedit
 * Improvement in testing project
 * Move the settings to the module
 * Detail of Python3 compatibility
