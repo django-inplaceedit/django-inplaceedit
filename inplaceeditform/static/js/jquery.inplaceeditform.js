@@ -1,5 +1,21 @@
 (function ($) {
     "use strict";
+    var _old = $.fn.attr;
+    $.fn.attr = function() {
+        var a, aLength, attributes,  map;
+        if (this[0] && arguments.length === 0) {
+                map = {};
+                attributes = this[0].attributes;
+                aLength = attributes.length;
+                for (a = 0; a < aLength; a++) {
+                    map[attributes[a].name.toLowerCase()] = attributes[a].value;
+                }
+                return map;
+        } else {
+                return _old.apply(this, arguments);
+        }
+    }
+
     $.fn.inplaceeditform = function (method) {
         var methods = $.inplaceeditform.methods;
 
@@ -57,12 +73,12 @@
                             return false;
                         }
                         $(this).data("ajaxTime", true);
-                        var data = self.methods.getDataToRequest($(this).find("span.config"));
-                        var extraConfig = $(this).find(".config").data("extraConfig");
+                        var data = self.methods.getDataToRequest($(this).find("inplaceeditform"));
+                        var extraConfig = $(this).find("inplaceeditform").data("extraConfig");
                         if (extraConfig) {
                             data = extraConfig(data);
                         }
-                        var can_auto_save = parseInt($(this).find("span.config span.can_auto_save").html());
+                        var can_auto_save = parseInt($(this).find("inplaceeditform").attr("can_auto_save"));
                         data += "&__widget_height=" + $(this).innerHeight() + "px" + "&__widget_width=" + $(this).innerWidth() + "px";
                         var that = this;
                         $.ajax(
@@ -293,8 +309,14 @@
                     that.fadeIn();
                     form.removeClass("inplaceeditformsaving");
                     var inplace_span = inplaceedit_conf.parents(".inplaceedit");
-                    var config = inplace_span.find("span.config").html();
-                    inplace_span.html(response.value + "<span class='config' style='display:none;'>" + config + "</span>");
+                    var config = inplace_span.find("inplaceeditform").attr();
+                    var config_html = "<inplaceeditform";
+                    var attr;
+                    for (attr in config) {
+                        config_html += ' ' + attr + '="' + config[attr] + '"';
+                    }
+                    config_html += "></inplaceeditform>"
+                    inplace_span.html(response.value + config_html);
                     inplace_span.show();
                     self.methods.inplaceApplySuccessShowMessage(inplace_span, response);
                     var applyFinish = that.data("applyFinish");
@@ -335,7 +357,7 @@
                 form.find("ul.errors").fadeOut(function () {
                     $(this).remove();
                 });
-                var inplaceedit_conf = form.prev().find("span.config");
+                var inplaceedit_conf = form.prev().find("inplaceeditform");
                 var data = self.methods.getDataToRequest(inplaceedit_conf);
                 var field_id = form.find("span.field_id").html();
                 var getValue = $(this).data("getValue"); // A hook
@@ -375,7 +397,7 @@
                 form.find("ul.errors").fadeOut(function () {
                     $(this).remove();
                 });
-                var inplaceedit_conf = form.prev().find("span.config");
+                var inplaceedit_conf = form.prev().find("inplaceeditform");
                 var data = self.methods.getDataToRequestUpload(inplaceedit_conf);
                 var csrfmiddlewaretoken = self.methods.getCSFRToken();
                 if (csrfmiddlewaretoken) {
@@ -412,16 +434,13 @@
 
             getDataToRequest: function (inplaceedit_conf) {
                 var dataToRequest = "";
-                var settings = inplaceedit_conf.find("span");
-                $.map(settings, function (setting, i) {
-                    setting = $(setting);
-                    var data = "&";
-                    if (i === 0) {
-                        data = "";
+                var settings = inplaceedit_conf.attr();
+                $.map(settings, function (value, key) {
+                    var data = "";
+                    if (dataToRequest !== "") {
+                        data = "&";
                     }
-                    var key = setting.attr("class");
-                    var value = setting.html();
-                    data = data + key + "=" + value;
+                    data += key + "=" + value;
                     dataToRequest += data;
                 });
                 var fontSize = inplaceedit_conf.parent().css("font-size");
@@ -432,14 +451,7 @@
             },
 
             getDataToRequestUpload: function (inplaceedit_conf) {
-                var dataToRequest = {};
-                var settings = inplaceedit_conf.find("span");
-                $.map(settings, function (setting, i) {
-                    setting = $(setting);
-                    var key = setting.attr("class");
-                    var value = setting.html();
-                    dataToRequest[key] = value;
-                });
+                var dataToRequest = inplaceedit_conf.attr();
                 var fontSize = inplaceedit_conf.parent().css("font-size");
                 if (fontSize) {
                     dataToRequest.font_size = fontSize;
