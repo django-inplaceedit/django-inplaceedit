@@ -75,37 +75,7 @@ MEDIA_ROOT = path.join(BASEDIR, 'media')
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
 # Examples: "http://media.lawrence.com/media/", "http://example.com/media/"
-MEDIA_URL = '/media/'
-
-# Absolute path to the directory static files should be collected to.
-# Don't put anything in this directory yourself; store your static files
-# in apps' "static/" subdirectories and in STATICFILES_DIRS.
-# Example: "/home/media/media.lawrence.com/static/"
-STATIC_ROOT = path.join(BASEDIR, 'static')
-
-# URL prefix for static files.
-# Example: "http://media.lawrence.com/static/"
-STATIC_URL = '/static/'
-
-# URL prefix for admin static files -- CSS, JavaScript and images.
-# Make sure to use a trailing slash.
-# Examples: "http://foo.com/static/admin/", "/static/admin/".
-ADMIN_MEDIA_PREFIX = '/static/admin/'
-
-# Additional locations of static files
-STATICFILES_DIRS = (
-    # Put strings here, like "/home/html/static" or "C:/www/django/static".
-    # Always use forward slashes, even on Windows.
-    # Don't forget to use absolute paths, not relative paths.
-)
-
-# List of finder classes that know how to find static files in
-# various locations.
-STATICFILES_FINDERS = (
-    'django.contrib.staticfiles.finders.FileSystemFinder',
-    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-#    'django.contrib.staticfiles.finders.DefaultStorageFinder',
-)
+MEDIA_URL = '/my_media/'
 
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = '98qi@6+%3nt__m_o6@o(n8%+!)yjxrl*fcs%l@2g=e-*4fu4h%'
@@ -142,19 +112,6 @@ INSTALLED_APPS = (
     'testing.unusual_fields',
     'testing.unit_tests',
 )
-try:
-    import transmeta
-    INSTALLED_APPS += ('transmeta',
-                       'testing.inplace_transmeta')
-except ImportError:
-    pass
-
-
-import django
-if django.VERSION[0] >= 1 and django.VERSION[1] >= 3:
-    INSTALLED_APPS += ('django.contrib.staticfiles',)
-if django.VERSION[0] >= 1 and django.VERSION[1] >= 2:
-    INSTALLED_APPS += ('django.contrib.messages',)
 
 
 # A sample logging configuration. The only tangible logging
@@ -185,7 +142,55 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.debug',
     'django.core.context_processors.i18n',
     'django.core.context_processors.media',
-    'django.core.context_processors.static',
     'django.core.context_processors.request',
     'django.contrib.messages.context_processors.messages',
 )
+
+# Custom to the different django versions
+
+try:
+    import transmeta
+    INSTALLED_APPS += ('transmeta',
+                       'testing.inplace_transmeta')
+except ImportError:
+    pass
+
+import django
+
+if django.VERSION[0] >= 1 and django.VERSION[1] >= 3:
+    INSTALLED_APPS += ('django.contrib.staticfiles',)
+    # Absolute path to the directory static files should be collected to.
+    # Don't put anything in this directory yourself; store your static files
+    # in apps' "static/" subdirectories and in STATICFILES_DIRS.
+    # Example: "/home/media/media.lawrence.com/static/"
+    STATIC_ROOT = path.join(BASEDIR, 'static')
+
+    # URL prefix for static files.
+    # Example: "http://media.lawrence.com/static/"
+    STATIC_URL = '/static/'
+
+    # URL prefix for admin static files -- CSS, JavaScript and images.
+    # Make sure to use a trailing slash.
+    # Examples: "http://foo.com/static/admin/", "/static/admin/".
+    ADMIN_MEDIA_PREFIX = '/static/admin/'
+
+    # Additional locations of static files
+    STATICFILES_DIRS = (
+        # Put strings here, like "/home/html/static" or "C:/www/django/static".
+        # Always use forward slashes, even on Windows.
+        # Don't forget to use absolute paths, not relative paths.
+    )
+
+    # List of finder classes that know how to find static files in
+    # various locations.
+    STATICFILES_FINDERS = (
+        'django.contrib.staticfiles.finders.FileSystemFinder',
+        'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    #    'django.contrib.staticfiles.finders.DefaultStorageFinder',
+    )
+
+
+elif django.VERSION[0] >= 1 and django.VERSION[1] >= 2:
+    INSTALLED_APPS += ('django.contrib.messages',)
+elif django.VERSION[0] >= 1 and django.VERSION[1] >= 1:
+    TEMPLATE_CONTEXT_PROCESSORS += ('django.core.context_processors.static',)

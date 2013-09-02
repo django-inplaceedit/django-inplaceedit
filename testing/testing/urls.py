@@ -54,7 +54,8 @@ urlpatterns += patterns('',
     url(r'^$', index))
 
 urlpatterns += patterns('',
-    (r'^media/(?P<path>.*)$',
+    (r'^%s(?P<path>.*)$' % settings.MEDIA_URL[1:],
      'django.views.static.serve',
-     {'document_root': settings.MEDIA_ROOT}),
+     {'document_root': settings.MEDIA_ROOT,
+      'show_indexes': True}),
 )
