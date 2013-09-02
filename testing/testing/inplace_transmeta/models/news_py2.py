@@ -20,6 +20,7 @@ from django.utils.translation import ugettext_lazy as _
 
 
 class News(models.Model):
+
     __metaclass__ = transmeta.TransMeta
 
     title = models.CharField(verbose_name=_(u'Title'),
