@@ -9,7 +9,7 @@ Releases
 * Improvement in DateField and DateTimeField
 * Create a doc in readthedocs
 * Add unit test and integrate with `travis <https://travis-ci.org/Yaco-Sistemas/django-inplaceedit>`_
-* The django-inplaceedit now is less intrusive. '''Attention''' if you have customize django-inplaceedit, see this changeset [c5cfdcce190b4fa8166b7500db711400baa9ea86]
+* The django-inplaceedit now is less intrusive. ''Attention'' if you have customize django-inplaceedit, see this changeset [c5cfdcce190b4fa8166b7500db711400baa9ea86]
 * Improvement in testing project
 * Move the settings to the module
 * Detail of Python3 compatibility
