@@ -83,7 +83,7 @@
             "last_login": "2011-02-17 10:56:03", 
             "groups": [], 
             "user_permissions": [],
-            "password": "pbkdf2_sha256$10000$QB8CEwKzWyeU$DU1j1pRfN8MO3Mxzn1/quuF8SyV2g+XlrXW/s5pWBNE=", 
+            "password": "sha1$1ad04$868abf5737e05d3b68f5cb972fda1e227cc4f7d7", 
             "email": "", 
             "date_joined": "2011-02-17 10:56:03"
         }

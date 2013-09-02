@@ -110,7 +110,7 @@ class InplaceTestCase(TestCase):
                 elif isinstance(field, bool):
                     value = not value
                 value = json.dumps(value)
-            adaptor = get_adaptor_class(obj=obj, field_name=field_name)(client.request(), obj, field_name).name
+            adaptor = get_adaptor_class(obj=obj, field_name=field_name)(None, obj, field_name).name
             data = {'app_label': app_label,
                     'module_name': module_name,
                     'field_name': field_name,

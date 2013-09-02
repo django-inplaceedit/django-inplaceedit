@@ -16,6 +16,8 @@ from django.conf import settings
 # You should have received a copy of the GNU Lesser General Public License
 # along with this programe.  If not, see <http://www.gnu.org/licenses/>.
 
+import django
+
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext_lazy as _
@@ -25,11 +27,18 @@ class UnusualModel(models.Model):
 
     comma_field = models.CommaSeparatedIntegerField(max_length=250)
     decimal_field = models.DecimalField(decimal_places=10, max_digits=20)
-    filepath_field = models.FilePathField(path=os.path.join(settings.MEDIA_ROOT, 'images'), null=True, blank=True)
+    filepath_field = models.FilePathField(path=os.path.join(settings.MEDIA_ROOT, 'images'),
+                                          null=True, blank=True)
     float_field = models.FloatField()
-    generic_ip_field = models.GenericIPAddressField()
+    if django.VERSION[0] >= 1 and django.VERSION[0] >= 4:
+        generic_ip_field = models.GenericIPAddressField()
+    else:
+        generic_ip_field = models.CharField(max_length=200)
     nullboolean_field = models.NullBooleanField()
-    big_integer_field = models.BigIntegerField()
+    if django.VERSION[0] >= 1 and django.VERSION[0] >= 2:
+        big_integer_field = models.BigIntegerField()
+    else:
+        big_integer_field = models.IntegerField()
     positive_integer_field = models.PositiveIntegerField()
     positive_small_integer_field = models.PositiveSmallIntegerField()
     slug_field = models.SlugField()

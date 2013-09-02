@@ -20,6 +20,10 @@ import os
 
 os.environ['DJANGO_SETTINGS_MODULE'] = 'testing.settings'
 
+import django
 from django.core import management
 
-management.call_command('test', 'testing.unit_tests')
+if django.VERSION[0] == 1 and django.VERSION[1] <= 5:
+    management.call_command('test', 'unit_tests')
+else:
+    management.call_command('test', 'testing.unit_tests')

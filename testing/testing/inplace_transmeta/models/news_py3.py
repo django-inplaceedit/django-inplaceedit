@@ -29,6 +29,8 @@ class News(models.Model, metaclass=transmeta.TransMeta):
     class Meta:
         verbose_name = _('News')
         verbose_name_plural = _('Newss')
+        app_label = 'inplace_transmeta'
+        db_table = 'inplace_transmeta_news'
         translate = ('description', 'title', )
 
     @models.permalink

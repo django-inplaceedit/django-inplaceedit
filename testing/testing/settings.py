@@ -136,8 +136,6 @@ INSTALLED_APPS = (
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.sites',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
     'inplaceeditform',
     'django.contrib.admin',
     'testing.multimediaresources',
@@ -148,9 +146,16 @@ try:
     import transmeta
     INSTALLED_APPS += ('transmeta',
                        'testing.inplace_transmeta')
-
 except ImportError:
     pass
+
+
+import django
+if django.VERSION[0] >= 1 and django.VERSION[1] >= 3:
+    INSTALLED_APPS += ('django.contrib.staticfiles',)
+if django.VERSION[0] >= 1 and django.VERSION[1] >= 2:
+    INSTALLED_APPS += ('django.contrib.messages',)
+
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
