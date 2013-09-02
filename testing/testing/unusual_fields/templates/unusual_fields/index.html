@@ -10,7 +10,7 @@
     <div>
         <ul>
         {% for unusual_obj in unusual_objs %}
-            <li><a href="{% url 'unusual_edit' unusual_obj.pk %}">Inplace edit {{ unusual_obj }}</a></li>
+            <li><a href="{{ unusual_obj.get_absolute_url }}">Inplace edit {{ unusual_obj }}</a></li>
         {% endfor %}
         </ul>
     </div>

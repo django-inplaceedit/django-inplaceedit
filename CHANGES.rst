@@ -8,6 +8,7 @@ Releases
 * Support to IntegerField, FloatField and URLField (improvements over BaseAdaptorField)
 * Improvement in DateField and DateTimeField
 * Create a doc in readthedocs
+* Add unit test
 * Improvement in testing project
 * Move the settings to the module
 * Detail of Python3 compatibility

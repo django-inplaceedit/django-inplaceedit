@@ -51,7 +51,12 @@ TIME_ZONE = 'America/Chicago'
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'en'
+
+LANGUAGES = (
+      ('es', 'Spanish'),
+      ('en', 'English'),
+)
 
 SITE_ID = 1
 
@@ -139,6 +144,13 @@ INSTALLED_APPS = (
     'testing.unusual_fields',
     'testing.unit_tests',
 )
+try:
+    import transmeta
+    INSTALLED_APPS += ('transmeta',
+                       'testing.inplace_transmeta')
+
+except ImportError:
+    pass
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to

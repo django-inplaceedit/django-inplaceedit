@@ -10,7 +10,7 @@
     <div>
         <ul>
         {% for resource in resources %}
-            <li><a href="{% url 'multimediaresources_edit' resource.pk %}">Inplace edit {{ resource }}</a></li>
+            <li><a href="{{ resource.get_absolute_url }}">Inplace edit {{ resource }}</a></li>
         {% endfor %}
         </ul>
     </div>

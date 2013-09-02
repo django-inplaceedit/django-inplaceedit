@@ -20,6 +20,10 @@ except ImportError:  # Django 1.5
     from django.conf.urls import include, patterns, url
 
 from django.contrib import admin
+from django.core.urlresolvers import reverse
+from django.shortcuts import render_to_response
+from django.template import RequestContext
+
 admin.autodiscover()
 
 js_info_dict = {
@@ -32,14 +36,18 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^multimediaresources/', include('testing.multimediaresources.urls')),
     url(r'^unusualfields/', include('testing.unusual_fields.urls')),
+    url(r'^news/', include('testing.inplace_transmeta.urls')),
 )
-
-from django.shortcuts import render_to_response
-from django.template import RequestContext
 
 
 def index(request):
+    context = {}
+    context['multimediaresources_url'] = reverse('multimediaresources_index')
+    context['unusual_url'] = reverse('unusual_index')
+    if 'testing.inplace_transmeta' in settings.INSTALLED_APPS:
+        context['news_url'] = reverse('news_index')
     return render_to_response('index.html',
+                              context,
                               context_instance=RequestContext(request))
 
 urlpatterns += patterns('',

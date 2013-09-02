@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% load i18n inplace_edit %}
+
+{% block extrahead %}{% inplace_toolbar %}{% endblock %}
+
+{% block title %}{% trans "News item:" %} {{ news_item }}{% endblock %}
+
+{% block content-title %}{% trans "News item:" %} {{ news_item }}{% endblock %}
+
+{% block content %}
+    <div>
+        <ul>
+            <li>{% trans "Title: " %}{% inplace_edit "news_item.title" %}</li>
+            <li>{% trans "Description:" %}{% inplace_edit "news_item.description|safe" %}</li>
+        </ul>
+    </div>
+
+{% endblock %}

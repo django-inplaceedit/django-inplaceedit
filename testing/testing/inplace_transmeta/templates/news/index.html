@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block title %}{% trans "News" %}{% endblock %}
+
+{% block content-title %}{% trans "News"%}{% endblock %}
+
+{% block content %}
+    <div>
+        <ul>
+        {% for news_item in news %}
+            <li><a href="{{ news_item.get_absolute_url }}">Inplace edit {{ news_item }}</a></li>
+        {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

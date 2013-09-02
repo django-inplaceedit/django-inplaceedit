@@ -15,6 +15,7 @@
 import datetime
 import decimal
 import json
+import transmeta
 import sys
 
 from django.contrib.auth.models import User
@@ -26,6 +27,7 @@ from django.test.client import Client
 
 from inplaceeditform.commons import get_adaptor_class
 
+from testing.inplace_transmeta.models import News
 from testing.multimediaresources.models import Resource
 from testing.unusual_fields.models import UnusualModel
 
@@ -49,12 +51,12 @@ class InplaceTestCase(TestCase):
         self.user = User.objects.get(username=user)
         return client
 
-    def _test_get_fields(self, model):
+    def _test_get_fields(self, model, field_names=None):
         client = self.__client_login()
         obj = model.objects.all()[0]
         module_name = model._meta.module_name
         app_label = model._meta.app_label
-        field_names = model._meta.get_all_field_names()
+        field_names = field_names or model._meta.get_all_field_names()
         for field in field_names:
             if field == 'id' or field.endswith('_id'):  # id or id fk
                 continue
@@ -66,16 +68,19 @@ class InplaceTestCase(TestCase):
             response = client.get(url)
             self.assertEqual(response.status_code, 200)
 
-    def _test_save_fields(self, model):
+    def _test_save_fields(self, model, field_names=None):
         client = self.__client_login()
         obj = model.objects.all()[0]
         module_name = model._meta.module_name
         app_label = model._meta.app_label
-        field_names = model._meta.get_all_field_names()
+        field_names = field_names or model._meta.get_all_field_names()
         for field_name in field_names:
+            if field_name in transmeta.get_all_translatable_fields(model):
+                field = model._meta.get_field_by_name(transmeta.get_fallback_fieldname(field_name))[0]
+            else:
+                field = model._meta.get_field_by_name(field_name)[0]
             if field_name == 'id' or field_name.endswith('_id'):  # id or id fk
                 continue
-            field = model._meta.get_field_by_name(field_name)[0]
             if isinstance(field, models.FileField):
                 continue
             url = reverse('inplace_save')
@@ -127,3 +132,9 @@ class InplaceTestCase(TestCase):
 
     def test_save_fields_unusualmodel(self):
         self._test_save_fields(UnusualModel)
+
+    def test_get_fields_news(self):
+        self._test_get_fields(News, field_names=['title', 'description'])
+
+    def test_save_fields_news(self):
+        self._test_save_fields(News, field_names=['title', 'description'])
