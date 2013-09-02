@@ -16,6 +16,8 @@ $ cd virt-inplaceedit/testing
 $ source ../bin/activate
 4) install the required packages
 $ pip install -r REQUIREMENTS
+4.1) install django-transmeta if you want
+$ pip install django-transmeta
 5) create db and load fixtures
 $ ./manage.py syncdb
 6) start the debug server
