@@ -7,7 +7,8 @@ Inplace Edit Form
 Information
 ===========
 
-.. figure:: https://travis-ci.org/Yaco-Sistemas/django-inplaceedit.png?branch=master
+.. image:: https://travis-ci.org/Yaco-Sistemas/django-inplaceedit.png?branch=master
+    :target: https://travis-ci.org/Yaco-Sistemas/django-inplaceedit
 
 .. image:: https://badge.fury.io/py/django-inplaceedit.png
     :target: https://badge.fury.io/py/django-inplaceedit
