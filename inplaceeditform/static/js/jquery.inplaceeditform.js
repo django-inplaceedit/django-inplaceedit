@@ -14,8 +14,12 @@
         } else {
                 return _old.apply(this, arguments);
         }
-    }
-
+    };
+    $.fn.redraw = function() {
+        return this.hide(0, function() {
+            $(this).show();
+        });
+    };
     $.fn.inplaceeditform = function (method) {
         var methods = $.inplaceeditform.methods;
 
@@ -334,7 +338,7 @@
                 }
                 config_html += "></inplaceeditform>"
                 inplace_span.html(response.value + config_html);
-                inplace_span.show();
+                inplace_span.css("display", "");
                 self.methods.inplaceApplySuccessShowMessage(inplace_span, response);
                 var applyFinish = that.data("applyFinish");
                 if (applyFinish) {
@@ -352,6 +356,7 @@
                 setTimeout(function () {
                     success_message.fadeOut(function () {
                         $(this).remove();
+                        inplace_span.redraw();
                     });
                 }, 2000);
             }
