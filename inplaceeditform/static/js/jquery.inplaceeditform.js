@@ -1,22 +1,21 @@
 (function ($) {
     "use strict";
-    var _old = $.fn.attr;
-    $.fn.attr = function() {
+    var attr_old = $.fn.attr;
+    $.fn.attr = function () {
         var a, aLength, attributes,  map;
         if (this[0] && arguments.length === 0) {
-                map = {};
-                attributes = this[0].attributes;
-                aLength = attributes.length;
-                for (a = 0; a < aLength; a++) {
-                    map[attributes[a].name.toLowerCase()] = attributes[a].value;
-                }
-                return map;
-        } else {
-                return _old.apply(this, arguments);
+            map = {};
+            attributes = this[0].attributes;
+            aLength = attributes.length;
+            for (a = 0; a < aLength; a = a + 1) {
+                map[attributes[a].name.toLowerCase()] = attributes[a].value;
+            }
+            return map;
         }
+        return attr_old.apply(this, arguments);
     };
-    $.fn.redraw = function() {
-        return this.hide(0, function() {
+    $.fn.redraw = function () {
+        return this.hide(0, function () {
             $(this).show();
         });
     };
@@ -26,11 +25,11 @@
         // method calling logic
         if (methods[method]) {
             return methods[method].apply(this, Array.prototype.slice.call(arguments, 1));
-        } else if (typeof method === 'object' || !method) {
-            return methods.init.apply(this, arguments);
-        } else {
-            $.error('Method ' + method + ' does not exist on jQuery.inplaceeditform');
         }
+        if (typeof method === 'object' || !method) {
+            return methods.init.apply(this, arguments);
+        }
+        $.error('Method ' + method + ' does not exist on jQuery.inplaceeditform');
     };
 
     $.inplaceeditform = {
@@ -62,12 +61,12 @@
             // Hack to event onbeforeunload in IE
             if (self.isMsIE) {
                 if ($(document).on !== undefined) {
-                    $(document).on("click", "a", function(){
+                    $(document).on("click", "a", function () {
                         window.couldCatch = true;
                         window.newLocation = $(this).attr("href");
                     });
                 } else {
-                    $("a").live("click", function(){
+                    $("a").live("click", function () {
                         window.couldCatch = true;
                         window.newLocation = $(this).attr("href");
                     });
@@ -119,15 +118,14 @@
                                         var medias = $(self.methods.removeStartSpaces(response.field_media_render));
                                         var medias_preferred = medias.filter("[delay=delay]");
                                         var medias_regular = medias.not("[delay=delay]");
-
                                         $.map(medias_preferred, function (media, i) {
-                                                if (i === 0) {
+                                            if (i === 0) {
+                                                self.methods.loadjscssfile(media);
+                                            } else {
+                                                setTimeout(function () {
                                                     self.methods.loadjscssfile(media);
-                                                } else {
-                                                    setTimeout(function () {
-                                                        self.methods.loadjscssfile(media);
-                                                    }, 500);
-                                                }
+                                                }, 500);
+                                            }
                                         });
                                         if (medias_preferred.length === 0) {
                                             $.map(medias_regular, function (media) {
@@ -144,7 +142,7 @@
                                     }
                                     var links_parents = $(that).next().parents("a");
                                     if (links_parents.length > 0) {
-                                        $.map(links_parents, function (link, i) {
+                                        $.map(links_parents, function (link) {
                                             link = $(link);
                                             var href = link.attr("href");
                                             link.attr("hrefinplaceedit", href);
@@ -190,7 +188,6 @@
                     );
                 });
             });
-
             window.onbeforeunload = function (event) {
                 var msg = undefined;
                 if ($(self.formSelector).size()) {
@@ -205,7 +202,6 @@
                 window.couldCatch = false;
                 window.newLocation = null;
                 return msg;
-
             };
 
             // https://docs.djangoproject.com/en/1.3/ref/contrib/csrf/#ajax
@@ -278,7 +274,7 @@
         },
 
         revertlinkInplaceEdit: function (links_parents) {
-            $.map(links_parents, function (link, i) {
+            $.map(links_parents, function (link) {
                 link = $(link);
                 var href = link.attr("hrefinplaceedit");
                 link.attr("href", href);
@@ -306,7 +302,7 @@
         inplaceApplySuccess: function (response) {
             var self = $.inplaceeditform;
             if (typeof response === "string") {
-                if (self.isMsIE) { // This does not exists in jQuery 1.9
+                if (self.isMsIE) {
                     response = self.methods.replaceAll(response, "'\\\\\"", "'");
                     response = self.methods.replaceAll(response, "\"'", "'");
                 }
@@ -336,7 +332,7 @@
                 for (attr in config) {
                     config_html += ' ' + attr + '="' + config[attr] + '"';
                 }
-                config_html += "></inplaceeditform>"
+                config_html += "></inplaceeditform>";
                 inplace_span.html(response.value + config_html);
                 inplace_span.css("display", "");
                 self.methods.inplaceApplySuccessShowMessage(inplace_span, response);
@@ -348,7 +344,7 @@
             }
         },
 
-        inplaceApplySuccessShowMessage: function(inplace_span) {
+        inplaceApplySuccessShowMessage: function (inplace_span) {
             var self = $.inplaceeditform;
             if (self.opts.successText) {
                 var success_message = $("<ul class='success'><li>" + self.opts.successText + "</li></ul>");
@@ -361,17 +357,14 @@
                 }, 2000);
             }
         },
-
         bind: function (func, that) {
             return function () {
                 return func.apply(that, arguments);
             };
         },
-
         getCSFRToken: function () {
             return csrf_token;
         },
-
         inplaceApply: function () {
             var self = $.inplaceeditform;
             var form = $(this).parents(self.formSelector);
@@ -513,7 +506,6 @@
                 document.getElementsByTagName("head")[0].appendChild(fileref);
             }
         },
-
         appendChild: function (node, text) {
             if (null === node.canHaveChildren || node.canHaveChildren) {
                 node.appendChild(document.createTextNode(text));
