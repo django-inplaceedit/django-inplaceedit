@@ -1,7 +1,6 @@
 (function ($) {
     "use strict";
     var _old = $.fn.attr;
-    var isMsIE = $.browser && $.browser.msie;
     $.fn.attr = function() {
         var a, aLength, attributes,  map;
         if (this[0] && arguments.length === 0) {
@@ -53,10 +52,11 @@
     $.inplaceeditform.extend({
         init: function (opts) {
             var self = $.inplaceeditform;
+            self.isMsIE = $.browser && $.browser.msie;
             self.opts = $.extend(self.opts, opts || {});
             self.inplaceeditfields = this;
             // Hack to event onbeforeunload in IE
-            if (isMsIE) {
+            if (self.isMsIE) {
                 if ($(document).on !== undefined) {
                     $(document).on("click", "a", function(){
                         window.couldCatch = true;
@@ -72,7 +72,7 @@
             this.each(function () {
                 if (self.opts.disableClick) {
                     $(this).click(function (ev) {
-                        if (self.enabled) {
+                        if (self.enabled && false) {
                             ev.preventDefault();
                         }
                     });
@@ -190,7 +190,7 @@
             window.onbeforeunload = function (event) {
                 var msg = undefined;
                 if ($(self.formSelector).size()) {
-                    if (!isMsIE || (window.couldCatch && !(window.newLocation.indexOf("javascript:") === 0))) {
+                    if (!self.isMsIE || (window.couldCatch && !(window.newLocation.indexOf("javascript:") === 0))) {
                         msg = self.opts.unsavedChanges;
                         if (event) {
                             // For IE and Firefox prior to version 4
@@ -302,7 +302,7 @@
         inplaceApplySuccess: function (response) {
             var self = $.inplaceeditform;
             if (typeof response === "string") {
-                if ($.browser && $.browser.msie) { // This does not exists in jQuery 1.9
+                if (self.isMsIE) { // This does not exists in jQuery 1.9
                     response = self.methods.replaceAll(response, "'\\\\\"", "'");
                     response = self.methods.replaceAll(response, "\"'", "'");
                 }
@@ -429,7 +429,7 @@
                 value = form.find("#" + field_id).val();
             }
             data.value = encodeURIComponent($.toJSON(value));
-            if ($.browser && $.browser.msie) {
+            if (self.isMsIE) {
                 data.msie = true;
             }
             form.ajaxSubmit(
