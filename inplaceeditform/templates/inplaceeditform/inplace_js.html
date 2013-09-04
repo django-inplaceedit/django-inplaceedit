@@ -7,30 +7,45 @@
 <script src="{{ STATIC_URL }}js/jquery.inplaceeditform.hooks.js" type="text/javascript"></script>
 
 {% if activate_inplaceedit %}
-<!--[if IE]>
-<script> if(typeof $!== typeof undefined && $.browser === undefined){ $.browser = { msie : true}} </script>
-<![endif]-->
-<script type="text/javascript">
-    (function($){
-        $(document).ready(function () {
-            var options = {"getFieldUrl": "{{ inplace_get_field_url }}",
-                           "saveURL": "{{ inplace_save_url }}",
-                           "successText": "{% trans "Successfully saved" %}",
-                           "eventInplaceEdit": "{{ event }}",
-                           "disableClick": {{ disable_click }},
-                           "autoSave": {{ auto_save }},
-                           "unsavedChanges": "{% trans "You have unsaved changes!" %}"};
-            var inplaceManager = $(".inplaceedit").inplaceeditform(options);
-            {% if not toolbar %}
-                inplaceManager.enable();
-            {% else %}
-                if ($(".inplaceedit").size()) {
-                    {% include "inplaceeditform/inc.inplace_toolbar.html" %}
-                }
-            {% endif %}
+    <script type="text/javascript">
+        var isIE = function () {
+            if(typeof jQuery!== typeof undefined && jQuery.browser === undefined){
+                jQuery.browser = { msie : true};
+        }};
+    </script>
+    <!--[if IE]>
+        <script type="text/javascript">
+            isIE();
+        </script>
+    <![endif]-->
+    <!--[if !IE]><!-->
+        <script> 
+            if (/*@cc_on!@*/false) { 
+                isIE();
+            }
+        </script>
+    <!--<![endif]-->
+    <script type="text/javascript">
+        (function($){
+            $(document).ready(function () {
+                var options = {"getFieldUrl": "{{ inplace_get_field_url }}",
+                            "saveURL": "{{ inplace_save_url }}",
+                            "successText": "{% trans "Successfully saved" %}",
+                            "eventInplaceEdit": "{{ event }}",
+                            "disableClick": {{ disable_click }},
+                            "autoSave": {{ auto_save }},
+                            "unsavedChanges": "{% trans "You have unsaved changes!" %}"};
+                var inplaceManager = $(".inplaceedit").inplaceeditform(options);
+                {% if not toolbar %}
+                    inplaceManager.enable();
+                {% else %}
+                    if ($(".inplaceedit").size()) {
+                        {% include "inplaceeditform/inc.inplace_toolbar.html" %}
+                    }
+                {% endif %}
 
-    });
-})(jQuery);
-</script>
-{% include "inplaceeditform/inc.csrf_token.html" %}
+        });
+    })(jQuery);
+    </script>
+    {% include "inplaceeditform/inc.csrf_token.html" %}
 {% endif %}

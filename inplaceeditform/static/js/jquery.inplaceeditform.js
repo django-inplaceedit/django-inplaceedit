@@ -1,6 +1,7 @@
 (function ($) {
     "use strict";
     var _old = $.fn.attr;
+    var isMsIE = $.browser && $.browser.msie;
     $.fn.attr = function() {
         var a, aLength, attributes,  map;
         if (this[0] && arguments.length === 0) {
@@ -54,7 +55,20 @@
             var self = $.inplaceeditform;
             self.opts = $.extend(self.opts, opts || {});
             self.inplaceeditfields = this;
-
+            // Hack to event onbeforeunload in IE
+            if (isMsIE) {
+                if ($(document).on !== undefined) {
+                    $(document).on("click", "a", function(){
+                        window.couldCatch = true;
+                        window.newLocation = $(this).attr("href");
+                    });
+                } else {
+                    $("a").live("click", function(){
+                        window.couldCatch = true;
+                        window.newLocation = $(this).attr("href");
+                    });
+                }
+            }
             this.each(function () {
                 if (self.opts.disableClick) {
                     $(this).click(function (ev) {
@@ -63,7 +77,6 @@
                         }
                     });
                 }
-
                 $(this).bind(self.opts.eventInplaceEdit, function () {
                     if ($(this).data("ajaxTime")) {
                         return false;
@@ -175,15 +188,20 @@
             });
 
             window.onbeforeunload = function (event) {
-                var msg = self.opts.unsavedChanges;
+                var msg = undefined;
                 if ($(self.formSelector).size()) {
-                    if (event) {
-                        // For IE and Firefox prior to version 4
-                        event.returnValue = msg;
+                    if (!isMsIE || (window.couldCatch && !(window.newLocation.indexOf("javascript:") === 0))) {
+                        msg = self.opts.unsavedChanges;
+                        if (event) {
+                            // For IE and Firefox prior to version 4
+                            event.returnValue = msg;
+                        }
                     }
-                    // For Safari and Firefox version 4 and later
-                    return msg;
                 }
+                window.couldCatch = false;
+                window.newLocation = null;
+                return msg;
+
             };
 
             // https://docs.djangoproject.com/en/1.3/ref/contrib/csrf/#ajax
@@ -411,7 +429,9 @@
                 value = form.find("#" + field_id).val();
             }
             data.value = encodeURIComponent($.toJSON(value));
-
+            if ($.browser && $.browser.msie) {
+                data.msie = true;
+            }
             form.ajaxSubmit(
                 {
                     url: self.opts.saveURL,
