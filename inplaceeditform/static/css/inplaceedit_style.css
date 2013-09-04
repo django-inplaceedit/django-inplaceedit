@@ -7,6 +7,11 @@
     background: #FFFFBB;
 }
 
+
 .inplaceedit.enable:hover img {
    outline: 2px solid #FFFFBB;
+}
+
+.inplaceedit.textareainplaceedit {
+    display: block;
 }
