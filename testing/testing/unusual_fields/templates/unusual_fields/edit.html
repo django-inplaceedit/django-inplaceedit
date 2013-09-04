@@ -2,11 +2,11 @@
 
 {% load i18n inplace_edit %}
 
-{% block extrahead %}{% inplace_toolbar %}{% endblock %}
+{% block extrahead %}{% inplace_static %}{% endblock %}
 
 {% block title %}{% trans "Manage Unusual Object" %} {{ unusual_obj }}{% endblock %}
 
-{% block content-title %}{% trans "Manage Unusual Object"%} {{ unusual_obj }} {% endblock %}
+{% block content-title %}{% trans "Manage Unusual Object"%} {% inplace_edit "unusual_obj.slug_field" %} {% endblock %}
 
 {% block content %}
     <div>

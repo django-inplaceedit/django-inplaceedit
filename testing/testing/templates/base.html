@@ -11,6 +11,7 @@
   {% block page %}
   <div>
     <h1 id="title">{% block content-title %}{% endblock %}</h1>
+    {% block content-index %}<a href="/">Go to index</a>{% endblock %}
     <p>
         {% if user.is_anonymous %}
             {% blocktrans %}Please <a href="/admin/">log in (test/testtest)</a> and return to this page{% endblocktrans %}

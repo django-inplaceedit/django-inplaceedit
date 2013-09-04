@@ -6,7 +6,7 @@
 
 {% block title %}{% trans "Manage Multimedia Resource:" %} {{ resource }}{% endblock %}
 
-{% block content-title %}{% trans "Manage Multimedia Resource:" %} {{ resource }}{% endblock %}
+{% block content-title %}{% trans "Manage Multimedia Resource:" %} {% inplace_edit "resource.name" %}{% endblock %}
 
 {% block content %}
     <div>

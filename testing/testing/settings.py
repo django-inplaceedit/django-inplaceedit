@@ -148,14 +148,31 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.contrib.messages.context_processors.messages',
 )
 
-# Custom to the different django versions
+# django-inplaceedit customization
+
+#INPLACEEDIT_EDIT_EMPTY_VALUE = 'Double click to edit...'
+#INPLACEEDIT_AUTO_SAVE = False
+#INPLACEEDIT_EVENT = "click"
+#INPLACEEDIT_DISABLE_CLICK = False
+#INPLACEEDIT_EDIT_MESSAGE_TRANSLATION = 'Write a translation...'
+#DEFAULT_INPLACE_EDIT_OPTIONS = {}
+#DEFAULT_INPLACE_EDIT_OPTIONS_ONE_BY_ONE = False
+#ADAPTOR_INPLACEEDIT_EDIT = 'inplace_edit.perms.AdminDjangoPermEditInline'
+#ADAPTOR_INPLACEEDIT = {}
+
+# If transmeta is installed
 
 try:
     import transmeta
     INSTALLED_APPS += ('transmeta',
                        'testing.inplace_transmeta')
+    MIDDLEWARE_CLASSES += (
+        'django.middleware.locale.LocaleMiddleware',
+        'testing.inplace_transmeta.middleware.LocaleMiddleware')
 except ImportError:
     pass
+
+# Custom settings to the different django versions
 
 import django
 

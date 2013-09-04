@@ -6,14 +6,19 @@
 
 {% block title %}{% trans "News item:" %} {{ news_item }}{% endblock %}
 
-{% block content-title %}{% trans "News item:" %} {{ news_item }}{% endblock %}
+{% block content-title %}{% trans "News item:" %} {% inplace_edit "news_item.title" %}{% endblock %}
 
 {% block content %}
+    {% trans "Change language" %}
+    <ul>
+    {% for lang_code, lang_text in LANGUAGES %}
+        <li><a href=".?set_language={{ lang_code }}">{{ lang_text }}</a></li>
+    {% endfor %}
+    </ul>
     <div>
         <ul>
             <li>{% trans "Title: " %}{% inplace_edit "news_item.title" %}</li>
             <li>{% trans "Description:" %}{% inplace_edit "news_item.description|safe" %}</li>
         </ul>
     </div>
-
 {% endblock %}

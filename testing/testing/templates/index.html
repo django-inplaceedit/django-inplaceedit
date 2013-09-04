@@ -2,17 +2,22 @@
 
 {% load i18n %}
 
+{% block content-title %}{% trans "Index" %}{% endblock %}
+{% block content-index %}{% endblock %}
+
 {% block content %}
-    <p>{% if user.is_anonymous %}{% trans "When you are authenticated." %}{% endif %}
-    {% trans "You can test inplaceedit in the next URLs:" %}
+    <p>
+        {% if user.is_anonymous %}{% trans "When you are authenticated." %}{% endif %}
+        {% trans "You can test inplaceedit in the next URLs:" %}
     </p>
     <ul>
-        <li><a href="{{ multimediaresources_url }}">{% trans "Multimedia resources(normal example)" %}</a></li>
-        <li><a href="{{ unusual_url }}">{% trans "Unusual fields" %}</a></li>
+        <li><a href="{{ multimediaresources_url }}">{% trans "Multimedia resources, a normal example with toolbar)" %}</a></li>
+        <li><a href="{{ unusual_url }}">{% trans "Unusual fields, without toolbar" %}</a></li>
         {% if news_url %}
             <li><a href="{{ news_url }}">{% trans "News (transmeta testing)" %}</a></li>
         {% else %}
             <li>{% trans "To enable News (transmeta testing), install django-transmeta" %}</li>
         {% endif %}
     </ul>
+    <p> {% trans "You can modify the options of django-inplaceedit uncommenting the settings (django-inplaceedit customization section)" %}
 {% endblock %}
