@@ -17,12 +17,8 @@ function DateTimeShortcutsInitial() {
     }
     if (datetime_load && calendar_load && gettext_load && admin_prefix_load){
         DateTimeShortcuts.init();
-        setTimeout(function () {
-            if (addEvent === undefined) {
-                addEvent = function(num) {
-                }
-            };
-        }, 500);
+        addEvent = function(num) {
+        };
     }
     else {
         setTimeout(DateTimeShortcutsInitial, 500);
