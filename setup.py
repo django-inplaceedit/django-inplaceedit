@@ -28,7 +28,7 @@ setup(
     description="Django application that allows you to inline edition of some data from the database",
     long_description=(read('README.rst') + '\n\n' + read('CHANGES.rst')),
     classifiers=[
-        'Development Status :: 4 - Beta',
+        'Development Status :: 5 - Production/Stable',
         'Framework :: Django',
         'License :: OSI Approved :: GNU Library or Lesser General Public License (LGPL)',
         'Programming Language :: Python :: 2',
