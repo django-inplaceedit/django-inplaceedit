@@ -24,6 +24,11 @@ INPLACEEDIT_EVENT = getattr(settings, 'INPLACEEDIT_EVENT', 'dblclick')
 INPLACEEDIT_DISABLE_CLICK = getattr(settings, 'INPLACEEDIT_DISABLE_CLICK', True)
 INPLACEEDIT_EDIT_MESSAGE_TRANSLATION = (getattr(settings, 'INPLACEEDIT_EDIT_MESSAGE_TRANSLATION', None) and
                                         _(settings.INPLACEEDIT_EDIT_MESSAGE_TRANSLATION) or _('Write a translation'))
+INPLACEEDIT_SUCCESS_TEXT = (getattr(settings, 'INPLACEEDIT_SUCCESS_TEXT', None) and
+                            _(settings.INPLACEEDIT_SUCCESS_TEXT) or _('Successfully saved'))
+INPLACEEDIT_UNSAVED_TEXT = (getattr(settings, 'INPLACEEDIT_UNSAVED_TEXT', None) and
+                            _(settings.INPLACEEDIT_UNSAVED_TEXT) or _('You have unsaved changes!'))
+INPLACE_ENABLE_CLASS = getattr(settings, 'ADAPTOR_INPLACEEDIT_EDIT', 'enable')
 DEFAULT_INPLACE_EDIT_OPTIONS = getattr(settings, "DEFAULT_INPLACE_EDIT_OPTIONS", {})
 DEFAULT_INPLACE_EDIT_OPTIONS_ONE_BY_ONE = getattr(settings, 'DEFAULT_INPLACE_EDIT_OPTIONS_ONE_BY_ONE', False)
 

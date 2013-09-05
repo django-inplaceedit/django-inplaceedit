@@ -35,6 +35,9 @@ def inplace_js(context, activate_inplaceedit=True, toolbar=False):
         'event': inplace_settings.INPLACEEDIT_EVENT,
         'disable_click': json.dumps(inplace_settings.INPLACEEDIT_DISABLE_CLICK),
         'toolbar': toolbar,
+        'enable_class': inplace_settings.INPLACE_ENABLE_CLASS,
+        'success_text': inplace_settings.INPLACEEDIT_SUCCESS_TEXT,
+        'unsaved_changes': inplace_settings.INPLACEEDIT_UNSAVED_TEXT,
         'inplace_get_field_url': reverse('inplace_get_field'),
         'inplace_save_url': reverse('inplace_save'),
     }
