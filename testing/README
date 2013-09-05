@@ -16,8 +16,10 @@ $ cd virt-inplaceedit/testing
 $ source ../bin/activate
 4) install the required packages
 $ pip install -r REQUIREMENTS
-4.1) install django-transmeta if you want
+4.1) install django-transmeta, if you want test this integration
 $ pip install django-transmeta
+4.2) install django-inplaceedit-extra-fields and its dependencies, if you want test this integration (sorl-thumbnail and django-ajax-selects only works in python 2)
+$ pip install django-inplaceedit-extra-fields sorl-thumbnail==11.12 django-ajax-selects==1.2.5
 5) create db and load fixtures
 $ ./manage.py syncdb
 6) start the debug server
