@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-08-21 06:57-0500\n"
+"POT-Creation-Date: 2013-09-05 06:31-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Pablo Martín <goinnn@gmail.com>\n"
 "Language-Team: Es <goinnn@gmail.com>\n"
@@ -17,13 +17,21 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: settings.py:6
+#: settings.py:21
 msgid "Doubleclick to edit"
 msgstr "Dobleclick para editar"
 
-#: settings.py:11
+#: settings.py:26
 msgid "Write a translation"
 msgstr "Escribe una traducción"
+
+#: settings.py:28
+msgid "Successfully saved"
+msgstr "Guardado satisfactoriamente"
+
+#: settings.py:30
+msgid "You have unsaved changes!"
+msgstr "Tienes cambios sin guardar!"
 
 #: templates/inplaceeditform/inc.inplace_toolbar.html:3
 msgid "Enable edit inline"
@@ -32,14 +40,6 @@ msgstr "Habilitar edición inline"
 #: templates/inplaceeditform/inc.inplace_toolbar.html:4
 msgid "Disable edit inline"
 msgstr "Deshabilitar edición inline"
-
-#: templates/inplaceeditform/inplace_js.html:18
-msgid "Successfully saved"
-msgstr "Guardado satisfactoriamente"
-
-#: templates/inplaceeditform/inplace_js.html:22
-msgid "You have unsaved changes!"
-msgstr "Tienes cambios sin guardar!"
 
 #: templates/inplaceeditform/render_field.html:9
 #: templates/inplaceeditform/adaptor_file/render_field.html:5
