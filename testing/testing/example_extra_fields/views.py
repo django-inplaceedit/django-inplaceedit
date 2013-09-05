@@ -13,19 +13,20 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this programe.  If not, see <http://www.gnu.org/licenses/>.
 
-from django.utils import translation
+from django.shortcuts import render_to_response, get_object_or_404
+from django.template import RequestContext
+
+from testing.multimediaresources.models import Resource
 
 
-class LocaleMiddleware(object):
-    """This middleware checks if we come from a Plone site
-    that set a language cookie. In that case we use that
-    language"""
+def extra_index(request):
+    return render_to_response('extra_fields/index.html',
+                              {'resources': Resource.objects.all()},
+                              context_instance=RequestContext(request))
 
-    def process_request(self, request):
-        forced_lang = request.GET.get('set_language', None)
-        request.forced_lang = forced_lang
-        if forced_lang:
-            translation.activate(forced_lang)
-            request.LANGUAGE_CODE = translation.get_language()
-            if hasattr(request, 'session'):
-                request.session['django_language'] = forced_lang
+
+def extra_edit(request, resource_id):
+    resource = get_object_or_404(Resource, pk=resource_id)
+    return render_to_response('extra_fields/edit.html',
+                              {'resource': resource},
+                              context_instance=RequestContext(request))

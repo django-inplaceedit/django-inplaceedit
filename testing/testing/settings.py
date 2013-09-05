@@ -172,6 +172,37 @@ try:
 except ImportError:
     pass
 
+# If transmeta is installed
+
+try:
+    import inplaceeditform_extra_fields
+    INSTALLED_APPS += ('inplaceeditform_extra_fields',
+                       'testing.example_extra_fields')
+    ADAPTOR_INPLACEEDIT = {'auto_fk': 'inplaceeditform_extra_fields.fields.AdaptorAutoCompleteForeingKeyField',
+                           'auto_m2m': 'inplaceeditform_extra_fields.fields.AdaptorAutoCompleteManyToManyField',
+                           'image_thumb': 'inplaceeditform_extra_fields.fields.AdaptorImageThumbnailField',
+                           'tiny': 'inplaceeditform_extra_fields.fields.AdaptorTinyMCEField'}
+    try:
+        import ajax_select
+        INSTALLED_APPS += ('ajax_select',)
+        AJAX_LOOKUP_CHANNELS = {
+            'typeresource': {'model': 'multimediaresources.typeresource',
+                             'search_field': 'name'},
+            'user': {'model': 'auth.user',
+                     'search_field': 'username'},
+        }
+    except ImportError:
+        pass
+    try:
+        import sorl
+        INSTALLED_APPS += ('sorl.thumbnail',)
+        THUMBNAIL_DEBUG = DEBUG
+    except ImportError:
+        pass
+except ImportError:
+    pass
+
+
 # Custom settings to the different django versions
 
 import django
@@ -207,6 +238,7 @@ if django.VERSION[0] >= 1 and django.VERSION[1] >= 3:
         'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     #    'django.contrib.staticfiles.finders.DefaultStorageFinder',
     )
+    TEMPLATE_CONTEXT_PROCESSORS += ('django.core.context_processors.static',)
 
 
 elif django.VERSION[0] >= 1 and django.VERSION[1] >= 2:

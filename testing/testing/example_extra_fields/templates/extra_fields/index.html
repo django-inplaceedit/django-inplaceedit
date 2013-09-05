@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block title %}{% trans "Manage Multimedia Resources" %}{% endblock %}
+
+{% block content-title %}{% trans "Manage Multimedia Resources"%}{% endblock %}
+
+{% block content %}
+    <div>
+        <ul>
+        {% for resource in resources %}
+            <li><a href="{{ resource.pk }}">Inplace edit {{ resource }}</a></li>
+        {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

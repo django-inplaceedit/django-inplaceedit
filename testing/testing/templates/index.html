@@ -18,6 +18,11 @@
         {% else %}
             <li>{% trans "To enable News (transmeta testing), install django-transmeta" %}</li>
         {% endif %}
+        {% if extra_url %}
+            <li><a href="{{ extra_url }}">{% trans "example_extra_field testing" %}</a></li>
+        {% else %}
+            <li>{% trans "To enable example_extra_field testing, install django-inplaceedit-extra-field" %}</li>
+        {% endif %}
     </ul>
     <p> {% trans "You can modify the options of django-inplaceedit uncommenting the settings (django-inplaceedit customization section)" %}
 {% endblock %}

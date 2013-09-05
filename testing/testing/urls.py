@@ -46,12 +46,25 @@ def index(request):
     context['unusual_url'] = reverse('unusual_index')
     if 'testing.inplace_transmeta' in settings.INSTALLED_APPS:
         context['news_url'] = reverse('news_index')
+    if 'testing.example_extra_fields' in settings.INSTALLED_APPS:
+        context['extra_url'] = reverse('extra_index')
     return render_to_response('index.html',
                               context,
                               context_instance=RequestContext(request))
 
 urlpatterns += patterns('',
     url(r'^$', index))
+
+if 'testing.example_extra_fields' in settings.INSTALLED_APPS:
+    urlpatterns += patterns('',
+        url(r'^extra_fields/', include('testing.example_extra_fields.urls'))
+    )
+    if 'ajax_select' in settings.INSTALLED_APPS:
+        from ajax_select import urls as ajax_select_urls
+        urlpatterns += patterns('',
+            url(r'^ajax_select/', include(ajax_select_urls))
+        )
+
 
 urlpatterns += patterns('',
     (r'^%s(?P<path>.*)$' % settings.MEDIA_URL[1:],

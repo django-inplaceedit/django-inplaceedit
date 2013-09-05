@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% load i18n inplace_edit %}
+
+{% block extrahead %}
+    {% inplace_toolbar %}
+    {% if STATIC_URL %}
+        <link rel="stylesheet" href="{{ STATIC_URL }}adaptor_tiny/css/block_normalize.css">
+    {% else %}
+        <!-- Old version -->
+        <link rel="stylesheet" href="{{ MEDIA_URL }}inplaceeditform_extra_fields/adaptor_tiny/css/block_normalize.css">
+    {% endif %}
+{% endblock %}
+
+{% block title %}{% trans "Manage Multimedia Resource:" %} {{ resource }}{% endblock %}
+
+{% block content-title %}{% trans "Manage Multimedia Resource:" %} {% inplace_edit "resource.name" %}{% endblock %}
+
+{% block content %}
+    <div>
+        <ul>
+            <li>{% trans "Description (TextField):" %}{% inplace_edit "resource.description" adaptor="tiny" %}</li>
+            <li>{% trans "Type of resource (ForeignKey):" %}{% inplace_edit "resource.resource_type" adaptor="auto_fk", lookup="typeresource" %}</li>
+            <li>{% trans "Owner (ManyToManyField):" %}{% inplace_edit "resource.owner" adaptor="auto_m2m", lookup="user" %}</li>
+            <li>{% trans "Associated Image (ImageField):" %}{% inplace_edit "resource.image" adaptor="image_thumb", size="16x16", title="{{ obj.name }}", alt="{{ obj.name }}"%}</li>
+        </ul>
+    </div>
+{% endblock %}
+{% inplace_edit "content.field_name" adaptor="auto_fk", lookup="my_lookup" %}

@@ -13,19 +13,10 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this programe.  If not, see <http://www.gnu.org/licenses/>.
 
-from django.utils import translation
+from django.conf.urls.defaults import patterns, url
 
 
-class LocaleMiddleware(object):
-    """This middleware checks if we come from a Plone site
-    that set a language cookie. In that case we use that
-    language"""
-
-    def process_request(self, request):
-        forced_lang = request.GET.get('set_language', None)
-        request.forced_lang = forced_lang
-        if forced_lang:
-            translation.activate(forced_lang)
-            request.LANGUAGE_CODE = translation.get_language()
-            if hasattr(request, 'session'):
-                request.session['django_language'] = forced_lang
+urlpatterns = patterns('testing.example_extra_fields.views',
+    url(r'^$', 'extra_index', name='extra_index'),
+    url(r'^(?P<resource_id>\w+)/$', 'extra_edit', name="extra_edit"),
+)
