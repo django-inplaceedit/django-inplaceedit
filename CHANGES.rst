@@ -2,23 +2,22 @@ Releases
 ========
 
 1.0.0 (2013-09-05)
------------------
+------------------
 
 * Support to NullBooleanField, DecimalField and TimeField (you got an error)
 * Support to IntegerField, FloatField and URLField (improvements over BaseAdaptorField)
 * Improvement in DateField and DateTimeField
-* Create a doc in readthedocs
+* Create a doc in `readthedocs <https://django-inplaceedit.readthedocs.org/>`_
 * Add unit test and integrate with `travis <https://travis-ci.org/Yaco-Sistemas/django-inplaceedit>`_
-* The django-inplaceedit now is less intrusive. **Attention** if you have customize django-inplaceedit, see this `changeset  <https://github.com/Yaco-Sistemas/django-inplaceedit/commit/c5cfdcce190b4fa8166b7500db711400baa9ea86>`_
+* The django-inplaceedit now is less intrusive. **Attention** if you have customize django-inplaceedit, see this `changeset <https://github.com/Yaco-Sistemas/django-inplaceedit/commit/c5cfdcce190b4fa8166b7500db711400baa9ea86>`_
+* Support Django 1.2 or higher version
 * Fix some errors with IE browser
 * Improvement in testing project
 * Move the settings to the module
 * Detail of Python3 compatibility
 * Details of the toolbar css
-* Fix translations errors
 * A lot of little improvements and fix bugs
-* Thanks to:
-    * `Pfeyz <https://github.com/pfeyz>`_
+* Fix translations errors, thanks to `Pfeyz <https://github.com/pfeyz>`_
 
 
 0.96 (2013-08-14)
