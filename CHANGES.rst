@@ -1,7 +1,7 @@
 Releases
 ========
 
-1.0.0 (2013-??-??)
+1.0.0 (2013-09-05)
 -----------------
 
 * Support to NullBooleanField, DecimalField and TimeField (you got an error)
@@ -16,6 +16,7 @@ Releases
 * Detail of Python3 compatibility
 * Details of the toolbar css
 * Fix translations errors
+* A lot of little improvements and fix bugs
 * Thanks to:
     * `Pfeyz <https://github.com/pfeyz>`_
 
