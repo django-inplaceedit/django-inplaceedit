@@ -40,7 +40,8 @@
             "eventInplaceEdit": "dblclick",
             "disableClick": true,
             "autoSave": false,
-            "unsavedChanges": "You have unsaved changes!"
+            "unsavedChanges": "You have unsaved changes!",
+            "enableClass": "enable"
         },
         formSelector: "form.inplaceeditform",
         enabled: false,
@@ -75,7 +76,7 @@
             this.each(function () {
                 if (self.opts.disableClick) {
                     $(this).click(function (ev) {
-                        if (self.enabled && false) {
+                        if (self.enabled) {
                             ev.preventDefault();
                         }
                     });
@@ -84,7 +85,7 @@
                     if ($(this).data("ajaxTime")) {
                         return false;
                     }
-                    if (!self.enabled) {
+                    if (!self.enabled || !$(this).hasClass(self.opts.enableClass)) {
                         return false;
                     }
                     $(this).data("ajaxTime", true);
@@ -249,13 +250,13 @@
                 enable: function () {
                     self.enabled = true;
                     self.inplaceeditfields.each(function () {
-                        $(this).addClass("enable");
+                        $(this).addClass(self.opts.enableClass);
                     });
                 },
                 disable: function () {
                     self.enabled = false;
                     self.inplaceeditfields.each(function () {
-                        $(this).removeClass("enable");
+                        $(this).removeClass(self.opts.enableClass);
                     });
                 }
             };
@@ -349,10 +350,12 @@
             if (self.opts.successText) {
                 var success_message = $("<ul class='success'><li>" + self.opts.successText + "</li></ul>");
                 inplace_span.prepend(success_message);
+                inplace_span.removeClass(self.opts.enableClass);
                 setTimeout(function () {
                     success_message.fadeOut(function () {
                         $(this).remove();
                         inplace_span.redraw();
+                        inplace_span.addClass(self.opts.enableClass);
                     });
                 }, 2000);
             }

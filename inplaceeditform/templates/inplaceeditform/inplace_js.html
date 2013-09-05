@@ -29,12 +29,13 @@
         (function($){
             $(document).ready(function () {
                 var options = {"getFieldUrl": "{{ inplace_get_field_url }}",
-                            "saveURL": "{{ inplace_save_url }}",
-                            "successText": "{% trans "Successfully saved" %}",
-                            "eventInplaceEdit": "{{ event }}",
-                            "disableClick": {{ disable_click }},
-                            "autoSave": {{ auto_save }},
-                            "unsavedChanges": "{% trans "You have unsaved changes!" %}"};
+                               "saveURL": "{{ inplace_save_url }}",
+                               "successText": "{% trans "Successfully saved" %}",
+                               "eventInplaceEdit": "{{ event }}",
+                               "disableClick": {{ disable_click }},
+                               "autoSave": {{ auto_save }},
+                               "unsavedChanges": "{% trans "You have unsaved changes!" %}",
+                               "enableClass": "enable"};
                 var inplaceManager = $(".inplaceedit").inplaceeditform(options);
                 {% if not toolbar %}
                     inplaceManager.enable();
