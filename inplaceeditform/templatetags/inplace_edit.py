@@ -27,7 +27,7 @@ register = Library()
 
 
 def inplace_js(context, activate_inplaceedit=True, toolbar=False):
-    return context.update({
+    return {
         'STATIC_URL': get_static_url(),
         'ADMIN_MEDIA_PREFIX': get_admin_static_url(),
         'activate_inplaceedit': activate_inplaceedit,
@@ -37,25 +37,25 @@ def inplace_js(context, activate_inplaceedit=True, toolbar=False):
         'toolbar': toolbar,
         'inplace_get_field_url': reverse('inplace_get_field'),
         'inplace_save_url': reverse('inplace_save'),
-    })
+    }
 register.inclusion_tag("inplaceeditform/inplace_js.html", takes_context=True)(inplace_js)
 
 
 def inplace_css(context, toolbar=False):
-    return context.update({
+    return {
         'STATIC_URL': get_static_url(),
         'ADMIN_MEDIA_PREFIX': get_admin_static_url(),
         'toolbar': toolbar,
-    })
+    }
 register.inclusion_tag("inplaceeditform/inplace_css.html", takes_context=True)(inplace_css)
 
 
 def inplace_static(context):
-    return context.update({
+    return {
         'STATIC_URL': get_static_url(),
         'ADMIN_MEDIA_PREFIX': get_admin_static_url(),
         'toolbar': False,
-    })
+    }
 register.inclusion_tag("inplaceeditform/inplace_static.html", takes_context=True)(inplace_static)
 
 
@@ -66,11 +66,11 @@ register.inclusion_tag("inplaceeditform/inplace_static.html", takes_context=True
 
 
 def inplace_toolbar(context):
-    return context.update({
+    return {
         'STATIC_URL': get_static_url(),
         'ADMIN_MEDIA_PREFIX': get_admin_static_url(),
         'toolbar': True,
-    })
+    }
 register.inclusion_tag("inplaceeditform/inplace_static.html", takes_context=True)(inplace_toolbar)
 
 
