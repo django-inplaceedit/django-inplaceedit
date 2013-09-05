@@ -70,6 +70,7 @@ Creating an adaptor
 
 You can create an adaptor to work with django-inplaceedit, the behavior is fully customizable. To default inplaceedit has 17 `adaptors <https://github.com/Yaco-Sistemas/django-inplaceedit/blob/master/inplaceeditform/fields.py/>`_ (AdaptorTextField, AdaptorTextAreaField, AdaptorChoicesField, AdaptorBooleanField, AdaptorDateTimeField, AdaptorForeingKeyField, AdaptorManyToManyField, AdaptorImageField etc). These use the api, overwriting some methods for them.
 
+You can see four examples in `django-inplaceedit-extra-fields project <https://github.com/goinnn/django-inplaceedit-extra-fields/blob/master/inplaceeditform_extra_fields/fields.py/>`_
 
 First step
 ----------
