@@ -175,7 +175,7 @@ try:
 except ImportError:
     pass
 
-# If transmeta is installed
+# If inplaceeditform_extra_fields is installed
 
 try:
     import inplaceeditform_extra_fields
