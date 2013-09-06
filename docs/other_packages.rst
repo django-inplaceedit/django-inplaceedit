@@ -1,8 +1,8 @@
 .. _other_packages:
 
-==============
-Other packages
-==============
+======================
+Other packages related
+======================
 
 Transmeta
 =========
@@ -13,3 +13,9 @@ Django Inplace Edit Extra Field
 ===============================
 
 If you want to get more download `Django Inplace Edit Extra Field <http://pypi.python.org/pypi/django-inplaceedit-extra-fields>`_
+
+
+Django Inplace Edit Bootstrap
+=============================
+
+If you want to get more download `Django Inplace Edit Bootstrap <http://pypi.python.org/pypi/django-inplaceedit-bootstrap>`_

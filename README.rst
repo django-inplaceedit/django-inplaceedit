@@ -21,10 +21,10 @@ Inplace Edit Form is a Django application that allows you to inline edition of s
 It is distributed under the terms of the GNU Lesser General Public
 License <http://www.gnu.org/licenses/lgpl.html>
 
-Demo (use a very old version of django-inplaceedit)
-===================================================
+Demo (this video use a very old version of django-inplaceedit)
+==============================================================
 
-Video Demo, of django-inplaceedit and `Django-inlinetrans <http://pypi.python.org/pypi/django-inlinetrans>`_ (Set full screen mode to view it correctly)
+Video Demo, of django-inplaceedit, `django-inplaceedit-extra-fields <http://pypi.python.org/pypi/django-inplaceedit-extra-fields>`_ and `django-inlinetrans <http://pypi.python.org/pypi/django-inlinetrans>`_ (Set full screen mode to view it correctly)
 
 .. image:: https://github.com/Yaco-Sistemas/django-inplaceedit/raw/master/video-frame.png
    :target: http://youtu.be/_EjisXtMy_Y?t=34s
@@ -36,6 +36,13 @@ Requirements
  * `Django <https://www.djangoproject.com/>`_ (>= 1.2, even works with 1.1 with some customizations in your project)
  * `jQuery <http://jquery.com/>`_ (>=1.5.0)
 
+
+Other packages related
+======================
+
+ * `Transmeta <http://pypi.python.org/pypi/django-transmeta>`_
+ * `Django Inplace Edit Extra Field <http://pypi.python.org/pypi/django-inplaceedit-extra-fields>`_
+ * `Django Inplace Edit Bootstrap <http://pypi.python.org/pypi/django-inplaceedit-bootstrap>`_
 
 Documentation
 =============
