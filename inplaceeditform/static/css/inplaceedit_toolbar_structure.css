@@ -3,6 +3,10 @@
     border: 1px solid #cccccc;
     font-size: 11px;
     font-family: sans-serif;
+    position:fixed;
+    top: 0px;
+    z-index: 99999999;
+    width: 100%;
 }
 
 
