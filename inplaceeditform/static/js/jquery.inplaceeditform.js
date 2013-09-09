@@ -40,7 +40,7 @@
             "eventInplaceEdit": "dblclick",
             "disableClick": true,
             "autoSave": false,
-            "unsavedChanges": "You have unsaved changes!",
+            "unsavedChanges": "You have unsaved changes!",  // This is the only opts that can not be overwritten
             "enableClass": "enable"
         },
         formSelector: "form.inplaceeditform",
@@ -76,94 +76,11 @@
                 var configTag = $(this).find("inplaceeditform");
                 var config = configTag.attr();
                 if (self.methods.getOptBool(config, self.opts, 'disableClick')) {
-                    $(this).click(function (ev) {
-                        if (self.enabled) {
-                            ev.preventDefault();
-                        }
-                    });
+                    $(this).click(self.methods.disableClickCallBack);
                 }
-                $(this).bind(self.methods.getOpt(config, self.opts, 'eventInplaceEdit'), function () {
-                    if ($(this).data("ajaxTime")) {
-                        return false;
-                    }
-                    if (!self.enabled || !$(this).hasClass(self.opts.enableClass)) {
-                        return false;
-                    }
-                    var configTag = $(this).find("inplaceeditform");
-                    var config = configTag.attr();
-                    $(this).data("ajaxTime", true);
-                    var data = self.methods.getDataToRequest(configTag);
-                    var extraConfig = configTag.data("extraConfig");
-                    if (extraConfig) {
-                        data = extraConfig(data);
-                    }
-                    var can_auto_save = parseInt(config.can_auto_save);
-                    data += "&__widget_height=" + $(this).innerHeight() + "px" + "&__widget_width=" + $(this).innerWidth() + "px";
-                    $.ajax({
-                        data: data,
-                        url: self.methods.getOpt(config, self.opts, 'getFieldUrl'),
-                        type: "GET",
-                        async: true,
-                        dataType: 'json',
-                        error: self.methods.bind(self.methods.treatmentStatusError, {"context": $(this)}),
-                        success: self.methods.bind(self.methods.inplaceGetFieldSuccess, {"that": this})
-                    });
-                });
+                $(this).bind(self.methods.getOpt(config, self.opts, 'eventInplaceEdit'), self.methods.eventInplaceEditCallBack);
             });
-            window.onbeforeunload = function (event) {
-                var msg = undefined;
-                if ($(self.formSelector).size()) {
-                    if (!self.isMsIE || (window.couldCatch && !(window.newLocation.indexOf("javascript:") === 0))) {
-                        msg = self.opts.unsavedChanges;
-                        if (event) {
-                            // For IE and Firefox prior to version 4
-                            event.returnValue = msg;
-                        }
-                    }
-                }
-                window.couldCatch = false;
-                window.newLocation = null;
-                return msg;
-            };
-            // https://docs.djangoproject.com/en/1.3/ref/contrib/csrf/#ajax
-            $(document).ajaxSend(function (event, xhr, settings) {
-                function getCookie(name) {
-                    var cookieValue = null;
-                    var i;
-                    if (document.cookie && document.cookie !== '') {
-                        var cookies = document.cookie.split(';');
-                        for (i = 0; i < cookies.length; i += 1) {
-                            var cookie = $.trim(cookies[i]);
-                            // Does this cookie string begin with the name we want?
-                            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                                break;
-                            }
-                        }
-                    }
-                    return cookieValue;
-                }
-                function sameOrigin(url) {
-                    // url could be relative or scheme relative or absolute
-                    var host = document.location.host; // host + port
-                    var protocol = document.location.protocol;
-                    var sr_origin = '//' + host;
-                    var origin = protocol + sr_origin;
-                    // Allow absolute or scheme relative URLs to same origin
-                    return (url === origin || url.slice(0, origin.length + 1) === origin + '/') ||
-                        (url === sr_origin || url.slice(0, sr_origin.length + 1) === sr_origin + '/') ||
-                        // or any other URL that isn't scheme relative or absolute i.e relative.
-                        !(/^(\/\/|http:|https:).*/.test(url));
-                }
-                function safeMethod(settings) {
-                    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(settings.type)) || settings.url.indexOf("send_csrfToken") > -1;
-                }
-
-                if (!safeMethod(settings) && sameOrigin(settings.url)) {
-                    xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
-                }
-            });
-
+            window.onbeforeunload = self.methods.onBeforeUnloadEvent;
             return {
                 enable: function () {
                     self.enabled = true;
@@ -193,6 +110,40 @@
                 this.tag.parent().find(".cancel").click();
             }
         },
+        disableClickCallBack: function (ev) {
+            var self = $.inplaceeditform;
+            if (self.enabled) {
+                ev.preventDefault();
+            }
+        },
+        eventInplaceEditCallBack: function () {
+            var self = $.inplaceeditform;
+            if ($(this).data("ajaxTime")) {
+                return false;
+            }
+            if (!self.enabled || !$(this).hasClass(self.opts.enableClass)) {
+                return false;
+            }
+            var configTag = $(this).find("inplaceeditform");
+            var config = configTag.attr();
+            $(this).data("ajaxTime", true);
+            var data = self.methods.getDataToRequest(configTag);
+            var extraConfig = configTag.data("extraConfig");
+            if (extraConfig) {
+                data = extraConfig(data);
+            }
+            var can_auto_save = parseInt(config.can_auto_save);
+            data += "&__widget_height=" + $(this).innerHeight() + "px" + "&__widget_width=" + $(this).innerWidth() + "px";
+            $.ajax({
+                data: data,
+                url: self.methods.getOpt(config, self.opts, 'getFieldUrl'),
+                type: "GET",
+                async: true,
+                dataType: 'json',
+                error: self.methods.bind(self.methods.treatmentStatusError, {"context": $(this)}),
+                success: self.methods.bind(self.methods.inplaceGetFieldSuccess, {"that": this})
+            });
+        },
         getOpt: function (config, genericOpts, opt) {
             return (config[opt.toLowerCase()] !== undefined && config[opt.toLowerCase()]) || genericOpts[opt];
         },
@@ -203,6 +154,22 @@
                 val = parseInt(val);
             }
             return val;
+        },
+        onBeforeUnloadEvent: function (event) {
+            var msg = undefined;
+            var self = $.inplaceeditform;
+            if ($(self.formSelector).size()) {
+                if (!self.isMsIE || (window.couldCatch && !(window.newLocation.indexOf("javascript:") === 0))) {
+                    msg = self.opts.unsavedChanges;
+                    if (event) {
+                        // For IE and Firefox prior to version 4
+                        event.returnValue = msg;
+                    }
+                }
+            }
+            window.couldCatch = false;
+            window.newLocation = null;
+            return msg;
         },
         treatmentStatusError: function (response) {
             if (response.status === 0) {
