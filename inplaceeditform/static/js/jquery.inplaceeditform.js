@@ -176,10 +176,10 @@
                 },
                 disable: function () {
                     self.enabled = false;
-                    var configTag = $(this).find("inplaceeditform");
-                    var config = configTag.attr();
-                    var enableClass = self.methods.getOpt(config, self.opts, 'enableClass');
                     self.inplaceeditfields.each(function () {
+                        var configTag = $(this).find("inplaceeditform");
+                        var config = configTag.attr();
+                        var enableClass = self.methods.getOpt(config, self.opts, 'enableClass');
                         $(this).removeClass(enableClass);
                     });
                 }
