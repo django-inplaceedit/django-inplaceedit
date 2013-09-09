@@ -47,7 +47,6 @@
         enabled: false,
         inplaceeditfields: null,
         methods: {},
-
         extend: function (newMethods) {
             this.methods = $.extend(this.methods, newMethods);
         }
@@ -100,7 +99,6 @@
                     }
                     var can_auto_save = parseInt(config.can_auto_save);
                     data += "&__widget_height=" + $(this).innerHeight() + "px" + "&__widget_width=" + $(this).innerWidth() + "px";
-                    var that = this;
                     $.ajax({
                         data: data,
                         url: self.methods.getOpt(config, self.opts, 'getFieldUrl'),
@@ -108,85 +106,7 @@
                         async: true,
                         dataType: 'json',
                         error: self.methods.bind(self.methods.treatmentStatusError, {"context": $(this)}),
-                        success: function (response) {
-                            if (!response) {
-                                alert("The server is down");
-                            } else if (response.errors) {
-                                alert(response.errors);
-                            } else {
-                                var tags = $(self.methods.removeStartSpaces(response.field_render));
-                                $(tags).insertAfter($(that));
-                                $(that).hide();
-                                var head = $("head")[0];
-                                try {
-                                    var medias = $(self.methods.removeStartSpaces(response.field_media_render));
-                                    var medias_preferred = medias.filter("[delay=delay]");
-                                    var medias_regular = medias.not("[delay=delay]");
-                                    $.map(medias_preferred, function (media, i) {
-                                        if (i === 0) {
-                                            self.methods.loadjscssfile(media);
-                                        } else {
-                                            setTimeout(function () {
-                                                self.methods.loadjscssfile(media);
-                                            }, 500);
-                                        }
-                                    });
-                                    if (medias_preferred.length === 0) {
-                                        $.map(medias_regular, function (media) {
-                                            self.methods.loadjscssfile(media);
-                                        });
-                                    } else {
-                                        setTimeout(function () {
-                                            $.map(medias_regular, function (media) {
-                                                self.methods.loadjscssfile(media);
-                                            });
-                                        }, 500);
-                                    }
-                                } catch (err) {
-                                }
-                                var links_parents = $(that).next().parents("a");
-                                if (links_parents.length > 0) {
-                                    $.map(links_parents, function (link) {
-                                        link = $(link);
-                                        var href = link.attr("href");
-                                        link.attr("hrefinplaceedit", href);
-                                        link.addClass("linkInplaceEdit");
-                                        link.removeAttr("href");
-                                    });
-                                }
-                                var applyButton = $(that).next().find(".apply");
-                                var cancelButton = $(that).next().find(".cancel");
-                                var applyFileButton = $(that).next().find(".applyFile");
-                                if (cancelButton.size()) {
-                                    cancelButton.click(self.methods.inplaceCancel);
-                                }
-                                if (applyButton.size()) {
-                                    applyButton.click(self.methods.inplaceApply);
-                                    $(that).next(self.formSelector).submit(self.methods.bind(self.methods.inplaceApply, applyButton));
-                                }
-                                if (applyFileButton.size()) {
-                                    applyFileButton.click(self.methods.inplaceApplyUpload);
-                                    $(that).next(self.formSelector).submit(self.methods.bind(self.methods.inplaceApply, applyFileButton));
-                                }
-                                var fieldTag = $(that).next(self.formSelector).find("input, select, textarea");
-                                fieldTag.focus();
-                                if (self.methods.getOptBool(config, self.opts, "autoSave") && can_auto_save) {
-                                    applyButton.hide();
-                                    cancelButton.hide();
-                                    applyFileButton.hide();
-                                    var value = fieldTag.val();
-                                    fieldTag.blur(
-                                        self.methods.bind(self.methods.autoSaveCallBack, {"oldValue": value,
-                                                                                            "tag": fieldTag})
-                                    );
-                                    $(that).next(self.formSelector).find("select").change(
-                                        self.methods.bind(self.methods.autoSaveCallBack, {"oldValue": value,
-                                                                                            "tag": fieldTag})
-                                    );
-                                }
-                            }
-                            $(that).data("ajaxTime", false);
-                        }
+                        success: self.methods.bind(self.methods.inplaceGetFieldSuccess, {"that": this})
                     });
                 });
             });
@@ -205,7 +125,6 @@
                 window.newLocation = null;
                 return msg;
             };
-
             // https://docs.djangoproject.com/en/1.3/ref/contrib/csrf/#ajax
             $(document).ajaxSend(function (event, xhr, settings) {
                 function getCookie(name) {
@@ -224,7 +143,6 @@
                     }
                     return cookieValue;
                 }
-
                 function sameOrigin(url) {
                     // url could be relative or scheme relative or absolute
                     var host = document.location.host; // host + port
@@ -237,7 +155,6 @@
                         // or any other URL that isn't scheme relative or absolute i.e relative.
                         !(/^(\/\/|http:|https:).*/.test(url));
                 }
-
                 function safeMethod(settings) {
                     return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(settings.type)) || settings.url.indexOf("send_csrfToken") > -1;
                 }
@@ -324,7 +241,89 @@
         replaceAll: function (txt, replace, with_this) {
             return txt.replace(new RegExp(replace, "g"), with_this);
         },
-
+        inplaceGetFieldSuccess: function(response) {
+            var self = $.inplaceeditform;
+            if (!response) {
+                alert("The server is down");
+            } else if (response.errors) {
+                alert(response.errors);
+            } else {
+                var that = this.that;
+                var configTag = $(that).find("inplaceeditform");
+                var config = configTag.attr();
+                var tags = $(self.methods.removeStartSpaces(response.field_render));
+                $(tags).insertAfter($(that));
+                $(that).hide();
+                var head = $("head")[0];
+                try {
+                    var medias = $(self.methods.removeStartSpaces(response.field_media_render));
+                    var medias_preferred = medias.filter("[delay=delay]");
+                    var medias_regular = medias.not("[delay=delay]");
+                    $.map(medias_preferred, function (media, i) {
+                        if (i === 0) {
+                            self.methods.loadjscssfile(media);
+                        } else {
+                            setTimeout(function () {
+                                self.methods.loadjscssfile(media);
+                            }, 500);
+                        }
+                    });
+                    if (medias_preferred.length === 0) {
+                        $.map(medias_regular, function (media) {
+                            self.methods.loadjscssfile(media);
+                        });
+                    } else {
+                        setTimeout(function () {
+                            $.map(medias_regular, function (media) {
+                                self.methods.loadjscssfile(media);
+                            });
+                        }, 500);
+                    }
+                } catch (err) {
+                }
+                var links_parents = $(that).next().parents("a");
+                if (links_parents.length > 0) {
+                    $.map(links_parents, function (link) {
+                        link = $(link);
+                        var href = link.attr("href");
+                        link.attr("hrefinplaceedit", href);
+                        link.addClass("linkInplaceEdit");
+                        link.removeAttr("href");
+                    });
+                }
+                var applyButton = $(that).next().find(".apply");
+                var cancelButton = $(that).next().find(".cancel");
+                var applyFileButton = $(that).next().find(".applyFile");
+                if (cancelButton.size()) {
+                    cancelButton.click(self.methods.inplaceCancel);
+                }
+                if (applyButton.size()) {
+                    applyButton.click(self.methods.inplaceApply);
+                    $(that).next(self.formSelector).submit(self.methods.bind(self.methods.inplaceApply, applyButton));
+                }
+                if (applyFileButton.size()) {
+                    applyFileButton.click(self.methods.inplaceApplyUpload);
+                    $(that).next(self.formSelector).submit(self.methods.bind(self.methods.inplaceApply, applyFileButton));
+                }
+                var fieldTag = $(that).next(self.formSelector).find("input, select, textarea");
+                fieldTag.focus();
+                if (self.methods.getOptBool(config, self.opts, "autoSave") && can_auto_save) {
+                    applyButton.hide();
+                    cancelButton.hide();
+                    applyFileButton.hide();
+                    var value = fieldTag.val();
+                    fieldTag.blur(
+                        self.methods.bind(self.methods.autoSaveCallBack, {"oldValue": value,
+                                                                            "tag": fieldTag})
+                    );
+                    $(that).next(self.formSelector).find("select").change(
+                        self.methods.bind(self.methods.autoSaveCallBack, {"oldValue": value,
+                                                                            "tag": fieldTag})
+                    );
+                }
+            }
+            $(that).data("ajaxTime", false);
+        },
         inplaceApplySuccess: function (response) {
             var self = $.inplaceeditform;
             if (typeof response === "string") {
