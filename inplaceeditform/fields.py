@@ -191,10 +191,10 @@ class BaseAdaptorField(object):
         return self.config.get('auto_width', False)
 
     def get_height(self, widget_options):
-        return int(widget_options.get('height', '0').replace('px', ''))
+        return float(widget_options.get('height', '0').replace('px', ''))
 
     def get_width(self, widget_options):
-        return max(int(widget_options.get('width', '0').replace('px', '')), self.min_width)
+        return max(float(widget_options.get('width', '0').replace('px', '')), self.min_width)
 
     def treatment_height(self, height, width=None):
         if isinstance(height, string) and not height.endswith('px') or not isinstance(height, string):
