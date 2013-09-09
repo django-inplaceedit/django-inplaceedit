@@ -34,7 +34,7 @@ Requirements
 ============
 
  * `Django <https://www.djangoproject.com/>`_ (>= 1.2, even works with 1.1 with some customizations in your project)
- * `jQuery <http://jquery.com/>`_ (>=1.5.0)
+ * `jQuery <http://jquery.com/>`_ (>=1.6)
 
 
 Other packages related
