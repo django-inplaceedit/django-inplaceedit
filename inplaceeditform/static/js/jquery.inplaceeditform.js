@@ -102,6 +102,13 @@
                 }
             };
         },
+        appendChild: function (node, text) {
+            if (null === node.canHaveChildren || node.canHaveChildren) {
+                node.appendChild(document.createTextNode(text));
+            } else {
+                node.text = text;
+            }
+        },
         autoSaveCallBack: function () {
             var newValue = this.tag.val();
             if (newValue !== this.oldValue) {
@@ -109,6 +116,11 @@
             } else {
                 this.tag.parent().find(".cancel").click();
             }
+        },
+        bind: function (func, that) {
+            return function () {
+                return func.apply(that, arguments);
+            };
         },
         disableClickCallBack: function (ev) {
             var self = $.inplaceeditform;
@@ -144,6 +156,34 @@
                 success: self.methods.bind(self.methods.inplaceGetFieldSuccess, {"that": this})
             });
         },
+        getCSFRToken: function () {
+            return csrf_token;
+        },
+        getDataToRequest: function (configTag) {
+            var dataToRequest = "";
+            var settings = configTag.attr();
+            $.map(settings, function (value, key) {
+                var data = "";
+                if (dataToRequest !== "") {
+                    data = "&";
+                }
+                data += key + "=" + value;
+                dataToRequest += data;
+            });
+            var fontSize = configTag.parent().css("font-size");
+            if (fontSize) {
+                dataToRequest += "&font_size=" + fontSize;
+            }
+            return dataToRequest;
+        },
+        getDataToRequestUpload: function (configTag) {
+            var dataToRequest = configTag.attr();
+            var fontSize = configTag.parent().css("font-size");
+            if (fontSize) {
+                dataToRequest.font_size = fontSize;
+            }
+            return dataToRequest;
+        },
         getOpt: function (config, genericOpts, opt) {
             return (config[opt.toLowerCase()] !== undefined && config[opt.toLowerCase()]) || genericOpts[opt];
         },
@@ -155,44 +195,155 @@
             }
             return val;
         },
-        onBeforeUnloadEvent: function (event) {
-            var msg = undefined;
+        inplaceApply: function () {
             var self = $.inplaceeditform;
-            if ($(self.formSelector).size()) {
-                if (!self.isMsIE || (window.couldCatch && !(window.newLocation.indexOf("javascript:") === 0))) {
-                    msg = self.opts.unsavedChanges;
-                    if (event) {
-                        // For IE and Firefox prior to version 4
-                        event.returnValue = msg;
+            var form = $(this).parents(self.formSelector);
+            form.animate({opacity: 0.1});
+            form.find("ul.errors").fadeOut(function () {
+                $(this).remove();
+            });
+            var configTag = form.prev().find("inplaceeditform");
+            var config = configTag.attr();
+            var data = self.methods.getDataToRequest(configTag);
+            var field_id = form.find("span.field_id").html();
+            var getValue = $(this).data("getValue"); // A hook
+            var value;
+            if (getValue) {
+                value = getValue(form, field_id);
+            } else {
+                value = form.find("#" + field_id).val();
+            }
+            data += "&value=" + encodeURIComponent($.toJSON(value));
+            var csrfmiddlewaretoken = self.methods.getCSFRToken();
+            if (csrfmiddlewaretoken) {
+                data += "&csrfmiddlewaretoken=" + csrfmiddlewaretoken;
+            }
+            $.ajax({data: data,
+                    url: self.methods.getOpt(config, self.opts, 'saveURL'),
+                    type: "POST",
+                    async: true,
+                    dataType: 'text',
+                    error: self.methods.bind(self.methods.treatmentStatusError, {"context": $(this)}),
+                    success: self.methods.bind(self.methods.inplaceApplySuccess, {
+                        "context": $(this),
+                        "form": form,
+                        "configTag": configTag
+                    })
+                }
+            );
+            return false;
+        },
+        inplaceApplyUpload: function () {
+            var self = $.inplaceeditform;
+            var form = $(this).parents(self.formSelector);
+            form.animate({opacity: 0.1});
+            form.find("ul.errors").fadeOut(function () {
+                $(this).remove();
+            });
+            var configTag = form.prev().find("inplaceeditform");
+            var config = configTag.attr();
+            var data = self.methods.getDataToRequestUpload(configTag);
+            var csrfmiddlewaretoken = self.methods.getCSFRToken();
+            if (csrfmiddlewaretoken) {
+                data.csrfmiddlewaretoken = csrfmiddlewaretoken;
+            }
+            var field_id = form.find("span.field_id").html();
+            var getValue = $(this).data("getValue"); // A hook
+            var value;
+            if (getValue) {
+                value = getValue(form, field_id);
+            } else {
+                value = form.find("#" + field_id).val();
+            }
+            data.value = encodeURIComponent($.toJSON(value));
+            if (self.isMsIE) {
+                data.msie = true;
+            }
+            form.ajaxSubmit(
+                {
+                    url: self.methods.getOpt(config, self.opts, 'saveURL'),
+                    data: data,
+                    async: true,
+                    type: "POST",
+                    method: "POST",
+                    dataType: "application/json",
+                    error: self.methods.bind(self.methods.treatmentStatusError, {"context": $(this)}),
+                    success: self.methods.bind(self.methods.inplaceApplySuccess, {
+                        "context": $(this),
+                        "form": form,
+                        "configTag": configTag
+                    })
+                }
+            );
+            return false;
+        },
+        inplaceApplySuccess: function (response) {
+            var self = $.inplaceeditform;
+            if (typeof response === "string") {
+                if (self.isMsIE) {
+                    response = self.methods.replaceAll(response, "'\\\\\"", "'");
+                    response = self.methods.replaceAll(response, "\"'", "'");
+                }
+                try {
+                    response = JSON.parse(response);
+                } catch (errno) {
+                    try {
+                        response = eval("( " + response + " )");
+                    } catch (errno2) {
+                        alert(errno2);
+                        return;
                     }
                 }
             }
-            window.couldCatch = false;
-            window.newLocation = null;
-            return msg;
-        },
-        treatmentStatusError: function (response) {
-            if (response.status === 0) {
+            self.methods.revertlinkInplaceEdit($(this.form).parents("a.linkInplaceEdit"));
+            var that = this.context;
+            var form = this.form;
+            var configTag = this.configTag;
+            if (!response) {
                 alert("The server is down");
-            } else if (response.status === 403) {
-                alert("Permission denied, please check that you are login");
+            } else if (response.errors) {
+                form.animate({opacity: 1});
+                form.prepend("<ul class='errors'><li>" + response.errors + "</li></ul>");
             } else {
-                alert("Some error. Status text =" + response.statusText);
+                that.parent().fadeOut();
+                that.fadeIn();
+                form.removeClass("inplaceeditformsaving");
+                var inplace_span = configTag.parents(".inplaceedit");
+                var config = inplace_span.find("inplaceeditform").attr();
+                var config_html = "<inplaceeditform";
+                var attr;
+                for (attr in config) {
+                    config_html += ' ' + attr + '="' + config[attr] + '"';
+                }
+                config_html += "></inplaceeditform>";
+                inplace_span.html(response.value + config_html);
+                inplace_span.css("display", "");
+                self.methods.inplaceApplySuccessShowMessage(inplace_span, response);
+                var applyFinish = that.data("applyFinish");
+                if (applyFinish) {
+                    applyFinish(that);
+                }
+                that.parent().remove();
             }
-            this.context.next(".cancel").click();
-            this.context.data("ajaxTime", false);
         },
-
-        revertlinkInplaceEdit: function (links_parents) {
-            $.map(links_parents, function (link) {
-                link = $(link);
-                var href = link.attr("hrefinplaceedit");
-                link.attr("href", href);
-                link.removeClass("linkInplaceEdit");
-                link.removeAttr("hrefinplaceedit");
-            });
+        inplaceApplySuccessShowMessage: function (inplace_span) {
+            var self = $.inplaceeditform;
+            var configTag = inplace_span.find("inplaceeditform");
+            var config = configTag.attr();
+            var successText = self.methods.getOpt(config, self.opts, 'successText');
+            if (successText) {
+                var success_message = $("<ul class='success'><li>" + successText + "</li></ul>");
+                inplace_span.prepend(success_message);
+                inplace_span.removeClass(self.opts.enableClass);
+                setTimeout(function () {
+                    success_message.fadeOut(function () {
+                        $(this).remove();
+                        inplace_span.redraw();
+                        inplace_span.addClass(self.opts.enableClass);
+                    });
+                }, 2000);
+            }
         },
-
         inplaceCancel: function () {
             var self = $.inplaceeditform;
             self.methods.revertlinkInplaceEdit($(this).parents("a.linkInplaceEdit"));
@@ -203,10 +354,6 @@
             }
             $(this).parent().remove();
             return false;
-        },
-
-        replaceAll: function (txt, replace, with_this) {
-            return txt.replace(new RegExp(replace, "g"), with_this);
         },
         inplaceGetFieldSuccess: function(response) {
             var self = $.inplaceeditform;
@@ -291,200 +438,6 @@
             }
             $(that).data("ajaxTime", false);
         },
-        inplaceApplySuccess: function (response) {
-            var self = $.inplaceeditform;
-            if (typeof response === "string") {
-                if (self.isMsIE) {
-                    response = self.methods.replaceAll(response, "'\\\\\"", "'");
-                    response = self.methods.replaceAll(response, "\"'", "'");
-                }
-                try {
-                    response = JSON.parse(response);
-                } catch (errno) {
-                    try {
-                        response = eval("( " + response + " )");
-                    } catch (errno2) {
-                        alert(errno2);
-                        return;
-                    }
-                }
-            }
-            self.methods.revertlinkInplaceEdit($(this.form).parents("a.linkInplaceEdit"));
-            var that = this.context;
-            var form = this.form;
-            var configTag = this.configTag;
-            if (!response) {
-                alert("The server is down");
-            } else if (response.errors) {
-                form.animate({opacity: 1});
-                form.prepend("<ul class='errors'><li>" + response.errors + "</li></ul>");
-            } else {
-                that.parent().fadeOut();
-                that.fadeIn();
-                form.removeClass("inplaceeditformsaving");
-                var inplace_span = configTag.parents(".inplaceedit");
-                var config = inplace_span.find("inplaceeditform").attr();
-                var config_html = "<inplaceeditform";
-                var attr;
-                for (attr in config) {
-                    config_html += ' ' + attr + '="' + config[attr] + '"';
-                }
-                config_html += "></inplaceeditform>";
-                inplace_span.html(response.value + config_html);
-                inplace_span.css("display", "");
-                self.methods.inplaceApplySuccessShowMessage(inplace_span, response);
-                var applyFinish = that.data("applyFinish");
-                if (applyFinish) {
-                    applyFinish(that);
-                }
-                that.parent().remove();
-            }
-        },
-
-        inplaceApplySuccessShowMessage: function (inplace_span) {
-            var self = $.inplaceeditform;
-            var configTag = inplace_span.find("inplaceeditform");
-            var config = configTag.attr();
-            var successText = self.methods.getOpt(config, self.opts, 'successText');
-            if (successText) {
-                var success_message = $("<ul class='success'><li>" + successText + "</li></ul>");
-                inplace_span.prepend(success_message);
-                inplace_span.removeClass(self.opts.enableClass);
-                setTimeout(function () {
-                    success_message.fadeOut(function () {
-                        $(this).remove();
-                        inplace_span.redraw();
-                        inplace_span.addClass(self.opts.enableClass);
-                    });
-                }, 2000);
-            }
-        },
-        bind: function (func, that) {
-            return function () {
-                return func.apply(that, arguments);
-            };
-        },
-        getCSFRToken: function () {
-            return csrf_token;
-        },
-        inplaceApply: function () {
-            var self = $.inplaceeditform;
-            var form = $(this).parents(self.formSelector);
-            form.animate({opacity: 0.1});
-            form.find("ul.errors").fadeOut(function () {
-                $(this).remove();
-            });
-            var configTag = form.prev().find("inplaceeditform");
-            var config = configTag.attr();
-            var data = self.methods.getDataToRequest(configTag);
-            var field_id = form.find("span.field_id").html();
-            var getValue = $(this).data("getValue"); // A hook
-            var value;
-            if (getValue) {
-                value = getValue(form, field_id);
-            } else {
-                value = form.find("#" + field_id).val();
-            }
-            data += "&value=" + encodeURIComponent($.toJSON(value));
-            var csrfmiddlewaretoken = self.methods.getCSFRToken();
-            if (csrfmiddlewaretoken) {
-                data += "&csrfmiddlewaretoken=" + csrfmiddlewaretoken;
-            }
-            $.ajax(
-                {
-                    data: data,
-                    url: self.methods.getOpt(config, self.opts, 'saveURL'),
-                    type: "POST",
-                    async: true,
-                    dataType: 'text',
-                    error: self.methods.bind(self.methods.treatmentStatusError, {"context": $(this)}),
-                    success: self.methods.bind(self.methods.inplaceApplySuccess, {
-                        "context": $(this),
-                        "form": form,
-                        "configTag": configTag
-                    })
-                }
-            );
-            return false;
-        },
-
-        inplaceApplyUpload: function () {
-            var self = $.inplaceeditform;
-            var form = $(this).parents(self.formSelector);
-            form.animate({opacity: 0.1});
-            form.find("ul.errors").fadeOut(function () {
-                $(this).remove();
-            });
-            var configTag = form.prev().find("inplaceeditform");
-            var config = configTag.attr();
-            var data = self.methods.getDataToRequestUpload(configTag);
-            var csrfmiddlewaretoken = self.methods.getCSFRToken();
-            if (csrfmiddlewaretoken) {
-                data.csrfmiddlewaretoken = csrfmiddlewaretoken;
-            }
-            var field_id = form.find("span.field_id").html();
-            var getValue = $(this).data("getValue"); // A hook
-            var value;
-            if (getValue) {
-                value = getValue(form, field_id);
-            } else {
-                value = form.find("#" + field_id).val();
-            }
-            data.value = encodeURIComponent($.toJSON(value));
-            if (self.isMsIE) {
-                data.msie = true;
-            }
-            form.ajaxSubmit(
-                {
-                    url: self.methods.getOpt(config, self.opts, 'saveURL'),
-                    data: data,
-                    async: true,
-                    type: "POST",
-                    method: "POST",
-                    dataType: "application/json",
-                    error: self.methods.bind(self.methods.treatmentStatusError, {"context": $(this)}),
-                    success: self.methods.bind(self.methods.inplaceApplySuccess, {
-                        "context": $(this),
-                        "form": form,
-                        "configTag": configTag
-                    })
-                }
-            );
-            return false;
-        },
-
-        getDataToRequest: function (configTag) {
-            var dataToRequest = "";
-            var settings = configTag.attr();
-            $.map(settings, function (value, key) {
-                var data = "";
-                if (dataToRequest !== "") {
-                    data = "&";
-                }
-                data += key + "=" + value;
-                dataToRequest += data;
-            });
-            var fontSize = configTag.parent().css("font-size");
-            if (fontSize) {
-                dataToRequest += "&font_size=" + fontSize;
-            }
-            return dataToRequest;
-        },
-
-        getDataToRequestUpload: function (configTag) {
-            var dataToRequest = configTag.attr();
-            var fontSize = configTag.parent().css("font-size");
-            if (fontSize) {
-                dataToRequest.font_size = fontSize;
-            }
-            return dataToRequest;
-        },
-
-        removeStartSpaces: function (html) {
-            // Remove the espaces and \n to the begin of the field_render
-            return html.replace(/^( |\n)*/g, "");
-        },
-
         loadjscssfile: function (media) {
             var self = $.inplaceeditform;
             var fileref;
@@ -510,12 +463,48 @@
                 document.getElementsByTagName("head")[0].appendChild(fileref);
             }
         },
-        appendChild: function (node, text) {
-            if (null === node.canHaveChildren || node.canHaveChildren) {
-                node.appendChild(document.createTextNode(text));
-            } else {
-                node.text = text;
+        onBeforeUnloadEvent: function (event) {
+            var msg = undefined;
+            var self = $.inplaceeditform;
+            if ($(self.formSelector).size()) {
+                if (!self.isMsIE || (window.couldCatch && !(window.newLocation.indexOf("javascript:") === 0))) {
+                    msg = self.opts.unsavedChanges;
+                    if (event) {
+                        // For IE and Firefox prior to version 4
+                        event.returnValue = msg;
+                    }
+                }
             }
+            window.couldCatch = false;
+            window.newLocation = null;
+            return msg;
+        },
+        removeStartSpaces: function (html) {
+            // Remove the espaces and \n to the begin of the field_render
+            return html.replace(/^( |\n)*/g, "");
+        },
+        replaceAll: function (txt, replace, with_this) {
+            return txt.replace(new RegExp(replace, "g"), with_this);
+        },
+        revertlinkInplaceEdit: function (links_parents) {
+            $.map(links_parents, function (link) {
+                link = $(link);
+                var href = link.attr("hrefinplaceedit");
+                link.attr("href", href);
+                link.removeClass("linkInplaceEdit");
+                link.removeAttr("hrefinplaceedit");
+            });
+        },
+        treatmentStatusError: function (response) {
+            if (response.status === 0) {
+                alert("The server is down");
+            } else if (response.status === 403) {
+                alert("Permission denied, please check that you are login");
+            } else {
+                alert("Some error. Status text =" + response.statusText);
+            }
+            this.context.next(".cancel").click();
+            this.context.data("ajaxTime", false);
         }
     });
 })(jQuery);
