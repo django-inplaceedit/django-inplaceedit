@@ -1,6 +1,14 @@
 Releases
 ========
 
+1.2.0 (2013-09-??)
+------------------
+
+* Now the js options of jquery.inplaceeditform.js can be overwritten
+* Now every methods of jquery.inplaceeditform.js can be overwritten
+* Fix an error when the width or height were a float number
+
+
 1.1.0 (2013-09-06)
 ------------------
 
