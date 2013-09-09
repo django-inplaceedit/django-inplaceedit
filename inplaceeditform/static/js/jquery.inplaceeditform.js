@@ -74,119 +74,120 @@
                 }
             }
             this.each(function () {
-                if (self.opts.disableClick) {
+                var configTag = $(this).find("inplaceeditform");
+                var config = configTag.attr();
+                if (self.methods.getOptBool(config, self.opts, 'disableClick')) {
                     $(this).click(function (ev) {
                         if (self.enabled) {
                             ev.preventDefault();
                         }
                     });
                 }
-                $(this).bind(self.opts.eventInplaceEdit, function () {
+                $(this).bind(self.methods.getOpt(config, self.opts, 'eventInplaceEdit'), function () {
                     if ($(this).data("ajaxTime")) {
                         return false;
                     }
                     if (!self.enabled || !$(this).hasClass(self.opts.enableClass)) {
                         return false;
                     }
+                    var configTag = $(this).find("inplaceeditform");
+                    var config = configTag.attr();
                     $(this).data("ajaxTime", true);
-                    var data = self.methods.getDataToRequest($(this).find("inplaceeditform"));
-                    var extraConfig = $(this).find("inplaceeditform").data("extraConfig");
+                    var data = self.methods.getDataToRequest(configTag);
+                    var extraConfig = configTag.data("extraConfig");
                     if (extraConfig) {
                         data = extraConfig(data);
                     }
-                    var can_auto_save = parseInt($(this).find("inplaceeditform").attr("can_auto_save"));
+                    var can_auto_save = parseInt(config.can_auto_save);
                     data += "&__widget_height=" + $(this).innerHeight() + "px" + "&__widget_width=" + $(this).innerWidth() + "px";
                     var that = this;
-                    $.ajax(
-                        {
-                            data: data,
-                            url: self.opts.getFieldUrl,
-                            type: "GET",
-                            async: true,
-                            dataType: 'json',
-                            error: self.methods.bind(self.methods.treatmentStatusError, {"context": $(this)}),
-                            success: function (response) {
-                                if (!response) {
-                                    alert("The server is down");
-                                } else if (response.errors) {
-                                    alert(response.errors);
-                                } else {
-                                    var tags = $(self.methods.removeStartSpaces(response.field_render));
-                                    $(tags).insertAfter($(that));
-                                    $(that).hide();
-                                    var head = $("head")[0];
-                                    try {
-                                        var medias = $(self.methods.removeStartSpaces(response.field_media_render));
-                                        var medias_preferred = medias.filter("[delay=delay]");
-                                        var medias_regular = medias.not("[delay=delay]");
-                                        $.map(medias_preferred, function (media, i) {
-                                            if (i === 0) {
+                    $.ajax({
+                        data: data,
+                        url: self.methods.getOpt(config, self.opts, 'getFieldUrl'),
+                        type: "GET",
+                        async: true,
+                        dataType: 'json',
+                        error: self.methods.bind(self.methods.treatmentStatusError, {"context": $(this)}),
+                        success: function (response) {
+                            if (!response) {
+                                alert("The server is down");
+                            } else if (response.errors) {
+                                alert(response.errors);
+                            } else {
+                                var tags = $(self.methods.removeStartSpaces(response.field_render));
+                                $(tags).insertAfter($(that));
+                                $(that).hide();
+                                var head = $("head")[0];
+                                try {
+                                    var medias = $(self.methods.removeStartSpaces(response.field_media_render));
+                                    var medias_preferred = medias.filter("[delay=delay]");
+                                    var medias_regular = medias.not("[delay=delay]");
+                                    $.map(medias_preferred, function (media, i) {
+                                        if (i === 0) {
+                                            self.methods.loadjscssfile(media);
+                                        } else {
+                                            setTimeout(function () {
                                                 self.methods.loadjscssfile(media);
-                                            } else {
-                                                setTimeout(function () {
-                                                    self.methods.loadjscssfile(media);
-                                                }, 500);
-                                            }
+                                            }, 500);
+                                        }
+                                    });
+                                    if (medias_preferred.length === 0) {
+                                        $.map(medias_regular, function (media) {
+                                            self.methods.loadjscssfile(media);
                                         });
-                                        if (medias_preferred.length === 0) {
+                                    } else {
+                                        setTimeout(function () {
                                             $.map(medias_regular, function (media) {
                                                 self.methods.loadjscssfile(media);
                                             });
-                                        } else {
-                                            setTimeout(function () {
-                                                $.map(medias_regular, function (media) {
-                                                    self.methods.loadjscssfile(media);
-                                                });
-                                            }, 500);
-                                        }
-                                    } catch (err) {
+                                        }, 500);
                                     }
-                                    var links_parents = $(that).next().parents("a");
-                                    if (links_parents.length > 0) {
-                                        $.map(links_parents, function (link) {
-                                            link = $(link);
-                                            var href = link.attr("href");
-                                            link.attr("hrefinplaceedit", href);
-                                            link.addClass("linkInplaceEdit");
-                                            link.removeAttr("href");
-                                        });
-                                    }
-                                    var applyButton = $(that).next().find(".apply");
-                                    var cancelButton = $(that).next().find(".cancel");
-                                    var applyFileButton = $(that).next().find(".applyFile");
-                                    if (cancelButton.size()) {
-                                        cancelButton.click(self.methods.inplaceCancel);
-                                    }
-                                    if (applyButton.size()) {
-                                        applyButton.click(self.methods.inplaceApply);
-                                        $(that).next(self.formSelector).submit(self.methods.bind(self.methods.inplaceApply, applyButton));
-                                    }
-                                    if (applyFileButton.size()) {
-                                        applyFileButton.click(self.methods.inplaceApplyUpload);
-                                        $(that).next(self.formSelector).submit(self.methods.bind(self.methods.inplaceApply, applyFileButton));
-                                    }
-                                    $(that).next(self.formSelector).find("input, select, textarea").focus();
-                                    if (self.opts.autoSave && can_auto_save) {
-                                        applyButton.hide();
-                                        cancelButton.hide();
-                                        applyFileButton.hide();
-                                        var value = $(that).next(self.formSelector).find("input, select, textarea").val();
-                                        var autoSave = function () {
-                                            var newValue = $(this).val();
-                                            if (newValue !== value) {
-                                                $(that).next(self.formSelector).find(".apply").click();
-                                            } else {
-                                                $(that).next(self.formSelector).find(".cancel").click();
-                                            }
-                                        };
-                                        $(that).next(self.formSelector).find("input, select, textarea").blur(autoSave);
-                                        $(that).next(self.formSelector).find("select").change(autoSave);
-                                    }
+                                } catch (err) {
                                 }
-                                $(that).data("ajaxTime", false);
+                                var links_parents = $(that).next().parents("a");
+                                if (links_parents.length > 0) {
+                                    $.map(links_parents, function (link) {
+                                        link = $(link);
+                                        var href = link.attr("href");
+                                        link.attr("hrefinplaceedit", href);
+                                        link.addClass("linkInplaceEdit");
+                                        link.removeAttr("href");
+                                    });
+                                }
+                                var applyButton = $(that).next().find(".apply");
+                                var cancelButton = $(that).next().find(".cancel");
+                                var applyFileButton = $(that).next().find(".applyFile");
+                                if (cancelButton.size()) {
+                                    cancelButton.click(self.methods.inplaceCancel);
+                                }
+                                if (applyButton.size()) {
+                                    applyButton.click(self.methods.inplaceApply);
+                                    $(that).next(self.formSelector).submit(self.methods.bind(self.methods.inplaceApply, applyButton));
+                                }
+                                if (applyFileButton.size()) {
+                                    applyFileButton.click(self.methods.inplaceApplyUpload);
+                                    $(that).next(self.formSelector).submit(self.methods.bind(self.methods.inplaceApply, applyFileButton));
+                                }
+                                var fieldTag = $(that).next(self.formSelector).find("input, select, textarea");
+                                fieldTag.focus();
+                                if (self.methods.getOptBool(config, self.opts, "autoSave") && can_auto_save) {
+                                    applyButton.hide();
+                                    cancelButton.hide();
+                                    applyFileButton.hide();
+                                    var value = fieldTag.val();
+                                    fieldTag.blur(
+                                        self.methods.bind(self.methods.autoSaveCallBack, {"oldValue": value,
+                                                                                            "tag": fieldTag})
+                                    );
+                                    $(that).next(self.formSelector).find("select").change(
+                                        self.methods.bind(self.methods.autoSaveCallBack, {"oldValue": value,
+                                                                                            "tag": fieldTag})
+                                    );
+                                }
                             }
+                            $(that).data("ajaxTime", false);
                         }
-                    );
+                    });
                 });
             });
             window.onbeforeunload = function (event) {
@@ -250,25 +251,49 @@
                 enable: function () {
                     self.enabled = true;
                     self.inplaceeditfields.each(function () {
-                        $(this).addClass(self.opts.enableClass);
+                        var configTag = $(this).find("inplaceeditform");
+                        var config = configTag.attr();
+                        var enableClass = self.methods.getOpt(config, self.opts, 'enableClass');
+                        $(this).addClass(enableClass);
                     });
                 },
                 disable: function () {
                     self.enabled = false;
+                    var configTag = $(this).find("inplaceeditform");
+                    var config = configTag.attr();
+                    var enableClass = self.methods.getOpt(config, self.opts, 'enableClass');
                     self.inplaceeditfields.each(function () {
-                        $(this).removeClass(self.opts.enableClass);
+                        $(this).removeClass(enableClass);
                     });
                 }
             };
         },
-
+        autoSaveCallBack: function () {
+            var newValue = this.tag.val();
+            if (newValue !== this.oldValue) {
+                this.tag.parent().find(".apply").click();
+            } else {
+                this.tag.parent().find(".cancel").click();
+            }
+        },
+        getOpt: function (config, genericOpts, opt) {
+            return (config[opt.toLowerCase()] !== undefined && config[opt.toLowerCase()]) || genericOpts[opt];
+        },
+        getOptBool: function (config, genericOpts, opt) {
+            var self = $.inplaceeditform;
+            var val = self.methods.getOpt(config, genericOpts, opt);
+            if (typeof val === "string") {
+                val = parseInt(val);
+            }
+            return val;
+        },
         treatmentStatusError: function (response) {
             if (response.status === 0) {
                 alert("The server is down");
             } else if (response.status === 403) {
                 alert("Permission denied, please check that you are login");
             } else {
-                alert(response.statusText);
+                alert("Some error. Status text =" + response.statusText);
             }
             this.context.next(".cancel").click();
             this.context.data("ajaxTime", false);
@@ -310,13 +335,18 @@
                 try {
                     response = JSON.parse(response);
                 } catch (errno) {
-                    response = eval("( " + response + " )");
+                    try {
+                        response = eval("( " + response + " )");
+                    } catch (errno2) {
+                        alert(errno2);
+                        return;
+                    }
                 }
             }
             self.methods.revertlinkInplaceEdit($(this.form).parents("a.linkInplaceEdit"));
             var that = this.context;
             var form = this.form;
-            var inplaceedit_conf = this.inplaceedit_conf;
+            var configTag = this.configTag;
             if (!response) {
                 alert("The server is down");
             } else if (response.errors) {
@@ -326,7 +356,7 @@
                 that.parent().fadeOut();
                 that.fadeIn();
                 form.removeClass("inplaceeditformsaving");
-                var inplace_span = inplaceedit_conf.parents(".inplaceedit");
+                var inplace_span = configTag.parents(".inplaceedit");
                 var config = inplace_span.find("inplaceeditform").attr();
                 var config_html = "<inplaceeditform";
                 var attr;
@@ -347,8 +377,11 @@
 
         inplaceApplySuccessShowMessage: function (inplace_span) {
             var self = $.inplaceeditform;
-            if (self.opts.successText) {
-                var success_message = $("<ul class='success'><li>" + self.opts.successText + "</li></ul>");
+            var configTag = inplace_span.find("inplaceeditform");
+            var config = configTag.attr();
+            var successText = self.methods.getOpt(config, self.opts, 'successText');
+            if (successText) {
+                var success_message = $("<ul class='success'><li>" + successText + "</li></ul>");
                 inplace_span.prepend(success_message);
                 inplace_span.removeClass(self.opts.enableClass);
                 setTimeout(function () {
@@ -375,8 +408,9 @@
             form.find("ul.errors").fadeOut(function () {
                 $(this).remove();
             });
-            var inplaceedit_conf = form.prev().find("inplaceeditform");
-            var data = self.methods.getDataToRequest(inplaceedit_conf);
+            var configTag = form.prev().find("inplaceeditform");
+            var config = configTag.attr();
+            var data = self.methods.getDataToRequest(configTag);
             var field_id = form.find("span.field_id").html();
             var getValue = $(this).data("getValue"); // A hook
             var value;
@@ -393,7 +427,7 @@
             $.ajax(
                 {
                     data: data,
-                    url: self.opts.saveURL,
+                    url: self.methods.getOpt(config, self.opts, 'saveURL'),
                     type: "POST",
                     async: true,
                     dataType: 'text',
@@ -401,7 +435,7 @@
                     success: self.methods.bind(self.methods.inplaceApplySuccess, {
                         "context": $(this),
                         "form": form,
-                        "inplaceedit_conf": inplaceedit_conf
+                        "configTag": configTag
                     })
                 }
             );
@@ -415,8 +449,9 @@
             form.find("ul.errors").fadeOut(function () {
                 $(this).remove();
             });
-            var inplaceedit_conf = form.prev().find("inplaceeditform");
-            var data = self.methods.getDataToRequestUpload(inplaceedit_conf);
+            var configTag = form.prev().find("inplaceeditform");
+            var config = configTag.attr();
+            var data = self.methods.getDataToRequestUpload(configTag);
             var csrfmiddlewaretoken = self.methods.getCSFRToken();
             if (csrfmiddlewaretoken) {
                 data.csrfmiddlewaretoken = csrfmiddlewaretoken;
@@ -435,7 +470,7 @@
             }
             form.ajaxSubmit(
                 {
-                    url: self.opts.saveURL,
+                    url: self.methods.getOpt(config, self.opts, 'saveURL'),
                     data: data,
                     async: true,
                     type: "POST",
@@ -445,16 +480,16 @@
                     success: self.methods.bind(self.methods.inplaceApplySuccess, {
                         "context": $(this),
                         "form": form,
-                        "inplaceedit_conf": inplaceedit_conf
+                        "configTag": configTag
                     })
                 }
             );
             return false;
         },
 
-        getDataToRequest: function (inplaceedit_conf) {
+        getDataToRequest: function (configTag) {
             var dataToRequest = "";
-            var settings = inplaceedit_conf.attr();
+            var settings = configTag.attr();
             $.map(settings, function (value, key) {
                 var data = "";
                 if (dataToRequest !== "") {
@@ -463,16 +498,16 @@
                 data += key + "=" + value;
                 dataToRequest += data;
             });
-            var fontSize = inplaceedit_conf.parent().css("font-size");
+            var fontSize = configTag.parent().css("font-size");
             if (fontSize) {
                 dataToRequest += "&font_size=" + fontSize;
             }
             return dataToRequest;
         },
 
-        getDataToRequestUpload: function (inplaceedit_conf) {
-            var dataToRequest = inplaceedit_conf.attr();
-            var fontSize = inplaceedit_conf.parent().css("font-size");
+        getDataToRequestUpload: function (configTag) {
+            var dataToRequest = configTag.attr();
+            var fontSize = configTag.parent().css("font-size");
             if (fontSize) {
                 dataToRequest.font_size = fontSize;
             }
