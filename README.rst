@@ -1,8 +1,8 @@
 .. contents::
 
-=================
-Inplace Edit Form
-=================
+==================
+django-inplaceedit
+==================
 
 Information
 ===========
@@ -21,8 +21,8 @@ Inplace Edit Form is a Django application that allows you to inline edition of s
 It is distributed under the terms of the GNU Lesser General Public
 License <http://www.gnu.org/licenses/lgpl.html>
 
-Demo (this video use a very old version of django-inplaceedit)
-==============================================================
+Demo (this video use a very old version of django-inplaceedit and django-inplaceedit-extra-fields)
+==================================================================================================
 
 Video Demo, of django-inplaceedit, `django-inplaceedit-extra-fields <http://pypi.python.org/pypi/django-inplaceedit-extra-fields>`_ and `django-inlinetrans <http://pypi.python.org/pypi/django-inlinetrans>`_ (Set full screen mode to view it correctly)
 
@@ -40,9 +40,9 @@ Requirements
 Other packages related
 ======================
 
- * `Transmeta <http://pypi.python.org/pypi/django-transmeta>`_
- * `Django Inplace Edit Extra Field <http://pypi.python.org/pypi/django-inplaceedit-extra-fields>`_
- * `Django Inplace Edit Bootstrap <http://pypi.python.org/pypi/django-inplaceedit-bootstrap>`_
+ * `django-transmeta <http://pypi.python.org/pypi/django-transmeta>`_, django-inplaceedit supports django-transmeta.
+ * `django-inplace-edit-extra-field <http://pypi.python.org/pypi/django-inplaceedit-extra-fields>`_, with this egg you can extends the default adaptors of django-inplaceedit
+ * `django-inplace-edit-bootstrap <http://pypi.python.org/pypi/django-inplaceedit-bootstrap>`_, integration of django-inplaceedit with Bootstrap 3.
 
 Documentation
 =============
@@ -52,7 +52,7 @@ You can find more in the documentation at https://django-inplaceedit.readthedocs
 Development
 ===========
 
-You can get the last bleeding edge version of inplaceedit by doing a checkout
+You can get the last bleeding edge version of inplaceedit by doing a clone
 of its git repository::
 
   git clone git://github.com/Yaco-Sistemas/django-inplaceedit.git
