@@ -13,7 +13,7 @@
         <ul>
             <li>{% trans "Name (CharField): " %}{% inplace_edit "resource.name" %}</li>
             <li>{% trans "Name, option auto size (CharField):" %}{% inplace_edit "resource.name" auto_height=1, auto_width=1 %}</li>
-            <li>{% trans "Name, only a simpleclick to inplaceedit (CharField):" %}{% inplace_edit "resource.name" eventInplaceEdit="click" %}</li>
+            <li>{% trans "Name, only a simpleclick to inplaceedit and auto save (CharField):" %}{% inplace_edit "resource.name" eventInplaceEdit="click", autoSave="1" %}</li>
             <li>{% trans "Description (TextField):" %}{% inplace_edit "resource.description" %}</li>
             <li>{% trans "Description option auto size (TextField):" %}{% inplace_edit "resource.description" auto_height=1, auto_width=1 %}</li>
             <li>{% trans "Date of creation (DateField):" %}{% inplace_edit "resource.created" %}</li>

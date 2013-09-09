@@ -112,9 +112,9 @@
         autoSaveCallBack: function () {
             var newValue = this.tag.val();
             if (newValue !== this.oldValue) {
-                this.tag.parent().find(".apply").click();
+                this.tag.parents("form.inplaceeditform").find(".apply").click();
             } else {
-                this.tag.parent().find(".cancel").click();
+                this.tag.parents("form.inplaceeditform").find(".cancel").click();
             }
         },
         bind: function (func, that) {
@@ -144,7 +144,6 @@
             if (extraConfig) {
                 data = extraConfig(data);
             }
-            var can_auto_save = parseInt(config.can_auto_save);
             data += "&__widget_height=" + $(this).innerHeight() + "px" + "&__widget_width=" + $(this).innerWidth() + "px";
             $.ajax({
                 data: data,
@@ -421,18 +420,18 @@
                 }
                 var fieldTag = $(that).next(self.formSelector).find("input, select, textarea");
                 fieldTag.focus();
-                if (self.methods.getOptBool(config, self.opts, "autoSave") && can_auto_save) {
+                if (self.methods.getOptBool(config, self.opts, "autoSave") && parseInt(config.can_auto_save)) {
                     applyButton.hide();
                     cancelButton.hide();
                     applyFileButton.hide();
                     var value = fieldTag.val();
                     fieldTag.blur(
                         self.methods.bind(self.methods.autoSaveCallBack, {"oldValue": value,
-                                                                            "tag": fieldTag})
+                                                                          "tag": fieldTag})
                     );
                     $(that).next(self.formSelector).find("select").change(
                         self.methods.bind(self.methods.autoSaveCallBack, {"oldValue": value,
-                                                                            "tag": fieldTag})
+                                                                          "tag": fieldTag})
                     );
                 }
             }
