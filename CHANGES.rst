@@ -12,12 +12,13 @@ Releases
 * Support to EmailField
 * Improvements in the jquery plugin (jquery.inplaceeditform.js)
 * Improvements in the documentation
+* Improvements in css
 
 
 1.1.0 (2013-09-06)
 ------------------
 
-* Improvement in css
+* Improvements in css
 
 
 1.0.0 (2013-09-05)
