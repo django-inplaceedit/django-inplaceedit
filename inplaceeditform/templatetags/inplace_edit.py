@@ -38,8 +38,8 @@ def inplace_js(context, activate_inplaceedit=True, toolbar=False):
         'enable_class': inplace_settings.INPLACE_ENABLE_CLASS,
         'success_text': inplace_settings.INPLACEEDIT_SUCCESS_TEXT,
         'unsaved_changes': inplace_settings.INPLACEEDIT_UNSAVED_TEXT,
-        'inplace_get_field_url': reverse('inplace_get_field'),
-        'inplace_save_url': reverse('inplace_save'),
+        'inplace_get_field_url': inplace_settings.INPLACE_GET_FIELD_URL or reverse('inplace_get_field'),
+        'inplace_save_url': inplace_settings.INPLACE_SAVE_URL or reverse('inplace_save'),
     }
 register.inclusion_tag("inplaceeditform/inplace_js.html", takes_context=True)(inplace_js)
 

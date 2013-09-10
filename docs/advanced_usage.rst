@@ -25,3 +25,24 @@ Examples
     {% inplace_edit "content.description|my_filter" loads="my_template_tag" %}
     {% inplace_edit "content.index" edit_empty_value="This is a editable content, now the value is none. Please double click to edit inplace" %}
     {% inplace_edit "content.amount" min_width="100" %}
+
+
+Now (>=1.2.0 release) you can overwrite the generic options in the templatetag. Before this only were customizable in the settings, that is to say this options were the same to every inplace edit item:
+
+ * getFieldUrl: "/inplaceeditform/get_field/",
+ * saveURL": "/inplaceeditform/save/",
+ * successText, INPLACEEDIT_SUCCESS_TEXT in the settings
+ * eventInplaceEdit, INPLACEEDIT_EVENT in the settings
+ * disableClick, INPLACEEDIT_DISABLE_CLICK in the settings
+ * autoSave, INPLACEEDIT_AUTO_SAVE in the settings
+ * enableClass, INPLACE_ENABLE_CLASS in the settings
+
+Only unsavedChanges (INPLACEEDIT_UNSAVED_TEXT in the settings) is a generic option.
+
+Examples
+--------
+
+::
+
+    {% inplace_edit "content.description|safe" getFieldUrl="/myapp/get_field/" %}
+    {% inplace_edit "content.title" autoSave="1", eventInplaceEdit="click" %}

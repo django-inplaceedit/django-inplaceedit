@@ -162,6 +162,9 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 #DEFAULT_INPLACE_EDIT_OPTIONS_ONE_BY_ONE = False
 #ADAPTOR_INPLACEEDIT_EDIT = 'inplace_edit.perms.AdminDjangoPermEditInline'
 #ADAPTOR_INPLACEEDIT = {}
+#INPLACE_GET_FIELD_URL = None
+#INPLACE_SAVE_URL = None
+
 
 # If transmeta is installed
 

@@ -4,18 +4,18 @@
 Other packages related
 ======================
 
-Transmeta
-=========
+django-transmeta
+================
 
-This egg is compatible with  `Transmeta <http://pypi.python.org/pypi/django-transmeta>`_  But it is not a requirement
+This egg is compatible with  `django-transmeta <http://pypi.python.org/pypi/django-transmeta>`_,  But it is not a requirement, django-transmeta is an application for translatable content in Django's models
 
-Django Inplace Edit Extra Field
+django-inplaceedit-extra-fields
 ===============================
 
-If you want to get more download `Django Inplace Edit Extra Field <http://pypi.python.org/pypi/django-inplaceedit-extra-fields>`_
+`django-inplaceedit-extra-fields <http://pypi.python.org/pypi/django-inplaceedit-extra-fields>`_, with this egg you can extends the default adaptors of django-inplaceedit
 
 
-Django Inplace Edit Bootstrap
-=============================
+django-inplaceedit-bootstrap
+============================
 
-If you want to get more download `Django Inplace Edit Bootstrap <http://pypi.python.org/pypi/django-inplaceedit-bootstrap>`_
+`django-inplaceedit-bootstrap <http://pypi.python.org/pypi/django-inplaceedit-bootstrap>`_, integration of django-inplaceedit with Bootstrap 3.

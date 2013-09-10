@@ -21,7 +21,7 @@ Example
     <head>
     ...
     <script src="{{ STATIC_URL }}js/jquery.min.js" type="text/javascript"></script>
-    {% inplace_toolbar %}
+    {% inplace_toolbar %} {% comment %} or inplace_static {% endcomment %}
     </head>
     <body>
         ...

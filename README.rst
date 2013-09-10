@@ -40,7 +40,7 @@ Requirements
 Other packages related
 ======================
 
- * `django-transmeta <http://pypi.python.org/pypi/django-transmeta>`_, django-inplaceedit supports django-transmeta.
+ * `django-transmeta <http://pypi.python.org/pypi/django-transmeta>`_, django-inplaceedit supports django-transmeta. django-transmeta is an application for translatable content in Django's models
  * `django-inplace-edit-extra-field <http://pypi.python.org/pypi/django-inplaceedit-extra-fields>`_, with this egg you can extends the default adaptors of django-inplaceedit
  * `django-inplace-edit-bootstrap <http://pypi.python.org/pypi/django-inplaceedit-bootstrap>`_, integration of django-inplaceedit with Bootstrap 3.
 
