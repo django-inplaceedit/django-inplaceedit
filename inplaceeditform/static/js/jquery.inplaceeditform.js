@@ -19,6 +19,16 @@
             $(this).show();
         });
     };
+    $.fn.invisible = function () {
+        return this.each(function () {
+            $(this).css("visibility", "hidden");
+        });
+    };
+    $.fn.visible = function () {
+        return this.each(function () {
+            $(this).css("visibility", "visible");
+        });
+    };
     $.fn.inplaceeditform = function (method) {
         var methods = $.inplaceeditform.methods;
 
@@ -197,7 +207,12 @@
         inplaceApply: function () {
             var self = $.inplaceeditform;
             var form = $(this).parents(self.formSelector);
-            form.animate({opacity: 0.1});
+            if (form.data("ajaxTime")) {
+                return
+            }
+            form.animate({opacity: 0.1}, function () {
+                form.find(".apply, .cancel").invisible();
+            });
             form.find("ul.errors").fadeOut(function () {
                 $(this).remove();
             });
@@ -217,6 +232,7 @@
             if (csrfmiddlewaretoken) {
                 data += "&csrfmiddlewaretoken=" + csrfmiddlewaretoken;
             }
+            form.data("ajaxTime", true);
             $.ajax({data: data,
                     url: self.methods.getOpt(config, self.opts, 'saveURL'),
                     type: "POST",
@@ -228,14 +244,18 @@
                         "form": form,
                         "configTag": configTag
                     })
-                }
-            );
+            });
             return false;
         },
         inplaceApplyUpload: function () {
             var self = $.inplaceeditform;
             var form = $(this).parents(self.formSelector);
-            form.animate({opacity: 0.1});
+            if (form.data("ajaxTime")) {
+                return
+            }
+            form.animate({opacity: 0.1}, function() {
+                form.find(".applyFile, .cancel").invisible();
+            });
             form.find("ul.errors").fadeOut(function () {
                 $(this).remove();
             });
@@ -258,26 +278,27 @@
             if (self.isMsIE) {
                 data.msie = true;
             }
-            form.ajaxSubmit(
-                {
-                    url: self.methods.getOpt(config, self.opts, 'saveURL'),
-                    data: data,
-                    async: true,
-                    type: "POST",
-                    method: "POST",
-                    dataType: "application/json",
-                    error: self.methods.bind(self.methods.treatmentStatusError, {"context": $(this)}),
-                    success: self.methods.bind(self.methods.inplaceApplySuccess, {
-                        "context": $(this),
-                        "form": form,
-                        "configTag": configTag
-                    })
-                }
-            );
+            form.data("ajaxTime", true);
+            form.ajaxSubmit({url: self.methods.getOpt(config, self.opts, 'saveURL'),
+                             data: data,
+                             async: true,
+                             type: "POST",
+                             method: "POST",
+                             dataType: "application/json",
+                             error: self.methods.bind(self.methods.treatmentStatusError, {"context": $(this)}),
+                             success: self.methods.bind(self.methods.inplaceApplySuccess, {
+                                "context": $(this),
+                                "form": form,
+                                "configTag": configTag
+                             })
+            });
             return false;
         },
         inplaceApplySuccess: function (response) {
             var self = $.inplaceeditform;
+            var that = this.context;
+            var form = this.form;
+            form.data("ajaxTime", false);
             if (typeof response === "string") {
                 if (self.isMsIE) {
                     response = self.methods.replaceAll(response, "'\\\\\"", "'");
@@ -295,20 +316,21 @@
                 }
             }
             self.methods.revertlinkInplaceEdit($(this.form).parents("a.linkInplaceEdit"));
-            var that = this.context;
-            var form = this.form;
             var configTag = this.configTag;
+            var inplace_span = configTag.parents(".inplaceedit");
+            var config = inplace_span.find("inplaceeditform").attr();
             if (!response) {
                 alert("The server is down");
             } else if (response.errors) {
+                if (!self.methods.getOptBool(config, self.opts, "autoSave") || !parseInt(config.can_auto_save)) {
+                    form.find(".apply, .applyFile, .cancel").visible();
+                }
                 form.animate({opacity: 1});
                 form.prepend("<ul class='errors'><li>" + response.errors + "</li></ul>");
             } else {
                 that.parent().fadeOut();
                 that.fadeIn();
                 form.removeClass("inplaceeditformsaving");
-                var inplace_span = configTag.parents(".inplaceedit");
-                var config = inplace_span.find("inplaceeditform").attr();
                 var config_html = "<inplaceeditform";
                 var attr;
                 for (attr in config) {
@@ -416,7 +438,7 @@
                 }
                 if (applyFileButton.size()) {
                     applyFileButton.click(self.methods.inplaceApplyUpload);
-                    $(that).next(self.formSelector).submit(self.methods.bind(self.methods.inplaceApply, applyFileButton));
+                    $(that).next(self.formSelector).submit(self.methods.bind(self.methods.inplaceApplyUpload, applyFileButton));
                 }
                 var fieldTag = $(that).next(self.formSelector).find("input, select, textarea");
                 fieldTag.focus();

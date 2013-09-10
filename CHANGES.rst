@@ -6,6 +6,7 @@ Releases
 
 * Now the js options of jquery.inplaceeditform.js can be overwritten
 * Now every methods of jquery.inplaceeditform.js can be overwritten
+* Now the user can not do two post consecutives. The user have to wait that the first post end
 * Fix an error when the width or height were a float number
 * Support to EmailField
 
