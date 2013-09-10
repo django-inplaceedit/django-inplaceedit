@@ -107,7 +107,7 @@ class InplaceTestCase(TestCase):
                 elif isinstance(field, models.CommaSeparatedIntegerField):
                     value += ',44'
                 elif isinstance(field, models.EmailField):
-                    value += 'xxx@es.com'
+                    value = 'xxx@es.com'
                 elif isinstance(field, models.ForeignKey):
                     value = field.rel.to.objects.all()[0].pk
                 elif isinstance(field, bool):
