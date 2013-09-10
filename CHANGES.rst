@@ -10,7 +10,8 @@ Releases
 * Fix an error when the width or height were a float number
 * Update the version of jquery.form from 2.77 to 3.43
 * Support to EmailField
-
+* Improvements in the jquery plugin (jquery.inplaceeditform.js)
+* Improvements in the documentation
 
 
 1.1.0 (2013-09-06)
