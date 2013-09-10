@@ -73,8 +73,8 @@ Optional:
     DEFAULT_INPLACE_EDIT_OPTIONS_ONE_BY_ONE = True # modify the behavior of the DEFAULT_INPLACE_EDIT_OPTIONS usage, if True then it use the default values not specified in your template, if False it uses these options only when the dictionnary is empty (when you do put any options in your template)
     ADAPTOR_INPLACEEDIT_EDIT = 'app_name.perms.MyAdaptorEditInline' # Explain in Permission Adaptor API
     ADAPTOR_INPLACEEDIT = {'myadaptor': 'app_name.fields.MyAdaptor'} # Explain in Adaptor API
-    INPLACE_GET_FIELD_URL = None # to chnage the url where django-inplaceedit use to get a field
-    INPLACE_SAVE_URL = None # to chnage the url where django-inplaceedit use to save a field
+    INPLACE_GET_FIELD_URL = None # to change the url where django-inplaceedit use to get a field
+    INPLACE_SAVE_URL = None # to change the url where django-inplaceedit use to save a field
 
 
 In your urls.py
