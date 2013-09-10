@@ -606,8 +606,6 @@ class AdaptorFileField(BaseAdaptorField):
         if not value:
             return ''
         config = deepcopy(self.config)
-        if self.request.method == 'POST' and config.get('msie', None):
-            config['innerHtml'] = ''
         context = {'value': value,
                    'obj': self.obj}
         config.update(context)
@@ -630,7 +628,4 @@ class AdaptorImageField(AdaptorFileField):
         return super(AdaptorImageField, self).render_media_field(template_name, extra_context=extra_context)
 
     def render_value(self, field_name=None, template_name='inplaceeditform/adaptor_image/render_value.html'):
-        if self.request.method == 'POST' and self.config.get('msie', None):
-            self.config['title'] = ""
-            self.config['alt'] = ""
         return super(AdaptorImageField, self).render_value(field_name=field_name, template_name=template_name)

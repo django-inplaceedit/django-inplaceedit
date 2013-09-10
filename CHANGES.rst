@@ -8,7 +8,9 @@ Releases
 * Now every methods of jquery.inplaceeditform.js can be overwritten
 * Now the user can not do two post consecutives. The user have to wait that the first post end
 * Fix an error when the width or height were a float number
+* Update the version of jquery.form from 2.77 to 3.43
 * Support to EmailField
+
 
 
 1.1.0 (2013-09-06)

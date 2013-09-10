@@ -41,7 +41,6 @@
         }
         $.error('Method ' + method + ' does not exist on jQuery.inplaceeditform');
     };
-
     $.inplaceeditform = {
         opts: {
             "getFieldUrl": "/inplaceeditform/get_field/",
@@ -53,6 +52,7 @@
             "unsavedChanges": "You have unsaved changes!",  // This is the only opts that can not be overwritten
             "enableClass": "enable"
         },
+        configSelector: "inplaceeditform",
         formSelector: "form.inplaceeditform",
         enabled: false,
         inplaceeditfields: null,
@@ -83,7 +83,7 @@
                 }
             }
             this.each(function () {
-                var configTag = $(this).find("inplaceeditform");
+                var configTag = $(this).find(self.configSelector);
                 var config = configTag.attr();
                 if (self.methods.getOptBool(config, self.opts, 'disableClick')) {
                     $(this).click(self.methods.disableClickCallBack);
@@ -95,7 +95,7 @@
                 enable: function () {
                     self.enabled = true;
                     self.inplaceeditfields.each(function () {
-                        var configTag = $(this).find("inplaceeditform");
+                        var configTag = $(this).find(self.configSelector);
                         var config = configTag.attr();
                         var enableClass = self.methods.getOpt(config, self.opts, 'enableClass');
                         $(this).addClass(enableClass);
@@ -104,7 +104,7 @@
                 disable: function () {
                     self.enabled = false;
                     self.inplaceeditfields.each(function () {
-                        var configTag = $(this).find("inplaceeditform");
+                        var configTag = $(this).find(self.configSelector);
                         var config = configTag.attr();
                         var enableClass = self.methods.getOpt(config, self.opts, 'enableClass');
                         $(this).removeClass(enableClass);
@@ -120,11 +120,12 @@
             }
         },
         autoSaveCallBack: function () {
+            var self = $.inplaceeditform;
             var newValue = this.tag.val();
             if (newValue !== this.oldValue) {
-                this.tag.parents("form.inplaceeditform").find(".apply").click();
+                this.tag.parents(self.formSelector).find(".apply").click();
             } else {
-                this.tag.parents("form.inplaceeditform").find(".cancel").click();
+                this.tag.parents(self.formSelector).find(".cancel").click();
             }
         },
         bind: function (func, that) {
@@ -146,7 +147,7 @@
             if (!self.enabled || !$(this).hasClass(self.opts.enableClass)) {
                 return false;
             }
-            var configTag = $(this).find("inplaceeditform");
+            var configTag = $(this).find(self.configSelector);
             var config = configTag.attr();
             $(this).data("ajaxTime", true);
             var data = self.methods.getDataToRequest(configTag);
@@ -216,7 +217,7 @@
             form.find("ul.errors").fadeOut(function () {
                 $(this).remove();
             });
-            var configTag = form.prev().find("inplaceeditform");
+            var configTag = form.prev().find(self.configSelector);
             var config = configTag.attr();
             var data = self.methods.getDataToRequest(configTag);
             var field_id = form.find("span.field_id").html();
@@ -259,7 +260,7 @@
             form.find("ul.errors").fadeOut(function () {
                 $(this).remove();
             });
-            var configTag = form.prev().find("inplaceeditform");
+            var configTag = form.prev().find(self.configSelector);
             var config = configTag.attr();
             var data = self.methods.getDataToRequestUpload(configTag);
             var csrfmiddlewaretoken = self.methods.getCSFRToken();
@@ -275,16 +276,13 @@
                 value = form.find("#" + field_id).val();
             }
             data.value = encodeURIComponent($.toJSON(value));
-            if (self.isMsIE) {
-                data.msie = true;
-            }
             form.data("ajaxTime", true);
             form.ajaxSubmit({url: self.methods.getOpt(config, self.opts, 'saveURL'),
                              data: data,
                              async: true,
                              type: "POST",
                              method: "POST",
-                             dataType: "application/json",
+                             dataType: "json",
                              error: self.methods.bind(self.methods.treatmentStatusError, {"context": $(this)}),
                              success: self.methods.bind(self.methods.inplaceApplySuccess, {
                                 "context": $(this),
@@ -318,7 +316,7 @@
             self.methods.revertlinkInplaceEdit($(this.form).parents("a.linkInplaceEdit"));
             var configTag = this.configTag;
             var inplace_span = configTag.parents(".inplaceedit");
-            var config = inplace_span.find("inplaceeditform").attr();
+            var config = inplace_span.find(self.configSelector).attr();
             if (!response) {
                 alert("The server is down");
             } else if (response.errors) {
@@ -331,12 +329,12 @@
                 that.parent().fadeOut();
                 that.fadeIn();
                 form.removeClass("inplaceeditformsaving");
-                var config_html = "<inplaceeditform";
+                var config_html = "<" + self.configSelector;
                 var attr;
                 for (attr in config) {
                     config_html += ' ' + attr + '="' + config[attr] + '"';
                 }
-                config_html += "></inplaceeditform>";
+                config_html += "></" + self.configSelector + ">";
                 inplace_span.html(response.value + config_html);
                 inplace_span.css("display", "");
                 self.methods.inplaceApplySuccessShowMessage(inplace_span, response);
@@ -349,7 +347,7 @@
         },
         inplaceApplySuccessShowMessage: function (inplace_span) {
             var self = $.inplaceeditform;
-            var configTag = inplace_span.find("inplaceeditform");
+            var configTag = inplace_span.find(self.configSelector);
             var config = configTag.attr();
             var successText = self.methods.getOpt(config, self.opts, 'successText');
             if (successText) {
@@ -360,7 +358,9 @@
                     success_message.fadeOut(function () {
                         $(this).remove();
                         inplace_span.redraw();
-                        inplace_span.addClass(self.opts.enableClass);
+                        if (self.enabled) {
+                            inplace_span.addClass(self.opts.enableClass);
+                        }
                     });
                 }, 2000);
             }
@@ -373,7 +373,7 @@
             if (cancelFinish) {
                 cancelFinish();
             }
-            $(this).parent().remove();
+            $(this).parents(self.formSelector).remove();
             return false;
         },
         inplaceGetFieldSuccess: function(response) {
@@ -384,7 +384,7 @@
                 alert(response.errors);
             } else {
                 var that = this.that;
-                var configTag = $(that).find("inplaceeditform");
+                var configTag = $(that).find(self.configSelector);
                 var config = configTag.attr();
                 var tags = $(self.methods.removeStartSpaces(response.field_render));
                 $(tags).insertAfter($(that));
@@ -529,4 +529,3 @@
         }
     });
 })(jQuery);
-

@@ -30,7 +30,7 @@
             <li>{% trans "Can be borrow? (BooleanField):" %}{% inplace_edit "resource.can_borrow" %}</li>
             <li>{% trans "Can be borrow? adding class (BooleanField):" %}{% inplace_edit "resource.can_borrow" class_inplace="testingImplaceEditForm"%}</li>
             <li>{% trans "Associated Image (ImageField):" %}{% inplace_edit "resource.image" title="{{ obj.name }}", alt="{{ obj.name }}"%}</li>
-            <li>{% trans "File Text (FileField):" %}{% inplace_edit "resource.file" innerHtml="{{ obj.name }} (PDF)" %}</li>
+            <li>{% trans "File Text (FileField):" %}{% inplace_edit "resource.file" inner_html="{{ obj.name }} (PDF)" %}</li>
         </ul>
     </div>
 {% endblock %}
