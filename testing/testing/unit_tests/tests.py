@@ -98,13 +98,16 @@ class InplaceTestCase(TestCase):
                     value = float(value) + 10
                 elif (isinstance(value, string) and
                       isinstance(field, models.CharField) and
-                      not isinstance(field, models.CommaSeparatedIntegerField)):
+                      not isinstance(field, models.CommaSeparatedIntegerField) and
+                      not isinstance(field, models.EmailField)):
                     if field.choices:
                         value = field.choices[0][0]
                     else:
                         value += '_save'
                 elif isinstance(field, models.CommaSeparatedIntegerField):
                     value += ',44'
+                elif isinstance(field, models.EmailField):
+                    value += 'xxx@es.com'
                 elif isinstance(field, models.ForeignKey):
                     value = field.rel.to.objects.all()[0].pk
                 elif isinstance(field, bool):
