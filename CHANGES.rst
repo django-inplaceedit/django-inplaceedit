@@ -1,7 +1,7 @@
 Releases
 ========
 
-1.2.0 (2013-09-??)
+1.2.0 (2013-09-10)
 ------------------
 
 * Now the js options of jquery.inplaceeditform.js can be overwritten
