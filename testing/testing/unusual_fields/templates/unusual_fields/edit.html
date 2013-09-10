@@ -24,9 +24,11 @@
             <li>SlugField: {% inplace_edit "unusual_obj.slug_field" %}</li>
             <li>SmallIntegerField: {% inplace_edit "unusual_obj.smallinteger_field" %}</li>
             <li>TimeField: {% inplace_edit "unusual_obj.time_field" %}</li>
-            <li>URLField (with title): {% inplace_edit "unusual_obj.url_field" title="My Url" %}</li>
+            <li>URLField (with title): {% inplace_edit "unusual_obj.url_field" title="My URL" %}</li>
+            <li>URLField (adaptor text): {% inplace_edit "unusual_obj.url_field" adaptor="text"%}</li>
             <li>URLField (with variable title): {% inplace_edit "unusual_obj.url_field" title="{{ obj.slug_field }}" %}</li>
             <li>URLField (without title): {% inplace_edit "unusual_obj.url_field" %}</li>
+            <li>EmailField (with title): {% inplace_edit "unusual_obj.email_field" title="My e-mail" %}</li>
 
         </ul>
     </div>

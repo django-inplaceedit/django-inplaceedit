@@ -276,6 +276,23 @@ class AdaptorURLField(AdaptorTextField):
         value = super(AdaptorURLField, self).render_value(field_name)
         config = deepcopy(self.config)
         context = {'value': value,
+                   'value_link': value,
+                   'obj': self.obj}
+        config.update(context)
+        return render_to_string(template_name, config)
+
+
+class AdaptorEmailField(AdaptorURLField):
+
+    @property
+    def name(self):
+        return 'email'
+
+    def render_value(self, field_name=None, template_name="inplaceeditform/adaptor_url/render_value.html"):
+        value = super(AdaptorURLField, self).render_value(field_name)
+        config = deepcopy(self.config)
+        context = {'value': value,
+                   'value_link': 'mailto:%s' % value,
                    'obj': self.obj}
         config.update(context)
         return render_to_string(template_name, config)

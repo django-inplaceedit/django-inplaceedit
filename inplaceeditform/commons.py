@@ -86,6 +86,8 @@ def get_adaptor_class(adaptor=None, obj=None, field_name=None):
                 field = obj._meta.get_field_by_name(transmeta.get_real_fieldname(field_name))[0]
         if isinstance(field, models.URLField):
             adaptor = 'url'
+        elif isinstance(field, models.EmailField):
+            adaptor = 'email'
         elif isinstance(field, models.CharField):
             adaptor = 'text'
             if getattr(field, 'choices', None):

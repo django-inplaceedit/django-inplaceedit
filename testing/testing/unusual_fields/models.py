@@ -45,6 +45,7 @@ class UnusualModel(models.Model):
     smallinteger_field = models.SmallIntegerField()
     time_field = models.TimeField()
     url_field = models.URLField()
+    email_field = models.EmailField()
     one_to_one_field = models.OneToOneField(User)
 
     class Meta:
