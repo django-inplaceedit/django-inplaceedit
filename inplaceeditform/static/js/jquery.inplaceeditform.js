@@ -36,10 +36,10 @@
         if (methods[method]) {
             return methods[method].apply(this, Array.prototype.slice.call(arguments, 1));
         }
-        if (typeof method === 'object' || !method) {
+        if (typeof method === "object" || !method) {
             return methods.init.apply(this, arguments);
         }
-        $.error('Method ' + method + ' does not exist on jQuery.inplaceeditform');
+        $.error("Method " + method + " does not exist on jQuery.inplaceeditform");
     };
     $.inplaceeditform = {
         opts: {
@@ -85,10 +85,10 @@
             this.each(function () {
                 var configTag = $(this).find(self.configSelector);
                 var config = configTag.attr();
-                if (self.methods.getOptBool(config, self.opts, 'disableClick')) {
+                if (self.methods.getOptBool(config, self.opts, "disableClick")) {
                     $(this).click(self.methods.disableClickCallBack);
                 }
-                $(this).bind(self.methods.getOpt(config, self.opts, 'eventInplaceEdit'), self.methods.eventInplaceEditCallBack);
+                $(this).bind(self.methods.getOpt(config, self.opts, "eventInplaceEdit"), self.methods.eventInplaceEditCallBack);
             });
             window.onbeforeunload = self.methods.onBeforeUnloadEvent;
             return {
@@ -97,7 +97,7 @@
                     self.inplaceeditfields.each(function () {
                         var configTag = $(this).find(self.configSelector);
                         var config = configTag.attr();
-                        var enableClass = self.methods.getOpt(config, self.opts, 'enableClass');
+                        var enableClass = self.methods.getOpt(config, self.opts, "enableClass");
                         $(this).addClass(enableClass);
                     });
                 },
@@ -106,7 +106,7 @@
                     self.inplaceeditfields.each(function () {
                         var configTag = $(this).find(self.configSelector);
                         var config = configTag.attr();
-                        var enableClass = self.methods.getOpt(config, self.opts, 'enableClass');
+                        var enableClass = self.methods.getOpt(config, self.opts, "enableClass");
                         $(this).removeClass(enableClass);
                     });
                 }
@@ -158,10 +158,10 @@
             data += "&__widget_height=" + $(this).innerHeight() + "px" + "&__widget_width=" + $(this).innerWidth() + "px";
             $.ajax({
                 data: data,
-                url: self.methods.getOpt(config, self.opts, 'getFieldUrl'),
+                url: self.methods.getOpt(config, self.opts, "getFieldUrl"),
                 type: "GET",
                 async: true,
-                dataType: 'json',
+                dataType: "json",
                 error: self.methods.bind(self.methods.treatmentStatusError, {"context": $(this)}),
                 success: self.methods.bind(self.methods.inplaceGetFieldSuccess, {"that": this})
             });
@@ -235,10 +235,10 @@
             }
             form.data("ajaxTime", true);
             $.ajax({data: data,
-                    url: self.methods.getOpt(config, self.opts, 'saveURL'),
+                    url: self.methods.getOpt(config, self.opts, "saveURL"),
                     type: "POST",
                     async: true,
-                    dataType: 'text',
+                    dataType: "text",
                     error: self.methods.bind(self.methods.treatmentStatusError, {"context": $(this)}),
                     success: self.methods.bind(self.methods.inplaceApplySuccess, {
                         "context": $(this),
@@ -277,7 +277,7 @@
             }
             data.value = encodeURIComponent($.toJSON(value));
             form.data("ajaxTime", true);
-            form.ajaxSubmit({url: self.methods.getOpt(config, self.opts, 'saveURL'),
+            form.ajaxSubmit({url: self.methods.getOpt(config, self.opts, "saveURL"),
                              data: data,
                              async: true,
                              type: "POST",
@@ -349,7 +349,7 @@
             var self = $.inplaceeditform;
             var configTag = inplace_span.find(self.configSelector);
             var config = configTag.attr();
-            var successText = self.methods.getOpt(config, self.opts, 'successText');
+            var successText = self.methods.getOpt(config, self.opts, "successText");
             if (successText) {
                 var success_message = $("<ul class='success'><li>" + successText + "</li></ul>");
                 inplace_span.prepend(success_message);
@@ -463,7 +463,7 @@
             var self = $.inplaceeditform;
             var fileref;
             if (media.tagName === "SCRIPT") { //if filename is a external JavaScript file
-                fileref = document.createElement('script');
+                fileref = document.createElement("script");
                 fileref.setAttribute("type", "text/javascript");
                 if (media.src !== null && media.src !== "") {
                     fileref.setAttribute("src", media.src);
