@@ -15,9 +15,13 @@
         <ul>
             <li>{% trans "Description (TextField):" %}{% inplace_edit "resource.description" adaptor="tiny" %}</li>
             <li>{% trans "Description autosave (TextField):" %}{% inplace_edit "resource.description" adaptor="tiny",autoSave="1" %}</li>
-            <li>{% trans "Type of resource (ForeignKey):" %}{% inplace_edit "resource.resource_type" adaptor="auto_fk", lookup="typeresource" %}</li>
-            <li>{% trans "Owner (ManyToManyField):" %}{% inplace_edit "resource.owner" adaptor="auto_m2m", lookup="user" %}</li>
-            <li>{% trans "Associated Image (ImageField):" %}{% inplace_edit "resource.image" adaptor="image_thumb", size="16x16", title="{{ obj.name }}", alt="{{ obj.name }}"%}</li>
+            {% ifequal python_version 2 %}
+                <li>{% trans "Type of resource (ForeignKey, ajax):" %}{% inplace_edit "resource.resource_type" adaptor="auto_fk", lookup="typeresource" %}</li>
+                <li>{% trans "Owner (ManyToManyField, ajax):" %}{% inplace_edit "resource.owner" adaptor="auto_m2m", lookup="user" %}</li>
+                <li>{% trans "Associated Image (ImageField, thumbnail):" %}{% inplace_edit "resource.image" adaptor="image_thumb", size="16x16", title="{{ obj.name }}", alt="{{ obj.name }}"%}</li>
+            {% else %}
+                <li>The others adaptors are not supported in python 3</li>
+            {% endifequal %}
         </ul>
     </div>
 {% endblock %}
