@@ -444,7 +444,6 @@
                 var form = $(that).next(self.formSelector);
                 var fieldTag = form.find(self.methods.getOpt(config, self.opts, "fieldTypes"));
                 if (self.methods.getOptBool(config, self.opts, "focusWhenEditing")) {
-                    alert(self.methods.getOptBool(config, self.opts, "focusWhenEditing"));
                     fieldTag.focus();
                 }
                 if (self.methods.getOptBool(config, self.opts, "autoSave") && parseInt(config.can_auto_save)) {
