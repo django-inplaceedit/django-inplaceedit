@@ -4,12 +4,6 @@
 
 {% block extrahead %}
     {% inplace_toolbar %}
-    {% if STATIC_URL %}
-        <link rel="stylesheet" href="{{ STATIC_URL }}adaptor_tiny/css/block_normalize.css">
-    {% else %}
-        <!-- Old version -->
-        <link rel="stylesheet" href="{{ MEDIA_URL }}inplaceeditform_extra_fields/adaptor_tiny/css/block_normalize.css">
-    {% endif %}
 {% endblock %}
 
 {% block title %}{% trans "Manage Multimedia Resource:" %} {{ resource }}{% endblock %}
