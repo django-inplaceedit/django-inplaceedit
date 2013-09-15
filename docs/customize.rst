@@ -183,7 +183,7 @@ Additionally there are four hooks,
         <script type="text/javascript">
             (function($){
                 $(document).ready(function () {
-                    function myApplyFinish() {
+                    function myApplyFinish(applyButton) {
                         return ""Something"";
                     }
                     $(".applyMyAdaptor").data("applyFinish", myApplyFinish);
@@ -198,7 +198,7 @@ Additionally there are four hooks,
         <script type="text/javascript">
             (function($){
                 $(document).ready(function () {
-                    function myCancelFinish() {
+                    function myCancelFinish(cancelButton) {
                         return ""Something"";
                     }
                     $(".cancelMyAdaptor").data("cancelFinish", myCancelFinish);
