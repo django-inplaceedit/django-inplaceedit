@@ -93,7 +93,7 @@ class InplaceEditNode(RenderWithArgsAndKwargsNode):
         class_adaptor = get_adaptor_class(adaptor, obj, field_name)
         request = context.get('request')
 
-        config = class_adaptor.get_config(**kwargs)
+        config = class_adaptor.get_config(request, **kwargs)
 
         adaptor_field = class_adaptor(request, obj, field_name,
                                       filters_to_show,

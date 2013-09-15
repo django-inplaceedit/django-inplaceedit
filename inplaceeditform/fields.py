@@ -84,7 +84,7 @@ class BaseAdaptorField(object):
         return 'inplaceedit %sinplaceedit' % (self.name)
 
     @classmethod
-    def get_config(self, **kwargs):
+    def get_config(self, request, **kwargs):
         """
         Get the arguments given to the template tag element and complete these
         with the ones from the settings.py if necessary.
@@ -101,7 +101,6 @@ class BaseAdaptorField(object):
         else:
             # Solution 2: Updating the configured config with the default one.
             config = dict(config_from_settings, **config)
-
         return config
 
     def get_form_class(self):

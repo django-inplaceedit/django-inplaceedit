@@ -104,7 +104,7 @@ def _get_adaptor(request, method='GET'):
                                                         'module_name',
                                                         'filters_to_show',
                                                         'adaptor'))
-    config = class_adaptor.get_config(**kwargs)
+    config = class_adaptor.get_config(request, **kwargs)
     adaptor_field = class_adaptor(request, obj, field_name,
                                   filters_to_show,
                                   config)
