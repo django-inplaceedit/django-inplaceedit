@@ -50,7 +50,9 @@
             "disableClick": true,
             "autoSave": false,
             "unsavedChanges": "You have unsaved changes!",  // This is the only opts that can not be overwritten
-            "enableClass": "enable"
+            "enableClass": "enable",
+            "fieldTypes": "input, select, textarea",
+            "focusWhenEditing": true
         },
         configSelector: "inplaceeditform",
         formSelector: "form.inplaceeditform",
@@ -121,7 +123,8 @@
         },
         autoSaveCallBack: function () {
             var self = $.inplaceeditform;
-            var newValue = this.tag.val();
+            var form = this.tag.parents(self.formSelector);
+            var newValue = self.methods.getValue(form);
             if (newValue !== this.oldValue) {
                 this.tag.parents(self.formSelector).find(".apply").click();
             } else {
@@ -205,6 +208,18 @@
             }
             return val;
         },
+        getValue: function(form) {
+            var applyButton = form.find(".apply");
+            var getValue = applyButton.data("getValue"); // A hook
+            var newValue;
+            var field_id = form.find("span.field_id").html();
+            if (getValue) {
+                newValue = getValue(form, field_id);
+            } else {
+                newValue = form.find("#" + field_id).val();
+            }
+            return newValue;
+        },
         inplaceApply: function () {
             var self = $.inplaceeditform;
             var form = $(this).parents(self.formSelector);
@@ -220,14 +235,7 @@
             var configTag = form.prev().find(self.configSelector);
             var config = configTag.attr();
             var data = self.methods.getDataToRequest(configTag);
-            var field_id = form.find("span.field_id").html();
-            var getValue = $(this).data("getValue"); // A hook
-            var value;
-            if (getValue) {
-                value = getValue(form, field_id);
-            } else {
-                value = form.find("#" + field_id).val();
-            }
+            var value = self.methods.getValue(form);
             data += "&value=" + encodeURIComponent($.toJSON(value));
             var csrfmiddlewaretoken = self.methods.getCSFRToken();
             if (csrfmiddlewaretoken) {
@@ -267,14 +275,7 @@
             if (csrfmiddlewaretoken) {
                 data.csrfmiddlewaretoken = csrfmiddlewaretoken;
             }
-            var field_id = form.find("span.field_id").html();
-            var getValue = $(this).data("getValue"); // A hook
-            var value;
-            if (getValue) {
-                value = getValue(form, field_id);
-            } else {
-                value = form.find("#" + field_id).val();
-            }
+            var value = self.methods.getValue(form);
             data.value = encodeURIComponent($.toJSON(value));
             form.data("ajaxTime", true);
             form.ajaxSubmit({url: self.methods.getOpt(config, self.opts, "saveURL"),
@@ -371,7 +372,7 @@
             $(this).parent().prev().fadeIn();
             var cancelFinish = $(this).data("cancelFinish");
             if (cancelFinish) {
-                cancelFinish();
+                cancelFinish(this);
             }
             $(this).parents(self.formSelector).remove();
             return false;
@@ -440,13 +441,17 @@
                     applyFileButton.click(self.methods.inplaceApplyUpload);
                     $(that).next(self.formSelector).submit(self.methods.bind(self.methods.inplaceApplyUpload, applyFileButton));
                 }
-                var fieldTag = $(that).next(self.formSelector).find("input, select, textarea");
-                fieldTag.focus();
+                var form = $(that).next(self.formSelector);
+                var fieldTag = form.find(self.methods.getOpt(config, self.opts, "fieldTypes"));
+                if (self.methods.getOptBool(config, self.opts, "focusWhenEditing")) {
+                    alert(self.methods.getOptBool(config, self.opts, "focusWhenEditing"));
+                    fieldTag.focus();
+                }
                 if (self.methods.getOptBool(config, self.opts, "autoSave") && parseInt(config.can_auto_save)) {
                     applyButton.hide();
                     cancelButton.hide();
                     applyFileButton.hide();
-                    var value = fieldTag.val();
+                    var value = self.methods.getValue(form);
                     fieldTag.blur(
                         self.methods.bind(self.methods.autoSaveCallBack, {"oldValue": value,
                                                                           "tag": fieldTag})

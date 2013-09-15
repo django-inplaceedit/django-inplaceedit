@@ -34,7 +34,9 @@
                                "disableClick": {{ disable_click }},
                                "autoSave": {{ auto_save }},
                                "unsavedChanges": "{{ unsaved_changes }}",
-                               "enableClass": "{{ enable_class }}"};
+                               "enableClass": "{{ enable_class }}",
+                               "fieldTypes": "{{ field_types }}",
+                               "focusWhenEditing": {{ focus_when_editing }}};
                 var inplaceManager = $(".inplaceedit").inplaceeditform(options);
                 {% if not toolbar %}
                     inplaceManager.enable();

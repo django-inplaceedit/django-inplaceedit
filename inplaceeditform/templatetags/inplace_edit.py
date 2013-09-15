@@ -40,6 +40,8 @@ def inplace_js(context, activate_inplaceedit=True, toolbar=False):
         'unsaved_changes': inplace_settings.INPLACEEDIT_UNSAVED_TEXT,
         'inplace_get_field_url': inplace_settings.INPLACE_GET_FIELD_URL or reverse('inplace_get_field'),
         'inplace_save_url': inplace_settings.INPLACE_SAVE_URL or reverse('inplace_save'),
+        'field_types': inplace_settings.INPLACE_FIELD_TYPES,
+        'focus_when_editing': json.dumps(inplace_settings.INPLACE_FOCUS_WHEN_EDITING),
     }
 register.inclusion_tag("inplaceeditform/inplace_js.html", takes_context=True)(inplace_js)
 

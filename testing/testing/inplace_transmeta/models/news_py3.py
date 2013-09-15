@@ -37,5 +37,5 @@ class News(models.Model, metaclass=transmeta.TransMeta):
     def get_absolute_url(self):
         return ('news_edit', (self.pk,))
 
-    def __unicode__(self):
+    def __str__(self):
         return self.title

@@ -15,6 +15,7 @@
 
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 
 STATUS = (
@@ -24,17 +25,19 @@ STATUS = (
 )
 
 
+@python_2_unicode_compatible
 class TypeResource(models.Model):
     name = models.CharField(verbose_name=_(u'name'),
                             max_length=100, null=False)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
     class Meta:
         verbose_name = _(u'Type of resource')
 
 
+@python_2_unicode_compatible
 class Resource(models.Model):
     name = models.CharField(verbose_name=_(u'Name'),
                             max_length=100, null=False, blank=False,
@@ -62,5 +65,5 @@ class Resource(models.Model):
     def get_absolute_url(self):
         return ('multimediaresources_edit', (self.pk,))
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name

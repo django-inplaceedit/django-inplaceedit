@@ -36,6 +36,8 @@ Now (>=1.2.0 release) you can overwrite the generic options in the templatetag. 
  * disableClick, INPLACEEDIT_DISABLE_CLICK in the settings
  * autoSave, INPLACEEDIT_AUTO_SAVE in the settings
  * enableClass, INPLACE_ENABLE_CLASS in the settings
+ * fieldTypes, INPLACE_FIELD_TYPES in the settings
+ * focusWhenEditing, INPLACE_FOCUS_WHEN_EDITING in the settings
 
 Only unsavedChanges (INPLACEEDIT_UNSAVED_TEXT in the settings) is a generic option.
 

@@ -37,3 +37,6 @@ ADAPTOR_INPLACEEDIT = getattr(settings, 'ADAPTOR_INPLACEEDIT', {})
 
 INPLACE_GET_FIELD_URL = getattr(settings, 'INPLACE_GET_FIELD_URL', None)
 INPLACE_SAVE_URL = getattr(settings, 'INPLACE_SAVE_URL', None)
+
+INPLACE_FIELD_TYPES = getattr(settings, 'INPLACE_FIELD_TYPES', 'input, select, textarea')
+INPLACE_FOCUS_WHEN_EDITING = getattr(settings, 'INPLACE_FOCUS_WHEN_EDITING', True)
