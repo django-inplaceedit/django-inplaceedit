@@ -27,6 +27,8 @@ register = Library()
 
 
 def inplace_js(context, activate_inplaceedit=True, toolbar=False):
+    request = context['request']
+    request.inplace_js_rendered = True
     return {
         'STATIC_URL': get_static_url(),
         'ADMIN_MEDIA_PREFIX': get_admin_static_url(),
@@ -42,15 +44,19 @@ def inplace_js(context, activate_inplaceedit=True, toolbar=False):
         'inplace_save_url': inplace_settings.INPLACE_SAVE_URL or reverse('inplace_save'),
         'field_types': inplace_settings.INPLACE_FIELD_TYPES,
         'focus_when_editing': json.dumps(inplace_settings.INPLACE_FOCUS_WHEN_EDITING),
+        'inplace_js_extra': getattr(request, 'inplace_js_extra', '')
     }
 register.inclusion_tag("inplaceeditform/inplace_js.html", takes_context=True)(inplace_js)
 
 
 def inplace_css(context, toolbar=False):
+    request = context['request']
+    request.inplace_css_rendered = True
     return {
         'STATIC_URL': get_static_url(),
         'ADMIN_MEDIA_PREFIX': get_admin_static_url(),
         'toolbar': toolbar,
+        'inplace_js_extra': getattr(request, 'inplace_css_extra', '')
     }
 register.inclusion_tag("inplaceeditform/inplace_css.html", takes_context=True)(inplace_css)
 
@@ -75,6 +81,7 @@ def inplace_toolbar(context):
         'STATIC_URL': get_static_url(),
         'ADMIN_MEDIA_PREFIX': get_admin_static_url(),
         'toolbar': True,
+        'request': context['request']
     }
 register.inclusion_tag("inplaceeditform/inplace_static.html", takes_context=True)(inplace_toolbar)
 

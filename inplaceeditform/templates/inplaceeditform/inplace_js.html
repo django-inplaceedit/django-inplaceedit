@@ -50,4 +50,5 @@
     })(jQuery);
     </script>
     {% include "inplaceeditform/inc.csrf_token.html" %}
+    {{ inplace_js_extra|safe }}
 {% endif %}
