@@ -1,13 +1,15 @@
 Releases
 ========
 
-1.2.1 (2013-09-??)
+1.2.1 (2013-09-16)
 ------------------
 
 * New options fieldTypes, and focusWhenEditing
 * Fix some details of getting the value, now there is a getValue function
 * Python 2/3 unicode compatible in testing project
 * Details of image/file adaptor
+* Add static file recolector
+* Refactor date adaptors
 
 1.2.0 (2013-09-10)
 ------------------
