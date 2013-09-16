@@ -7,6 +7,7 @@ Releases
 * New options fieldTypes, and focusWhenEditing
 * Fix some details of getting the value, now there is a getValue function
 * Python 2/3 unicode compatible in testing project
+* Details of image/file adaptor
 
 1.2.0 (2013-09-10)
 ------------------
