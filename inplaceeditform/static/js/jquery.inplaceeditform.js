@@ -322,9 +322,12 @@
                 alert("The server is down");
             } else if (response.errors) {
                 if (!self.methods.getOptBool(config, self.opts, "autoSave") || !parseInt(config.can_auto_save)) {
-                    form.find(".apply, .applyFile, .cancel").visible();
+                    form.animate({opacity: 1}, function () {
+                        form.find(".apply, .applyFile, .cancel").visible();
+                    });
+                } else {
+                    form.animate({opacity: 1});
                 }
-                form.animate({opacity: 1});
                 form.prepend("<ul class='errors'><li>" + response.errors + "</li></ul>");
             } else {
                 that.parent().fadeOut();
