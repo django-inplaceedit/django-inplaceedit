@@ -426,16 +426,14 @@ class AdaptorTimeField(BaseDateField):
     def name(self):
         return 'time'
 
+    def __init__(self, *args, **kwargs):
+        super(AdaptorTimeField, self).__init__(*args, **kwargs)
+        self.filter_render_value = "date:'%s'" % settings.TIME_FORMAT
+
     def get_field(self):
         field = super(AdaptorTimeField, self).get_field()
         field.field.widget = AdminTimeWidget()
         return field
-
-    def render_value(self, field_name=None):
-        val = super(AdaptorTimeField, self).render_value(field_name)
-        if not isinstance(val, string):
-            val = apply_filters(val, ["date:'%s'" % settings.TIME_FORMAT])
-        return val
 
 
 class AdaptorIntegerField(BaseAdaptorField):
