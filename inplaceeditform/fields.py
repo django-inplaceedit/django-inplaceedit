@@ -372,12 +372,22 @@ class BaseDateField(BaseAdaptorField):
         return super(BaseDateField, self).render_media_field(template_name,
                                                              extra_context=context)
 
+    def render_value(self, field_name=None):
+        val = super(BaseDateField, self).render_value(field_name)
+        if not isinstance(val, string):
+            val = apply_filters(val, [self.filter_render_value])
+        return val
+
 
 class AdaptorDateField(BaseDateField):
 
     @property
     def name(self):
         return 'date'
+
+    def __init__(self, *args, **kwargs):
+        super(AdaptorDateField, self).__init__(*args, **kwargs)
+        self.filter_render_value = "date:'%s'" % settings.DATE_FORMAT
 
     def render_field(self, template_name="inplaceeditform/adaptor_date/render_field.html", extra_context=None):
         return super(AdaptorDateField, self).render_field(template_name, extra_context=extra_context)
@@ -387,18 +397,16 @@ class AdaptorDateField(BaseDateField):
         field.field.widget = AdminDateWidget()
         return field
 
-    def render_value(self, field_name=None):
-        val = super(AdaptorDateField, self).render_value(field_name)
-        if not isinstance(val, string):
-            val = apply_filters(val, ["date:'%s'" % settings.DATE_FORMAT])
-        return val
-
 
 class AdaptorDateTimeField(BaseDateField):
 
     @property
     def name(self):
         return 'datetime'
+
+    def __init__(self, *args, **kwargs):
+        super(AdaptorDateTimeField, self).__init__(*args, **kwargs)
+        self.filter_render_value = "date:'%s'" % settings.DATETIME_FORMAT
 
     def render_field(self, template_name="inplaceeditform/adaptor_datetime/render_field.html", extra_context=None):
         return super(AdaptorDateTimeField, self).render_field(template_name, extra_context=extra_context)
@@ -410,12 +418,6 @@ class AdaptorDateTimeField(BaseDateField):
         field = super(AdaptorDateTimeField, self).get_field()
         field.field.widget = AdminSplitDateTime()
         return field
-
-    def render_value(self, field_name=None):
-        val = super(AdaptorDateTimeField, self).render_value(field_name)
-        if not isinstance(val, string):
-            val = apply_filters(val, ["date:'%s'" % settings.DATETIME_FORMAT])
-        return val
 
 
 class AdaptorTimeField(BaseDateField):
