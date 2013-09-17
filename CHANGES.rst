@@ -1,6 +1,13 @@
 Releases
 ========
 
+1.2.5 (2013-09-17)
+------------------
+
+* Fix a bug when you have a filter when you call to the imnplace_edit tag::
+
+    {% inplace_edit "obj.field|filter" %}
+
 1.2.4 (2013-09-17)
 ------------------
 
