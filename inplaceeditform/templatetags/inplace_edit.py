@@ -66,6 +66,7 @@ def inplace_static(context):
         'STATIC_URL': get_static_url(),
         'ADMIN_MEDIA_PREFIX': get_admin_static_url(),
         'toolbar': False,
+        'request': context['request']
     }
 register.inclusion_tag("inplaceeditform/inplace_static.html", takes_context=True)(inplace_static)
 
