@@ -56,7 +56,7 @@ class BaseAdaptorField(object):
         self.config['app_label'] = self.model._meta.app_label
         self.config['module_name'] = self.model._meta.module_name
         self.config['filters_to_show'] = self.filters_to_show
-        self.config['can_auto_save'] = 1
+        self.config['can_auto_save'] = self.config.get('can_auto_save', 1)
 
         filters_to_edit = self.config.get('filters_to_edit', None)
         self.filters_to_edit = filters_to_edit and filters_to_edit.split('|') or []

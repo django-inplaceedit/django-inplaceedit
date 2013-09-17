@@ -1,6 +1,13 @@
 Releases
 ========
 
+1.2.4 (2013-09-17)
+------------------
+
+* Fix a bug is you want to overwrite can_auto_save in the get_config method
+* Improvements in the testing project (django-inplaceedit-extra-fields)
+
+
 1.2.3 (2013-09-17)
 ------------------
 

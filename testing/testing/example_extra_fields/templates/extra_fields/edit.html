@@ -17,6 +17,7 @@
             <li>{% trans "Description without toolbar (TextField):" %}{% inplace_edit "resource.description" adaptor="tiny",toolbar="0", %}</li>
             <li>{% trans "Description autosave (TextField):" %}{% inplace_edit "resource.description" adaptor="tiny",autoSave="1" %}</li>
             <li>{% trans "Description autosave, and simple (TextField):" %}{% inplace_edit "resource.description" adaptor="tiny_simple",autoSave="1" %}</li>
+            <li>{% trans "Description simple, and in other menu item (TextField):" %}{% inplace_edit "resource.description" adaptor="tiny_simple",autoSave="0", menubar_item="tools", menubar="tools" %}</li>
             {% ifequal python_version 2 %}
                 <li>{% trans "Type of resource (ForeignKey, ajax):" %}{% inplace_edit "resource.resource_type" adaptor="auto_fk", lookup="typeresource" %}</li>
                 <li>{% trans "Owner (ManyToManyField, ajax):" %}{% inplace_edit "resource.owner" adaptor="auto_m2m", lookup="user" %}</li>
