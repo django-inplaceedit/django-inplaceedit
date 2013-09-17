@@ -21,7 +21,7 @@ Examples
 
     {% inplace_edit "content.description|safe" auto_height=1, auto_width=1 %}
     {% inplace_edit "content.title" class_inplace="titleFormEditInline" %}
-    {% inplace_edit "content.description|safe" filters_to_show="safe|truncatewords_html:30", tag_name_cover="div" %}
+    {% inplace_edit "content.description|safe|truncatewords_html:30"  tag_name_cover="div" %}
     {% inplace_edit "content.description|my_filter" loads="my_template_tag" %}
     {% inplace_edit "content.index" edit_empty_value="This is a editable content, now the value is none. Please double click to edit inplace" %}
     {% inplace_edit "content.amount" min_width="100" %}

@@ -1,6 +1,12 @@
 Releases
 ========
 
+1.2.3 (2013-09-17)
+------------------
+
+* Improvements in the testing project (django-inplaceedit-extra-fields)
+
+
 1.2.2 (2013-09-17)
 ------------------
 
