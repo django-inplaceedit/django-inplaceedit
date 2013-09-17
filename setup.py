@@ -22,7 +22,7 @@ def read(*rnames):
 
 setup(
     name="django-inplaceedit",
-    version="1.2.1",
+    version="1.2.2",
     author="Pablo Martin",
     author_email="goinnn@gmail.com",
     description="Django application that allows you to inline edition of some data from the database",

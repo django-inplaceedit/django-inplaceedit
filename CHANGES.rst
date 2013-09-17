@@ -1,6 +1,12 @@
 Releases
 ========
 
+1.2.2 (2013-09-17)
+------------------
+
+* Fix a bug when you use inplace_static
+* Improvements in the documentation
+
 1.2.1 (2013-09-16)
 ------------------
 
