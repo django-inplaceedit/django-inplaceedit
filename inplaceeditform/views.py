@@ -26,7 +26,7 @@ from inplaceeditform.commons import (get_dict_from_obj, apply_filters,
 
 MIMETYPE_RESPONSE = 'text'
 
-if sys.version_info.major >= 2:
+if sys.version_info[0] >= 2:
     unicode = str
 
 
