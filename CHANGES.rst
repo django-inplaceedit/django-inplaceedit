@@ -7,6 +7,10 @@ Releases
 * Fix an error in the default of the INPLACE_ENABLE_CLASS
 * Fix litte error in the documentation
 * Improvements in the testing project, before transmeta was required
+* Thanks to:
+    * `Nathan Fain <https://github.com/cyphunk>`_
+    * `Siecje <https://github.com/Siecje>`_
+
 
 1.2.5 (2013-09-17)
 ------------------
