@@ -30,5 +30,5 @@ def extra_edit(request, resource_id):
     resource = get_object_or_404(Resource, pk=resource_id)
     return render_to_response('extra_fields/edit.html',
                               {'resource': resource,
-                               'python_version': sys.version_info.major},
+                               'python_version': sys.version_info[0]},
                               context_instance=RequestContext(request))

@@ -30,7 +30,7 @@ from inplaceeditform.commons import apply_filters, import_module, has_transmeta,
 from inplaceeditform.perms import SuperUserPermEditInline
 
 
-if sys.version_info.major == 2:
+if sys.version_info[0] == 2:
     string = basestring
 else:
     string = str
