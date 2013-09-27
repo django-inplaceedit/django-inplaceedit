@@ -28,7 +28,7 @@ INPLACEEDIT_SUCCESS_TEXT = (getattr(settings, 'INPLACEEDIT_SUCCESS_TEXT', None) 
                             _(settings.INPLACEEDIT_SUCCESS_TEXT) or _('Successfully saved'))
 INPLACEEDIT_UNSAVED_TEXT = (getattr(settings, 'INPLACEEDIT_UNSAVED_TEXT', None) and
                             _(settings.INPLACEEDIT_UNSAVED_TEXT) or _('You have unsaved changes!'))
-INPLACE_ENABLE_CLASS = getattr(settings, 'ADAPTOR_INPLACEEDIT_EDIT', 'enable')
+INPLACE_ENABLE_CLASS = getattr(settings, 'INPLACE_ENABLE_CLASS', 'enable')
 DEFAULT_INPLACE_EDIT_OPTIONS = getattr(settings, "DEFAULT_INPLACE_EDIT_OPTIONS", {})
 DEFAULT_INPLACE_EDIT_OPTIONS_ONE_BY_ONE = getattr(settings, 'DEFAULT_INPLACE_EDIT_OPTIONS_ONE_BY_ONE', False)
 

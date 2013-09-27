@@ -1,9 +1,10 @@
 Releases
 ========
 
-1.2.5 (2013-10-??)
+1.2.5 (2013-09-27)
 ------------------
 
+* Fix an error in the default of the INPLACE_ENABLE_CLASS
 * Improvements in the testing project, before transmeta was required
 
 1.2.5 (2013-09-17)
