@@ -22,7 +22,7 @@ This package have two inplementations:
 
  ::
 
-   ADAPTOR_INPLACEEDIT_EDIT = 'inplace_edit.perms.AdminDjangoPermEditInline'
+   ADAPTOR_INPLACEEDIT_EDIT = 'inplaceeditform.perms.AdminDjangoPermEditInline'
 
 
 
