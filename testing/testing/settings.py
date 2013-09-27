@@ -58,8 +58,6 @@ LANGUAGES = (
       ('en', 'English'),
 )
 
-TRANSMETA_DEFAULT_LANGUAGE = 'en'
-
 SITE_ID = 1
 
 # If you set this to False, Django will make some optimizations so as not
@@ -172,6 +170,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 
 try:
     import transmeta
+    TRANSMETA_DEFAULT_LANGUAGE = 'en'
     INSTALLED_APPS += ('transmeta',
                        'testing.inplace_transmeta')
     MIDDLEWARE_CLASSES += (

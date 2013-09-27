@@ -1,6 +1,11 @@
 Releases
 ========
 
+1.2.5 (2013-10-??)
+------------------
+
+* Improvements in the testing project, before transmeta was required
+
 1.2.5 (2013-09-17)
 ------------------
 

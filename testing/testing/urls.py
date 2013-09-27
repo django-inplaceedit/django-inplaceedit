@@ -36,7 +36,6 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^multimediaresources/', include('testing.multimediaresources.urls')),
     url(r'^unusualfields/', include('testing.unusual_fields.urls')),
-    url(r'^news/', include('testing.inplace_transmeta.urls')),
 )
 
 
@@ -55,6 +54,11 @@ def index(request):
 urlpatterns += patterns('',
     url(r'^$', index))
 
+if 'testing.inplace_transmeta' in settings.INSTALLED_APPS:
+    urlpatterns += patterns('',
+        url(r'^news/', include('testing.inplace_transmeta.urls')),
+    )
+
 if 'testing.example_extra_fields' in settings.INSTALLED_APPS:
     urlpatterns += patterns('',
         url(r'^extra_fields/', include('testing.example_extra_fields.urls'))
@@ -64,7 +68,6 @@ if 'testing.example_extra_fields' in settings.INSTALLED_APPS:
         urlpatterns += patterns('',
             url(r'^ajax_select/', include(ajax_select_urls))
         )
-
 
 urlpatterns += patterns('',
     (r'^%s(?P<path>.*)$' % settings.MEDIA_URL[1:],
