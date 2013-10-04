@@ -31,7 +31,7 @@ from testing.inplace_transmeta.models import News
 from testing.multimediaresources.models import Resource
 from testing.unusual_fields.models import UnusualModel
 
-if sys.version_info.major >= 2:
+if sys.version_info[0] >= 2:
     string = str
 else:
     string = basestring
