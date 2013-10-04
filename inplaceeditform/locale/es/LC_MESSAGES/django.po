@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-09-05 06:31-0500\n"
+"POT-Creation-Date: 2013-10-04 13:06-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: Pablo Martín <goinnn@gmail.com>\n"
 "Language-Team: Es <goinnn@gmail.com>\n"
@@ -31,7 +31,7 @@ msgstr "Guardado satisfactoriamente"
 
 #: settings.py:30
 msgid "You have unsaved changes!"
-msgstr "Tienes cambios sin guardar!"
+msgstr "¡Tienes cambios sin guardar!"
 
 #: templates/inplaceeditform/inc.inplace_toolbar.html:3
 msgid "Enable edit inline"
