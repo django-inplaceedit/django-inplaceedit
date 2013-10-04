@@ -1,6 +1,15 @@
 Releases
 ========
 
+1.3.0 (2013-10-04)
+------------------
+
+* Improvements in the travis file
+* Support to python2.6 (this does not work from django-inplaceedit>=0.96 to django-inplaceedit<=1.2.6)
+* Thanks to:
+    * `Pavel Nedrigaylov <https://github.com/shadow-identity>`_
+
+
 1.2.6 (2013-09-27)
 ------------------
 
