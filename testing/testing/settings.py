@@ -15,7 +15,7 @@
 
 
 # Django settings for testing project.
-
+import os
 from os import path
 
 DEBUG = True
@@ -87,12 +87,15 @@ TEMPLATE_LOADERS = (
 #     'django.template.loaders.eggs.Loader',
 )
 
+ALLOWED_HOSTS = [
+    'localhost',
+]
+
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
 )
 
 ROOT_URLCONF = 'testing.urls'
@@ -143,7 +146,6 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.i18n',
     'django.core.context_processors.media',
     'django.core.context_processors.request',
-    'django.contrib.messages.context_processors.messages',
 )
 
 # django-inplaceedit customization
@@ -167,17 +169,21 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 
 
 # If transmeta is installed
-
-try:
-    import transmeta
-    TRANSMETA_DEFAULT_LANGUAGE = 'en'
-    INSTALLED_APPS += ('transmeta',
-                       'testing.inplace_transmeta')
-    MIDDLEWARE_CLASSES += (
-        'django.middleware.locale.LocaleMiddleware',
-        'testing.inplace_transmeta.middleware.LocaleMiddleware')
-except ImportError:
-    pass
+from django.conf import ENVIRONMENT_VARIABLE
+# I check it if transmeta is installed of this way because if I execute
+# python manage.py runserver --settings=settings_no_debug
+# I get an error
+if os.environ[ENVIRONMENT_VARIABLE] == 'testing.settings':
+    try:
+        import transmeta
+        TRANSMETA_DEFAULT_LANGUAGE = 'en'
+        INSTALLED_APPS += ('transmeta',
+                           'testing.inplace_transmeta')
+        MIDDLEWARE_CLASSES += (
+            'django.middleware.locale.LocaleMiddleware',
+            'testing.inplace_transmeta.middleware.LocaleMiddleware')
+    except ImportError:
+        pass
 
 # If inplaceeditform_extra_fields is installed
 
@@ -215,6 +221,8 @@ except ImportError:
 
 import django
 
+if django.VERSION[0] >= 1 and django.VERSION[1] >= 4:
+    TEMPLATE_CONTEXT_PROCESSORS += ('django.core.context_processors.tz',)
 if django.VERSION[0] >= 1 and django.VERSION[1] >= 3:
     INSTALLED_APPS += ('django.contrib.staticfiles',)
     # Absolute path to the directory static files should be collected to.
@@ -249,7 +257,8 @@ if django.VERSION[0] >= 1 and django.VERSION[1] >= 3:
     TEMPLATE_CONTEXT_PROCESSORS += ('django.core.context_processors.static',)
 
 
-elif django.VERSION[0] >= 1 and django.VERSION[1] >= 2:
+if django.VERSION[0] >= 1 and django.VERSION[1] >= 2:
     INSTALLED_APPS += ('django.contrib.messages',)
-elif django.VERSION[0] >= 1 and django.VERSION[1] >= 1:
-    TEMPLATE_CONTEXT_PROCESSORS += ('django.core.context_processors.static',)
+    MIDDLEWARE_CLASSES += ('django.middleware.csrf.CsrfViewMiddleware',
+                           'django.contrib.messages.middleware.MessageMiddleware')
+    TEMPLATE_CONTEXT_PROCESSORS += ('django.contrib.messages.context_processors.messages',)
