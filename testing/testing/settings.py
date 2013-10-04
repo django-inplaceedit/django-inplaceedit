@@ -223,6 +223,7 @@ import django
 
 if django.VERSION[0] >= 1 and django.VERSION[1] >= 4:
     TEMPLATE_CONTEXT_PROCESSORS += ('django.core.context_processors.tz',)
+
 if django.VERSION[0] >= 1 and django.VERSION[1] >= 3:
     INSTALLED_APPS += ('django.contrib.staticfiles',)
     # Absolute path to the directory static files should be collected to.
@@ -255,7 +256,6 @@ if django.VERSION[0] >= 1 and django.VERSION[1] >= 3:
     #    'django.contrib.staticfiles.finders.DefaultStorageFinder',
     )
     TEMPLATE_CONTEXT_PROCESSORS += ('django.core.context_processors.static',)
-
 
 if django.VERSION[0] >= 1 and django.VERSION[1] >= 2:
     INSTALLED_APPS += ('django.contrib.messages',)
