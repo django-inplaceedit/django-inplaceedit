@@ -37,6 +37,7 @@
                                "enableClass": "{{ enable_class }}",
                                "fieldTypes": "{{ field_types }}",
                                "focusWhenEditing": {{ focus_when_editing }}};
+                {% include "inplaceeditform/inc.extra_options.html" %}
                 var inplaceManager = $(".inplaceedit").inplaceeditform(options);
                 {% if not toolbar %}
                     inplaceManager.enable();
