@@ -94,24 +94,8 @@
             });
             window.onbeforeunload = self.methods.onBeforeUnloadEvent;
             return {
-                enable: function () {
-                    self.enabled = true;
-                    self.inplaceeditfields.each(function () {
-                        var configTag = $(this).find(self.configSelector);
-                        var config = configTag.attr();
-                        var enableClass = self.methods.getOpt(config, self.opts, "enableClass");
-                        $(this).addClass(enableClass);
-                    });
-                },
-                disable: function () {
-                    self.enabled = false;
-                    self.inplaceeditfields.each(function () {
-                        var configTag = $(this).find(self.configSelector);
-                        var config = configTag.attr();
-                        var enableClass = self.methods.getOpt(config, self.opts, "enableClass");
-                        $(this).removeClass(enableClass);
-                    });
-                }
+                enable: self.methods.enableInplaceEditAction,
+                disable: self.methods.disableInplaceEditAction
             };
         },
         appendChild: function (node, text) {
@@ -141,6 +125,26 @@
             if (self.enabled) {
                 ev.preventDefault();
             }
+        },
+        disableInplaceEditAction: function() {
+            var self = $.inplaceeditform;
+            self.enabled = false;
+            self.inplaceeditfields.each(function () {
+                var configTag = $(this).find(self.configSelector);
+                var config = configTag.attr();
+                var enableClass = self.methods.getOpt(config, self.opts, "enableClass");
+                $(this).removeClass(enableClass);
+            });
+        },
+        enableInplaceEditAction: function() {
+            var self = $.inplaceeditform;
+            self.enabled = true;
+            self.inplaceeditfields.each(function () {
+                var configTag = $(this).find(self.configSelector);
+                var config = configTag.attr();
+                var enableClass = self.methods.getOpt(config, self.opts, "enableClass");
+                $(this).addClass(enableClass);
+            });
         },
         eventInplaceEditCallBack: function () {
             var self = $.inplaceeditform;

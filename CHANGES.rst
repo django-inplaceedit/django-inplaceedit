@@ -1,6 +1,12 @@
 Releases
 ========
 
+1.3.1 (2013-10-??)
+------------------
+
+* Now the enable and disable actions of jquery.inplaceeditform.js can be overwritten
+
+
 1.3.0 (2013-10-04)
 ------------------
 
