@@ -1,11 +1,14 @@
 language: python
 
 install:
-  - pip install -q --use-mirrors tox python-coveralls
+  - pip install -q --use-mirrors tox==1.6.1 python-coveralls==2.0.4 coveralls==0.3
 
 script:
   - tox
+before_success:
+  - coverage erase
 after_success:
+  - coverage combine
   - coveralls
 
 notifications:
