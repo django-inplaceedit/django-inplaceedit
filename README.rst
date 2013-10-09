@@ -10,7 +10,7 @@ Information
 .. image:: https://travis-ci.org/Yaco-Sistemas/django-inplaceedit.png?branch=master
     :target: https://travis-ci.org/Yaco-Sistemas/django-inplaceedit
 
-.. image:: https://coveralls.io/repos/Yaco-Sistemas/django-inplaceedit.png?branch=master
+.. image:: https://coveralls.io/repos/Yaco-Sistemas/django-inplaceedit/badge.png?branch=master
     :target: https://coveralls.io/r/Yaco-Sistemas/django-inplaceedit
 
 .. image:: https://badge.fury.io/py/django-inplaceedit.png
