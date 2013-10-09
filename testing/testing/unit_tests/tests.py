@@ -12,12 +12,14 @@
 #
 # You should have received a copy of the GNU Lesser General Public License
 # along with this programe.  If not, see <http://www.gnu.org/licenses/>.
+import os
 import datetime
 import decimal
 import json
 import transmeta
 import sys
 
+from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth.models import Permission, User
 from django.core.urlresolvers import reverse
@@ -78,17 +80,19 @@ class InplaceTestCase(TestCase):
         app_label = model._meta.app_label
         field_names = field_names or model._meta.get_all_field_names()
         for field_name in field_names:
+            extra_data = {}
             if field_name in transmeta.get_all_translatable_fields(model):
                 field = model._meta.get_field_by_name(transmeta.get_fallback_fieldname(field_name))[0]
             else:
                 field = model._meta.get_field_by_name(field_name)[0]
             if field_name == 'id' or field_name.endswith('_id'):  # id or id fk
                 continue
-            if isinstance(field, models.FileField):
-                continue
             url = reverse('inplace_save')
             value = getattr(obj, field_name)
-            if isinstance(value, datetime.datetime):
+            if isinstance(field, models.FileField):
+                value = '"example1.jpg"'
+                extra_data['attachment'] = open(os.path.join(settings.MEDIA_ROOT, 'images', 'example1.jpg'))
+            elif isinstance(value, datetime.datetime):
                 value = '"1982-11-14 03:13:12"'
             elif isinstance(value, datetime.date):
                 value = '"1982-11-14"'
@@ -123,6 +127,7 @@ class InplaceTestCase(TestCase):
                     'value': value,
                     'obj_id': obj.pk,
                     'adaptor': adaptor}
+            data.update(extra_data)
             response = client.post(url, data)
             self.assertEqual(response.status_code, 200)
             self.assertEqual(bool(json.loads(response.content.decode('utf-8')).get('errors', None)),
