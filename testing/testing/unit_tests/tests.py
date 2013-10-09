@@ -91,7 +91,9 @@ class InplaceTestCase(TestCase):
             value = getattr(obj, field_name)
             if isinstance(field, models.FileField):
                 value = '"example1.jpg"'
-                extra_data['attachment'] = open(os.path.join(settings.MEDIA_ROOT, 'images', 'example1.jpg'))
+                file_path = os.path.join(settings.MEDIA_ROOT, 'images',
+                                         'example1.jpg')
+                extra_data['attachment'] = open(file_path, "rb")
             elif isinstance(value, datetime.datetime):
                 value = '"1982-11-14 03:13:12"'
             elif isinstance(value, datetime.date):
