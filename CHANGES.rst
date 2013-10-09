@@ -14,7 +14,7 @@ Releases
 
 * Improvements in the travis file
 * Improvements in the testing project and in the tests
-* Support to python2.6 (this does not work from django-inplaceedit>=0.96 to django-inplaceedit<=1.2.6)
+* Support to python2.6 (this was not supported from django-inplaceedit>=0.96 to django-inplaceedit<=1.2.6)
 * Thanks to:
     * `Pavel Nedrigaylov <https://github.com/shadow-identity>`_
 
