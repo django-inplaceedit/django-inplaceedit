@@ -207,17 +207,34 @@ class InplaceTestCase(TestCase):
         self.assertEqual(bool(json.loads(response.content.decode('utf-8')).get('errors', None)),
                          has_error)
 
-        data = {'app_label': 'multimediaresources',
-                'module_name': 'resource',
+        obj = Resource.objects.all()[0]
+
+        data = {'app_label': obj.__class__._meta.app_label,
+                'module_name': obj.__class__._meta.module_name,
                 'field_name': 'name',
                 'value': '""',
-                'obj_id': 1,
+                'obj_id': obj.pk,
                 'adaptor': 'text'}
         response = client.post(url_save, data)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(bool(json.loads(response.content.decode('utf-8')).get('errors', None)),
                          has_error)
         data['value'] = '"New value"'
+        response = client.post(url_save, data)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(bool(json.loads(response.content.decode('utf-8')).get('errors', None)),
+                         not has_error)
+
+        obj.name = ''
+        obj.save()
+        data['field_name'] = 'description'
+        data['value'] = '"Description...."'
+        response = client.post(url_save, data)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(bool(json.loads(response.content.decode('utf-8')).get('errors', None)),
+                         has_error)
+        obj.name = 'New value'
+        obj.save()
         response = client.post(url_save, data)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(bool(json.loads(response.content.decode('utf-8')).get('errors', None)),
