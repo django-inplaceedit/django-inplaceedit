@@ -18,13 +18,14 @@ import json
 import transmeta
 import sys
 
-from django.contrib.auth.models import User
+from django.contrib.contenttypes.models import ContentType
+from django.contrib.auth.models import Permission, User
 from django.core.urlresolvers import reverse
 from django.db import models
 from django.test import TestCase
 from django.test.client import Client
 
-
+from inplaceeditform import settings as inplace_settings
 from inplaceeditform.commons import get_adaptor_class
 
 from testing.inplace_transmeta.models import News
@@ -42,17 +43,17 @@ class InplaceTestCase(TestCase):
     def setUp(self):
         self.client = Client(enforce_csrf_checks=False)
 
-    def __client_login(self):
+    def __client_login(self, username=None, password=None):
         client = self.client
-        user = 'test'
-        password = 'testtest'
-        is_login = client.login(username=user, password=password)
+        username = username or 'test'
+        password = password or 'testtest'
+        is_login = client.login(username=username, password=password)
         self.assertEqual(is_login, True)
-        self.user = User.objects.get(username=user)
+        self.user = User.objects.get(username=username)
         return client
 
-    def _test_get_fields(self, model, field_names=None):
-        client = self.__client_login()
+    def _test_get_fields(self, model, field_names=None, client=None, has_error=False):
+        client = client or self.__client_login()
         obj = model.objects.all()[0]
         module_name = model._meta.module_name
         app_label = model._meta.app_label
@@ -67,9 +68,11 @@ class InplaceTestCase(TestCase):
                                                                               obj.pk)
             response = client.get(url)
             self.assertEqual(response.status_code, 200)
+            self.assertEqual(bool(json.loads(response.content.decode('utf-8')).get('errors', None)),
+                             has_error)
 
-    def _test_save_fields(self, model, field_names=None):
-        client = self.__client_login()
+    def _test_save_fields(self, model, field_names=None, client=None, has_error=False):
+        client = client or self.__client_login()
         obj = model.objects.all()[0]
         module_name = model._meta.module_name
         app_label = model._meta.app_label
@@ -122,9 +125,11 @@ class InplaceTestCase(TestCase):
                     'adaptor': adaptor}
             response = client.post(url, data)
             self.assertEqual(response.status_code, 200)
-            self.assertEqual(json.loads(response.content.decode('utf-8')).get('errors', None), False)
+            self.assertEqual(bool(json.loads(response.content.decode('utf-8')).get('errors', None)),
+                             has_error)
 
-    def _check_render_templatetag_inplace_edit(self, client, model, url_name):
+    def _check_render_templatetag_inplace_edit(self, model, url_name, client=None):
+        client = client or self.__client_login()
         objs = model.objects.all()
         self.assertEqual(objs.exists(), True)
         url = reverse(url_name, args=(objs[0].pk,))
@@ -152,7 +157,21 @@ class InplaceTestCase(TestCase):
     def test_check_render_templatetag_inplace_edit(self):
         client = self.__client_login()
         for x in range(2):
-            self._check_render_templatetag_inplace_edit(client, Resource, 'multimediaresources_edit')
-            self._check_render_templatetag_inplace_edit(client, UnusualModel, 'unusual_edit')
-            self._check_render_templatetag_inplace_edit(client, News, 'news_edit')
+            self._check_render_templatetag_inplace_edit(Resource, 'multimediaresources_edit', client)
+            self._check_render_templatetag_inplace_edit(UnusualModel, 'unusual_edit', client)
+            self._check_render_templatetag_inplace_edit(News, 'news_edit', client)
             client.logout()
+
+    def test_admin_django_perm(self):
+        adaptor_inplaceedit_edit_default_value = inplace_settings.ADAPTOR_INPLACEEDIT_EDIT
+        inplace_settings.ADAPTOR_INPLACEEDIT_EDIT = 'inplaceeditform.perms.AdminDjangoPermEditInline'
+        client = self.__client_login(username='lgs', password='lgslgs')
+        model_class = Resource
+        ct = ContentType.objects.get_for_model(model_class)
+        self._test_get_fields(model_class, client=client, has_error=True)
+        self._test_save_fields(model_class, client=client, has_error=True)
+        permissions = Permission.objects.filter(content_type=ct)
+        self.user.user_permissions = permissions
+        self._test_get_fields(model_class, client=client, has_error=False)
+        self._test_save_fields(model_class, client=client, has_error=False)
+        inplace_settings.ADAPTOR_INPLACEEDIT_EDIT = adaptor_inplaceedit_edit_default_value
