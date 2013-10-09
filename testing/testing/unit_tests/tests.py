@@ -124,6 +124,13 @@ class InplaceTestCase(TestCase):
             self.assertEqual(response.status_code, 200)
             self.assertEqual(json.loads(response.content.decode('utf-8')).get('errors', None), False)
 
+    def _check_render_templatetag_inplace_edit(self, client, model, url_name):
+        objs = model.objects.all()
+        self.assertEqual(objs.exists(), True)
+        url = reverse(url_name, args=(objs[0].pk,))
+        response = client.get(url)
+        self.assertEqual(response.status_code, 200)
+
     def test_get_fields_resource(self):
         self._test_get_fields(Resource)
 
@@ -141,3 +148,11 @@ class InplaceTestCase(TestCase):
 
     def test_save_fields_news(self):
         self._test_save_fields(News, field_names=['title', 'description'])
+
+    def test_check_render_templatetag_inplace_edit(self):
+        client = self.__client_login()
+        for x in range(2):
+            self._check_render_templatetag_inplace_edit(client, Resource, 'multimediaresources_edit')
+            self._check_render_templatetag_inplace_edit(client, UnusualModel, 'unusual_edit')
+            self._check_render_templatetag_inplace_edit(client, News, 'news_edit')
+            client.logout()
