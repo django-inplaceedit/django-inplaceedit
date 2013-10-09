@@ -180,3 +180,43 @@ class InplaceTestCase(TestCase):
         self._test_get_fields(model_class, client=client, has_error=False)
         self._test_save_fields(model_class, client=client, has_error=False)
         inplace_settings.ADAPTOR_INPLACEEDIT_EDIT = adaptor_inplaceedit_edit_default_value
+
+    def test_bad_requests(self):
+        has_error = True
+        client = self.__client_login()
+        url_get_field = reverse('inplace_get_field')
+
+        response = client.get(url_get_field)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(bool(json.loads(response.content.decode('utf-8')).get('errors', None)),
+                         has_error)
+        response = client.post(url_get_field)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(bool(json.loads(response.content.decode('utf-8')).get('errors', None)),
+                         has_error)
+
+        url_save = reverse('inplace_save')
+        response = client.post(url_save)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(bool(json.loads(response.content.decode('utf-8')).get('errors', None)),
+                         has_error)
+        response = client.get(url_save)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(bool(json.loads(response.content.decode('utf-8')).get('errors', None)),
+                         has_error)
+
+        data = {'app_label': 'multimediaresources',
+                'module_name': 'resource',
+                'field_name': 'name',
+                'value': '""',
+                'obj_id': 1,
+                'adaptor': 'text'}
+        response = client.post(url_save, data)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(bool(json.loads(response.content.decode('utf-8')).get('errors', None)),
+                         has_error)
+        data['value'] = '"New value"'
+        response = client.post(url_save, data)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(bool(json.loads(response.content.decode('utf-8')).get('errors', None)),
+                         not has_error)
