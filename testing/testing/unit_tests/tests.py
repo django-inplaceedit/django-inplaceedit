@@ -54,28 +54,31 @@ class InplaceTestCase(TestCase):
         self.user = User.objects.get(username=username)
         return client
 
-    def _test_get_fields(self, model, field_names=None, client=None, has_error=False):
+    def _test_get_fields(self, model, obj=None, field_names=None, client=None, has_error=False):
         client = client or self.__client_login()
-        obj = model.objects.all()[0]
+        obj = obj or model.objects.all()[0]
+        self.assertEqual(model, obj.__class__)
         module_name = model._meta.module_name
         app_label = model._meta.app_label
         field_names = field_names or model._meta.get_all_field_names()
         for field in field_names:
             if field == 'id' or field.endswith('_id'):  # id or id fk
                 continue
-            url = '%s?app_label=%s&module_name=%s&field_name=%s&obj_id=%s' % (reverse('inplace_get_field'),
-                                                                              app_label,
-                                                                              module_name,
-                                                                              field,
-                                                                              obj.pk)
+            url = ('%s?app_label=%s&module_name=%s&field_name=%s&obj_id=%s&font_size=12.5px&__widget_height=19.5px&__widget_width=137.5px' %
+                   (reverse('inplace_get_field'),
+                    app_label,
+                    module_name,
+                    field,
+                    obj.pk))
             response = client.get(url)
             self.assertEqual(response.status_code, 200)
             self.assertEqual(bool(json.loads(response.content.decode('utf-8')).get('errors', None)),
                              has_error)
 
-    def _test_save_fields(self, model, field_names=None, client=None, has_error=False):
+    def _test_save_fields(self, model, obj=None, field_names=None, client=None, has_error=False):
         client = client or self.__client_login()
-        obj = model.objects.all()[0]
+        obj = obj or model.objects.all()[0]
+        self.assertEqual(model, obj.__class__)
         module_name = model._meta.module_name
         app_label = model._meta.app_label
         field_names = field_names or model._meta.get_all_field_names()
@@ -93,7 +96,7 @@ class InplaceTestCase(TestCase):
                 value = '"example1.jpg"'
                 file_path = os.path.join(settings.MEDIA_ROOT, 'images',
                                          'example1.jpg')
-                extra_data['attachment'] = open(file_path, "rb")
+                extra_data['attachment'] = open(file_path, 'rb')
             elif isinstance(value, datetime.datetime):
                 value = '"1982-11-14 03:13:12"'
             elif isinstance(value, datetime.date):
@@ -156,10 +159,12 @@ class InplaceTestCase(TestCase):
         self._test_save_fields(UnusualModel)
 
     def test_get_fields_news(self):
-        self._test_get_fields(News, field_names=['title', 'description'])
+        obj = News.objects.filter(**{transmeta.get_fallback_fieldname('description'): ''})[0]
+        self._test_get_fields(News, obj=obj, field_names=['title', 'description'])
 
     def test_save_fields_news(self):
-        self._test_save_fields(News, field_names=['title', 'description'])
+        obj = News.objects.filter(**{transmeta.get_fallback_fieldname('description'): ''})[0]
+        self._test_save_fields(News, obj=obj, field_names=['title', 'description'])
 
     def test_check_render_templatetag_inplace_edit(self):
         client = self.__client_login()

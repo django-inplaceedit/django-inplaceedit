@@ -9,5 +9,16 @@
             "description_es": "<p>Hola</p>"
 
         }
+    },
+    {
+        "pk": 2, 
+        "model": "inplace_transmeta.news", 
+        "fields": {
+            "title_en": "My first news", 
+            "title_es": "Mi primera noticia", 
+            "description_en": "",
+            "description_es": ""
+
+        }
     }
 ]
