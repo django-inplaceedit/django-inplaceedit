@@ -189,17 +189,36 @@ class BaseAdaptorField(object):
         return self.config.get('auto_width', False)
 
     def get_height(self, widget_options):
-        return float(widget_options.get('height', '0').replace('px', ''))
+        if 'height' in self.config:
+            height = self.config['height']
+        else:
+            height = widget_options.get('height', '0')
+        return float(height.replace('px', ''))
 
     def get_width(self, widget_options):
-        return max(float(widget_options.get('width', '0').replace('px', '')), self.min_width)
+        if 'width' in self.config:
+            return float(self.config['width'].replace('px', ''))
+        else:
+            return max(float(widget_options.get('width', '0').replace('px', '')), self.min_width)
 
-    def treatment_height(self, height, width=None):
+    def get_font_size(self, widget_options):
+        if 'font_size' in self.config:
+            font_size = self.config['font_size']
+        else:
+            font_size = widget_options.get('font_size', '12')
+        return float(font_size.replace('px', ''))
+
+    def get_line_height(self, widget_options):
+        if 'line_height' in self.config:
+            return float(self.config['line_height'].replace('px', ''))
+        return self.get_font_size(widget_options)
+
+    def treatment_height(self, height, font_size, width=None):
         if isinstance(height, string) and not height.endswith('px') or not isinstance(height, string):
             height = "%spx" % height
         return height
 
-    def treatment_width(self, width, height=None):
+    def treatment_width(self, width, font_size, height=None):
         if isinstance(width, string) and not width.endswith('px') or not isinstance(width, string):
             width = "%spx" % width
         return width
@@ -213,13 +232,15 @@ class BaseAdaptorField(object):
             style = ''
             height = self.get_height(widget_options)
             width = self.get_width(widget_options)
+            font_size = self.get_font_size(widget_options)
+            line_height = self.get_line_height(widget_options)
             if height and not auto_height:
-                style += "height: %s; " % self.treatment_height(height, width)
+                style += "height: %s; " % self.treatment_height(height, font_size, width)
             if width and not auto_width:
-                style += "width: %s; " % self.treatment_width(width, height)
+                style += "width: %s; " % self.treatment_width(width, font_size, height)
             if not auto_height or not auto_width:
-                style += "font-size: %spx; " % self.font_size
-                style += "line-height: %spx; " % self.font_size
+                style += "font-size: %spx; " % font_size
+                style += "line-height: %spx; " % line_height
             for key, value in widget_options.items():
                 if key in ('height', 'width'):
                     continue
@@ -259,10 +280,14 @@ class AdaptorTextField(BaseAdaptorField):
     def name(self):
         return 'text'
 
-    def treatment_height(self, height, width=None):
-        return "%spx" % (self.font_size + self.INCREASE_HEIGHT)
+    def treatment_height(self, height, font_size, width=None):
+        if 'height' in self.config:
+            effective_height = height
+        else:
+            effective_height = font_size
+        return "%spx" % (effective_height + self.INCREASE_HEIGHT)
 
-    def treatment_width(self, width, height=None):
+    def treatment_width(self, width, font_size, height=None):
         return "%spx" % (width * self.MULTIPLIER_WIDTH)
 
 
@@ -488,10 +513,14 @@ class AdaptorChoicesField(BaseAdaptorField):
     def name(self):
         return 'choices'
 
-    def treatment_height(self, height, width=None):
-        return "%spx" % (self.font_size * self.MULTIPLIER_HEIGHT)
+    def treatment_height(self, height, font_size, width=None):
+        if 'height' in self.config:
+            effective_height = height
+        else:
+            effective_height = font_size
+        return "%spx" % (effective_height * self.MULTIPLIER_HEIGHT)
 
-    def treatment_width(self, width, height=None):
+    def treatment_width(self, width, font_size, height=None):
         return "%spx" % (width + self.INCREASE_WIDTH)
 
     def render_value(self, field_name=None):
@@ -508,10 +537,14 @@ class AdaptorForeingKeyField(BaseAdaptorField):
     def name(self):
         return 'fk'
 
-    def treatment_height(self, height, width=None):
-        return "%spx" % int(self.font_size * self.MULTIPLIER_HEIGHT)
+    def treatment_height(self, height, font_size, width=None):
+        if 'height' in self.config:
+            effective_height = height
+        else:
+            effective_height = font_size
+        return "%spx" % (effective_height * self.MULTIPLIER_HEIGHT)
 
-    def treatment_width(self, width, height=None):
+    def treatment_width(self, width, font_size, height=None):
         return "%spx" % (width + self.INCREASE_WIDTH)
 
     def render_value(self, field_name=None):
@@ -543,10 +576,14 @@ class AdaptorManyToManyField(BaseAdaptorField):
         self._filters_to_show = self.filters_to_show
         self.filters_to_show = None
 
-    def treatment_height(self, height, width=None):
-        return "%spx" % (self.font_size * self.MULTIPLIER_HEIGHT)
+    def treatment_height(self, height, font_size, width=None):
+        if 'height' in self.config:
+            effective_height = height
+        else:
+            effective_height = font_size
+        return "%spx" % (effective_height * self.MULTIPLIER_HEIGHT)
 
-    def treatment_width(self, width, height=None):
+    def treatment_width(self, width, font_size, height=None):
         return "%spx" % (width + self.INCREASE_WIDTH)
 
     def get_value_editor(self, value):
@@ -584,8 +621,12 @@ class AdaptorFileField(BaseAdaptorField):
         files = [f for f in request.FILES.values()]
         return files and files[0] or None
 
-    def treatment_height(self, height, width=None):
-        return "%spx" % (self.font_size * self.MULTIPLIER_HEIGHT)
+    def treatment_height(self, height, font_size, width=None):
+        if 'height' in self.config:
+            effective_height = height
+        else:
+            effective_height = font_size
+        return "%spx" % (effective_height * self.MULTIPLIER_HEIGHT)
 
     def render_field(self, template_name="inplaceeditform/adaptor_file/render_field.html", extra_context=None):
         extra_context = extra_context or {}

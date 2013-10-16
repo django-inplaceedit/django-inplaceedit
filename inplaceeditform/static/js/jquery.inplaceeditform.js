@@ -189,7 +189,7 @@
             });
             var fontSize = configTag.parent().css("font-size");
             if (fontSize) {
-                dataToRequest += "&font_size=" + fontSize;
+                dataToRequest += "&__widget_font_size=" + fontSize;
             }
             return dataToRequest;
         },
@@ -197,7 +197,7 @@
             var dataToRequest = configTag.attr();
             var fontSize = configTag.parent().css("font-size");
             if (fontSize) {
-                dataToRequest.font_size = fontSize;
+                dataToRequest.__widget_font_size = fontSize;
             }
             return dataToRequest;
         },

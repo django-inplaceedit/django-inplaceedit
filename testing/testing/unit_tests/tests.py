@@ -64,7 +64,8 @@ class InplaceTestCase(TestCase):
         for field in field_names:
             if field == 'id' or field.endswith('_id'):  # id or id fk
                 continue
-            url = ('%s?app_label=%s&module_name=%s&field_name=%s&obj_id=%s&font_size=12.5px&__widget_height=19.5px&__widget_width=137.5px' %
+            url = ('%s?app_label=%s&module_name=%s&field_name=%s&obj_id=%s&__widget_font_size=12.5px'
+                   '&__widget_line_height=12.5&__widget_height=19.5px&__widget_width=137.5px' %
                    (reverse('inplace_get_field'),
                     app_label,
                     module_name,
