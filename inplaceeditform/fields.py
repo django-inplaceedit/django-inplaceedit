@@ -219,11 +219,13 @@ class BaseAdaptorField(object):
                 style += "width: %s; " % self.treatment_width(width, height)
             if not auto_height or not auto_width:
                 style += "font-size: %spx; " % self.font_size
+                style += "line-height: %spx; " % self.font_size
             for key, value in widget_options.items():
                 if key in ('height', 'width'):
                     continue
                 style += "%s: %s; " % (key, value)
-            attrs['style'] = style
+            if style:
+                attrs['style'] = style
         field.field.widget.attrs = attrs
         return field
 
