@@ -90,8 +90,6 @@ def get_adaptor_class(adaptor=None, obj=None, field_name=None):
             adaptor = 'email'
         elif isinstance(field, models.CharField):
             adaptor = 'text'
-            if getattr(field, 'choices', None):
-                adaptor = 'choices'
         elif isinstance(field, models.TextField):
             adaptor = 'textarea'
         elif isinstance(field, models.NullBooleanField):
@@ -118,6 +116,9 @@ def get_adaptor_class(adaptor=None, obj=None, field_name=None):
             adaptor = 'image'
         elif isinstance(field, models.FileField):
             adaptor = 'file'
+        
+        if getattr(field, 'choices', None):
+            adaptor = 'choices'
     from inplaceeditform.fields import BaseAdaptorField
     path_adaptor = adaptor and (inplace_settings.ADAPTOR_INPLACEEDIT.get(adaptor, None) or
                                 DEFAULT_ADAPTOR_INPLACEEDIT.get(adaptor, None))
