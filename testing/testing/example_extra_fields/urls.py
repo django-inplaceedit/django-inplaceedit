@@ -13,7 +13,10 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this programe.  If not, see <http://www.gnu.org/licenses/>.
 
-from django.conf.urls.defaults import patterns, url
+try:
+    from django.conf.urls import include, patterns, url
+except ImportError:  # Django < 1.4
+    from django.conf.urls.defaults import include, patterns, url
 
 
 urlpatterns = patterns('testing.example_extra_fields.views',
