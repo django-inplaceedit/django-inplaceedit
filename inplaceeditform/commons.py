@@ -116,7 +116,7 @@ def get_adaptor_class(adaptor=None, obj=None, field_name=None):
             adaptor = 'image'
         elif isinstance(field, models.FileField):
             adaptor = 'file'
-        
+
         if getattr(field, 'choices', None):
             adaptor = 'choices'
     from inplaceeditform.fields import BaseAdaptorField
