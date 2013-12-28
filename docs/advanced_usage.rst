@@ -10,7 +10,7 @@ Inplaceedit has some optionals parameters that the templatetag can receive to ch
  * min_width: The minimum of the width's widget
  * class_inplace: Add a class to edit inline form.
  * tag_name_cover: The value is covered for a span. But it's possible to change it.
- * filters_to_show: The server filters the value before to save. List separate for "|"
+ * filters_to_edit: The server filters the value before to save. List separate for "|"
  * loads: If you use some filter that need a load, you set this option. List separate for ":"
  * edit_empty_value: The text to display when the field is empty
 
@@ -23,6 +23,7 @@ Examples
     {% inplace_edit "content.title" class_inplace="titleFormEditInline" %}
     {% inplace_edit "content.description|safe|truncatewords_html:30"  tag_name_cover="div" %}
     {% inplace_edit "content.description|my_filter" loads="my_template_tag" %}
+    {% inplace_edit "content.description|my_filter" filters_to_edit="slice:'10'|truncatewords:'2'%}
     {% inplace_edit "content.index" edit_empty_value="This is a editable content, now the value is none. Please double click to edit inplace" %}
     {% inplace_edit "content.amount" min_width="100" %}
 

@@ -12,7 +12,7 @@
     <div>
         <ul>
             <li>{% trans "Name (CharField): " %}{% inplace_edit "resource.name" %}</li>
-            <li>{% trans "Name, option auto size (CharField):" %}{% inplace_edit "resource.name" auto_height=1, auto_width=1, filters_to_show="slice:1" %}</li>
+            <li>{% trans "Name, option auto size (CharField) and slice (10 chars) when saving:" %}{% inplace_edit "resource.name" auto_height=1, auto_width=1, filters_to_edit="slice:'10'|truncatewords:2" %}</li>
             <li>{% trans "Name, only a simpleclick to inplaceedit and auto save (CharField):" %}{% inplace_edit "resource.name" eventInplaceEdit="click", autoSave="1" %}</li>
             <li>{% trans "Description with safe filter (TextField):" %}{% inplace_edit "resource.description|safe" %}</li>
             <li>{% trans "Description with safe filter and option auto size (TextField):" %}{% inplace_edit "resource.description|safe" auto_height=1, auto_width=1 %}</li>
@@ -23,7 +23,7 @@
             <li>{% trans "Status tag_name_cover option (CharField, choices):" %}{% inplace_edit "resource.status" tag_name_cover="div" %}</li>
             <li>{% trans "Status slice filter (CharField, choices):" %}{% inplace_edit "resource.status|slice:'5'" %}</li>
             <li>{% trans "Type of resource (ForeignKey):" %}{% inplace_edit "resource.resource_type" %}</li>
-            <li>{% trans "Type of resource truncatewords html option (ForeignKey):" %}{% inplace_edit "resource.resource_type|truncatewords_html:1" %}</li>
+            <li>{% trans "Type of resource truncatewords html option (ForeignKey):" %}{% inplace_edit "resource.resource_type|truncatewords_html:'1'" %}</li>
             <li>{% trans "Owner (ManyToManyField):" %}{% inplace_edit "resource.owner" %}</li>
             <li>{% trans "Owner truncatewords html option (ManyToManyField):" %}{% inplace_edit "resource.owner|truncatewords_html:1" %}</li>
             <li>{% trans "Amount (IntegerField):" %}{% inplace_edit "resource.amount" %}</li>
