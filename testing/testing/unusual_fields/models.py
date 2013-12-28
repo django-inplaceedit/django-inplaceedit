@@ -29,7 +29,7 @@ class UnusualModel(models.Model):
     decimal_field = models.DecimalField(decimal_places=10, max_digits=20)
     filepath_field = models.FilePathField(path=os.path.join(settings.MEDIA_ROOT, 'images'),
                                           null=True, blank=True)
-    float_field = models.FloatField()
+    float_field = models.FloatField(null=True, blank=True)
     if django.VERSION[0] >= 1 and django.VERSION[0] >= 4:
         generic_ip_field = models.GenericIPAddressField()
     else:

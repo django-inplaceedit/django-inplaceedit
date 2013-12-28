@@ -3,7 +3,7 @@
         "pk": 1, 
         "model": "unusual_fields.unusualmodel", 
         "fields": {
-            "float_field": 4.0, 
+            "float_field": null, 
             "url_field": "http://www.yaco.es/",
             "email_field": "pmartin@yaco.es",
             "time_field": "13:37:42", 

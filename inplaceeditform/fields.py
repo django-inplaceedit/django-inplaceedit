@@ -14,6 +14,7 @@
 # along with this programe.  If not, see <http://www.gnu.org/licenses/>.
 
 import json
+import numbers
 import sys
 
 from copy import deepcopy
@@ -465,9 +466,9 @@ class BaseNumberField(BaseAdaptorField):
 
     def render_value(self, field_name=None):
         value = super(BaseNumberField, self).render_value(field_name=field_name)
-        if isinstance(value, string):
-            return value
-        return number_format(value)
+        if isinstance(value, numbers.Number):
+            value = number_format(value)
+        return value
 
 
 class AdaptorIntegerField(BaseNumberField):
