@@ -13,7 +13,6 @@
 # You should have received a copy of the GNU Lesser General Public License
 # along with this programe.  If not, see <http://www.gnu.org/licenses/>.
 
-import decimal
 import json
 import sys
 
@@ -24,6 +23,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.admin.widgets import AdminDateWidget, AdminSplitDateTime, AdminTimeWidget
 from django.forms.models import modelform_factory
 from django.template.loader import render_to_string
+from django.utils.formats import number_format
 
 from inplaceeditform import settings as inplace_settings
 from inplaceeditform.commons import apply_filters, import_module, has_transmeta, get_static_url, get_admin_static_url
@@ -39,6 +39,8 @@ else:
 
 class BaseAdaptorField(object):
 
+    DEFAULT_MIN_HEIGHT = 30
+
     def __init__(self, request, obj, field_name,
                  filters_to_show=None,
                  config=None):
@@ -51,7 +53,7 @@ class BaseAdaptorField(object):
         self.field_name_render = field_name  # To transmeta
 
         self.config = config or {}
-        self.config['obj_id'] = self.obj.id
+        self.config['obj_id'] = unicode(self.obj.pk)
         self.config['field_name'] = self.field_name_render
         self.config['app_label'] = self.model._meta.app_label
         self.config['module_name'] = self.model._meta.module_name
@@ -63,7 +65,7 @@ class BaseAdaptorField(object):
 
         self.class_inplace = self.config.get('class_inplace', '')
         self.tag_name_cover = self.config.get('tag_name_cover', 'span')
-        self.min_width = self.config.get('min_width', 30)
+        self.min_width = self.config.get('min_width', self.DEFAULT_MIN_HEIGHT)
         font_size = self.config.get('font_size', '12')
         if font_size.endswith('px'):
             self.font_size = float(font_size.replace('px', ''))
@@ -353,10 +355,7 @@ class AdaptorBooleanField(BaseAdaptorField):
 
 class AdaptorNullBooleanField(AdaptorBooleanField):
 
-    def __init__(self, *args, **kwargs):
-        super(AdaptorNullBooleanField, self).__init__(*args, **kwargs)
-        if not 'min_width' in self.config:
-            self.min_width = 60
+    DEFAULT_MIN_HEIGHT = 60
 
     @property
     def name(self):
@@ -462,46 +461,40 @@ class AdaptorTimeField(BaseDateField):
         return field
 
 
-class AdaptorIntegerField(BaseAdaptorField):
+class BaseNumberField(BaseAdaptorField):
 
-    def __init__(self, *args, **kwargs):
-        super(AdaptorIntegerField, self).__init__(*args, **kwargs)
-        if not 'min_width' in self.config:
-            self.min_width = 40
+    def render_value(self, field_name=None):
+        value = super(BaseNumberField, self).render_value(field_name=field_name)
+        if isinstance(value, string):
+            return value
+        return number_format(value)
+
+
+class AdaptorIntegerField(BaseNumberField):
+
+    DEFAULT_MIN_HEIGHT = 40
 
     @property
     def name(self):
         return 'integer'
 
 
-class AdaptorFloatField(BaseAdaptorField):
+class AdaptorFloatField(BaseNumberField):
 
-    def __init__(self, *args, **kwargs):
-        super(AdaptorFloatField, self).__init__(*args, **kwargs)
-        if not 'min_width' in self.config:
-            self.min_width = 50
+    DEFAULT_MIN_HEIGHT = 50
 
     @property
     def name(self):
         return 'float'
 
 
-class AdaptorDecimalField(BaseAdaptorField):
+class AdaptorDecimalField(BaseNumberField):
 
-    def __init__(self, *args, **kwargs):
-        super(AdaptorDecimalField, self).__init__(*args, **kwargs)
-        if not 'min_width' in self.config:
-            self.min_width = 60
+    DEFAULT_MIN_HEIGHT = 60
 
     @property
     def name(self):
         return 'decimal'
-
-    def render_value_edit(self):
-        value = super(AdaptorDecimalField, self).render_value_edit()
-        if value and isinstance(value, decimal.Decimal):
-            value = float(value)
-        return value
 
 
 class AdaptorChoicesField(BaseAdaptorField):
