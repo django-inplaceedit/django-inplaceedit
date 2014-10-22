@@ -1,0 +1,61 @@
+# Django-inplaceedit.
+# Copyright (C) 2010-2014
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <bnafta@gmail.com>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: 1.3.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-10-21 18:41-0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Fabio C. Barrionuevo da Luz <bnafta@gmail.com>\n"
+"Language-Team: pt_BR <bnafta@gmail.com>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: settings.py:21
+msgid "Doubleclick to edit"
+msgstr "Clique duas vezes para editar"
+
+#: settings.py:26
+msgid "Write a translation"
+msgstr "Escreva uma tradução"
+
+#: settings.py:28
+msgid "Successfully saved"
+msgstr "Salvo com sucesso"
+
+#: settings.py:30
+msgid "You have unsaved changes!"
+msgstr "Você tem alterações não salvas!"
+
+#: templates/inplaceeditform/adaptor_file/render_field.html:5
+#: templates/inplaceeditform/render_field.html:9
+msgid "Apply change"
+msgstr "Aplicar alteração"
+
+#: templates/inplaceeditform/adaptor_file/render_field.html:7
+#: templates/inplaceeditform/render_field.html:11
+msgid "Save"
+msgstr "Salvar"
+
+#: templates/inplaceeditform/inc.inplace_toolbar.html:3
+msgid "Enable edit inline"
+msgstr "Ativar edição em linha"
+
+#: templates/inplaceeditform/inc.inplace_toolbar.html:4
+msgid "Disable edit inline"
+msgstr "Desativar edição em linha"
+
+#: templates/inplaceeditform/render_field.html:16
+msgid "Cancel change"
+msgstr "Cancelar alteração"
+
+#: templates/inplaceeditform/render_field.html:18
+msgid "Cancel"
+msgstr "Cancelar"

@@ -10,3 +10,5 @@ Other inplaceedit DEVELOPERS are:
  * Jorge Correa <jcorrea (_at_) yaco.es>
  * Isabel Serván <iservan (_at_) yaco.es>
  * Emilio Sanchez <esanchez (_at_) yaco.es>
+ * Fabio C. Barrionuevo da Luz <bnafta (_at_) gmail.com> - @luzfcb
+

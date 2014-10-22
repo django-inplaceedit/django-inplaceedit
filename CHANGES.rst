@@ -7,6 +7,7 @@ Releases
 * Now the enable and disable actions of jquery.inplaceeditform.js can be overwritten
 * Now there is a template, this is a easy way to add or modify options in the invocation of the jQuery plugin
 * Fix an error in the spanish translation
+* Added Brazilian Portuguese translation
 
 
 1.3.0 (2013-10-04)
