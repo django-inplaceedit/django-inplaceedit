@@ -17,6 +17,8 @@ import json
 import numbers
 import sys
 
+import django
+
 from copy import deepcopy
 
 from django.conf import settings
@@ -106,6 +108,8 @@ class BaseAdaptorField(object):
         return config
 
     def get_form_class(self):
+        if django.VERSION[0] == 1 and django.VERSION[1] <= 5:
+            return modelform_factory(self.model)
         return modelform_factory(self.model, fields='__all__')
 
     def get_form(self):
