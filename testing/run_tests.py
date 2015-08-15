@@ -27,6 +27,9 @@ if len(sys.argv) == 1:
 else:
     os.environ[ENVIRONMENT_VARIABLE] = sys.argv[1]
 
+if hasattr(django, 'setup'):
+    django.setup()
+
 if django.VERSION[0] == 1 and django.VERSION[1] <= 5:
     management.call_command('test', 'unit_tests')
 else:

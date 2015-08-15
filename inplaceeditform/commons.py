@@ -50,9 +50,9 @@ def get_dict_from_obj(obj):
                 pass
     manytomany_list = obj._meta.many_to_many
     for manytomany in manytomany_list:
-        ids = [obj_rel.id for obj_rel in manytomany.value_from_object(obj).select_related()]
-        if ids:
-            obj_dict_result[manytomany.name] = ids
+        pks = [obj_rel.pk for obj_rel in manytomany.value_from_object(obj).select_related()]
+        if pks:
+            obj_dict_result[manytomany.name] = pks
     return obj_dict_result
 
 
@@ -144,3 +144,8 @@ def get_admin_static_url():
     the static url from the previous function and add /admin/.
     """
     return getattr(settings, 'ADMIN_MEDIA_PREFIX', get_static_url() + "admin/")
+
+
+def get_module_name(model):
+    return (getattr(model._meta, 'model_name', None) or
+            getattr(model._meta, 'module_name', None))

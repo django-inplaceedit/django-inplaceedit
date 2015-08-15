@@ -27,7 +27,7 @@ from django.template.loader import render_to_string
 from django.utils.formats import number_format
 
 from inplaceeditform import settings as inplace_settings
-from inplaceeditform.commons import apply_filters, import_module, has_transmeta, get_static_url, get_admin_static_url
+from inplaceeditform.commons import apply_filters, import_module, has_transmeta, get_static_url, get_admin_static_url, get_module_name
 from inplaceeditform.perms import SuperUserPermEditInline
 
 
@@ -57,7 +57,7 @@ class BaseAdaptorField(object):
         self.config['obj_id'] = unicode(self.obj.pk)
         self.config['field_name'] = self.field_name_render
         self.config['app_label'] = self.model._meta.app_label
-        self.config['module_name'] = self.model._meta.module_name
+        self.config['module_name'] = get_module_name(self.model)
         self.config['filters_to_show'] = filters_to_show
         self.config['can_auto_save'] = self.config.get('can_auto_save', 1)
 
@@ -106,7 +106,7 @@ class BaseAdaptorField(object):
         return config
 
     def get_form_class(self):
-        return modelform_factory(self.model)
+        return modelform_factory(self.model, fields='__all__')
 
     def get_form(self):
         form_class = self.get_form_class()
@@ -125,7 +125,7 @@ class BaseAdaptorField(object):
     def render_value(self, field_name=None):
         field_name = field_name or self.field_name_render
         value = getattr(self.obj, field_name)
-        if callable(value):
+        if callable(value) and not isinstance(self, AdaptorManyToManyField):
             value = value()
         return apply_filters(value, self.filters_to_show, self.loads)
 
@@ -231,7 +231,7 @@ class BaseAdaptorField(object):
         widget_options = self.config and self.config.get('widget_options', {})
         auto_height = self.get_auto_height()
         auto_width = self.get_auto_width()
-        if not 'style' in attrs:
+        if 'style' not in attrs:
             style = ''
             height = self.get_height(widget_options)
             width = self.get_width(widget_options)
