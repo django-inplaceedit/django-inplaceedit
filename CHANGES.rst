@@ -1,13 +1,16 @@
 Releases
 ========
 
-1.3.1 (2013-10-??)
+1.4.0 (2015-09-??)
 ------------------
 
+* Django 1.7 and 1.8 compatible
 * Now the enable and disable actions of jquery.inplaceeditform.js can be overwritten
 * Now there is a template, this is a easy way to add or modify options in the invocation of the jQuery plugin
 * Fix an error in the spanish translation
 * Added Brazilian Portuguese translation
+* Thanks to:
+    * `dnlknet <https://github.com/dnlknet>`_
 
 
 1.3.0 (2013-10-04)

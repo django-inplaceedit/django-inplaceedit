@@ -7,17 +7,15 @@ django-inplaceedit
 Information
 ===========
 
-.. image:: https://travis-ci.org/Yaco-Sistemas/django-inplaceedit.png?branch=master
-    :target: https://travis-ci.org/Yaco-Sistemas/django-inplaceedit
+.. image:: https://travis-ci.org/django-inplaceedit/django-inplaceedit.png?branch=master
+    :target: https://travis-ci.org/django-inplaceedit/django-inplaceedit
 
-.. image:: https://coveralls.io/repos/Yaco-Sistemas/django-inplaceedit/badge.png?branch=master
-    :target: https://coveralls.io/r/Yaco-Sistemas/django-inplaceedit
+.. image:: https://coveralls.io/repos/django-inplaceedit/django-inplaceedit/badge.png?branch=master
+    :target: https://coveralls.io/r/django-inplaceedit/django-inplaceedit
 
 .. image:: https://badge.fury.io/py/django-inplaceedit.png
     :target: https://badge.fury.io/py/django-inplaceedit
 
-.. image:: https://pypip.in/d/django-inplaceedit/badge.png
-    :target: https://pypi.python.org/pypi/django-inplaceedit
 
 Inplace Edit Form is a Django application that allows you to inline edition of some data from the database
 
@@ -58,4 +56,4 @@ Development
 You can get the bleeding edge version of django-inplaceedit by doing a clone
 of its git repository::
 
-  git clone git://github.com/Yaco-Sistemas/django-inplaceedit.git
+  git clone git://github.com/django-inplaceedit/django-inplaceedit.git
