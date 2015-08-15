@@ -4,7 +4,7 @@
 Usage
 =====
 
-Calling `inplace_edit tag <https://github.com/Yaco-Sistemas/django-inplaceedit/blob/master/inplaceeditform/templatetags/inplace_edit.py/>`_ you can inplace edit any data from the database. It is important to clarify that the inline edition is not only for text fields, although it may be the more common usage. You can also have inline edition for choices, boolean fields, date and datetime fields, foreing keys, many to many, file and image fields.
+Calling `inplace_edit tag <https://github.com/django-inplaceedit/django-inplaceedit/blob/master/inplaceeditform/templatetags/inplace_edit.py/>`_ you can inplace edit any data from the database. It is important to clarify that the inline edition is not only for text fields, although it may be the more common usage. You can also have inline edition for choices, boolean fields, date and datetime fields, foreing keys, many to many, file and image fields.
 
 ::
 
@@ -75,5 +75,5 @@ Example with the js in the footer
 How to use it
 -------------
 
- * If you use `inplace_static <https://github.com/Yaco-Sistemas/django-inplaceedit/blob/master/inplaceeditform/templatetags/inplace_edit.py/>`_: Just pass the cursor above the field and double click (this is :ref:`customizable <customize>`), authenticated with a super user (this is also :ref:`customizable <customize>`)
- * If you use `inplace_toolbar <https://github.com/Yaco-Sistemas/django-inplaceedit/blob/master/inplaceeditform/templatetags/inplace_edit.py/>`_: Enable a edit inline and just pass the cursor above the field and double click (this is :ref:`customizable <customize>`), authenticated with a super user (this is also :ref:`customizable <customize>`)
+ * If you use `inplace_static <https://github.com/django-inplaceedit/django-inplaceedit/blob/master/inplaceeditform/templatetags/inplace_edit.py/>`_: Just pass the cursor above the field and double click (this is :ref:`customizable <customize>`), authenticated with a super user (this is also :ref:`customizable <customize>`)
+ * If you use `inplace_toolbar <https://github.com/django-inplaceedit/django-inplaceedit/blob/master/inplaceeditform/templatetags/inplace_edit.py/>`_: Enable a edit inline and just pass the cursor above the field and double click (this is :ref:`customizable <customize>`), authenticated with a super user (this is also :ref:`customizable <customize>`)

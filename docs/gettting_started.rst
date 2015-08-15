@@ -17,7 +17,7 @@ Demo
 
 Video Demo, of django-inplaceedit and `Django-inlinetrans <http://pypi.python.org/pypi/django-inlinetrans>`_ (Set full screen mode to view it correctly)
 
-.. image:: https://github.com/Yaco-Sistemas/django-inplaceedit/raw/master/video-frame.png
+.. image:: https://github.com/django-inplaceedit/django-inplaceedit/raw/master/video-frame.png
    :target: http://youtu.be/_EjisXtMy_Y?t=34s
 
 Usage

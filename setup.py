@@ -36,7 +36,7 @@ setup(
     ],
     license="LGPL 3",
     keywords="django,inplace,inline edit,inline form,inline,inplace edit,inplace form,ajax",
-    url='https://github.com/Yaco-Sistemas/django-inplaceedit',
+    url='https://github.com/django-inplaceedit/django-inplaceedit',
     packages=find_packages('.'),
     include_package_data=True,
     zip_safe=False,

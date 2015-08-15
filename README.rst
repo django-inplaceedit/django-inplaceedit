@@ -27,7 +27,7 @@ Demo (this video use a very old version of django-inplaceedit and django-inplace
 
 Video Demo, of django-inplaceedit, `django-inplaceedit-extra-fields <http://pypi.python.org/pypi/django-inplaceedit-extra-fields>`_ and `django-inlinetrans <http://pypi.python.org/pypi/django-inlinetrans>`_ (Set full screen mode to view it correctly)
 
-.. image:: https://github.com/Yaco-Sistemas/django-inplaceedit/raw/master/video-frame.png
+.. image:: https://github.com/django-inplaceedit/django-inplaceedit/raw/master/video-frame.png
    :target: http://youtu.be/_EjisXtMy_Y?t=34s
 
 
