@@ -21,7 +21,7 @@ $ pip install django-transmeta
 4.2) install django-inplaceedit-extra-fields and its dependencies, if you want test this integration (sorl-thumbnail and django-ajax-selects only works in python 2)
 $ pip install django-inplaceedit-extra-fields sorl-thumbnail==11.12 django-ajax-selects==1.2.5
 5) create db and load fixtures
-$ ./manage.py syncdb
+$ ./manage.py syncdb o migrate
 6) start the debug server
 $ ./manage.py runserver
 7) do your stuffs
