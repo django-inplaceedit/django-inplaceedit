@@ -28,4 +28,6 @@ class LocaleMiddleware(object):
             translation.activate(forced_lang)
             request.LANGUAGE_CODE = translation.get_language()
             if hasattr(request, 'session'):
-                request.session['django_language'] = forced_lang
+                key_name = getattr(translation, 'LANGUAGE_SESSION_KEY',
+                                   'django_language')
+                request.session[key_name] = forced_lang
