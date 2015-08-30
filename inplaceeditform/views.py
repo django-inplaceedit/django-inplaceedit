@@ -55,7 +55,7 @@ def save_ajax(request):
         messages = []  # The error is for another field that you are editing
         for field_name_error, errors_field in form.errors.items():
             for error in errors_field:
-                if field_name_error == '__all__': # The error is model clean type
+                if field_name_error == '__all__':  # The error is model clean type
                     messages.append(u"Error: %s" % error)
                 else:
                     messages.append(u"%s: %s" % (field_name_error, error))
