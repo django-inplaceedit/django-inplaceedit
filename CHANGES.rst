@@ -1,7 +1,7 @@
 Releases
 ========
 
-1.4.0 (2015-09-??)
+1.4.0 (2015-08-30)
 ------------------
 
 * Django 1.7 and 1.8 compatible
@@ -12,6 +12,7 @@ Releases
 * Fix error with polish language
 * Fix an error in the spanish translation
 * Added Brazilian Portuguese translation
+* Custome the widgets via js (transformField function)
 * Thanks to:
     * `dnlknet <https://github.com/dnlknet>`_
     * `cericoda <https://github.com/cericoda>`_
