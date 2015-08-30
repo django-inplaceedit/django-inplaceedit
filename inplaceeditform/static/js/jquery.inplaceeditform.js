@@ -1,3 +1,6 @@
+/* Copyright (c) 2010-2013 by Yaco Sistemas <goinnn@gmail.com>
+                 2015 by Pablo Martin <goinnn@gmail.com>
+*/
 (function ($) {
     "use strict";
     var attr_old = $.fn.attr;
