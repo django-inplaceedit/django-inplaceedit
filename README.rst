@@ -16,6 +16,10 @@ Information
 .. image:: https://badge.fury.io/py/django-inplaceedit.png
     :target: https://badge.fury.io/py/django-inplaceedit
 
+.. image:: https://readthedocs.org/projects/django-inplaceedit/badge/?version=latest
+    :target: https://readthedocs.org/projects/django-inplaceedit/?badge=latest
+    :alt: Documentation Status
+
 
 Inplace Edit Form is a Django application that allows you to inline edition of some data from the database
 

@@ -28,19 +28,18 @@ Install the required packages
     $ pip install Pillow (the version depends on your Python version)
     $ python setup.py develop
     $ cd testing
-    $ pip install -r requirements.txt
 
 Install django-transmeta, if you want test this integration
 
 ::
 
-    $ pip install django-transmeta
+    $ pip install django-transmeta==0.7.3
 
 Install django-inplaceedit-extra-fields and its dependencies, if you want test this integration (sorl-thumbnail and django-ajax-selects)
 
 ::
 
-    $ pip install django-inplaceedit-extra-fields sorl-thumbnail==12.3 django-ajax-selects==1.3.6
+    $ pip install django-inplaceedit-extra-fields==0.6.1 sorl-thumbnail==12.3 django-ajax-selects==1.3.6
 
 Create db and load fixtures
 
@@ -52,6 +51,6 @@ Start the debug server
 
 ::
 
-    $ ./manage.py runserver
+    $ python manage.py runserver
 
 Do your stuffs
